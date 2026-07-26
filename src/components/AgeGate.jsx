@@ -27,8 +27,8 @@ export default function AgeGate() {
         <div className="absolute -top-12 -right-12 w-24 h-24 bg-coral-orange/10 rounded-full blur-xl"></div>
         <div className="absolute -bottom-12 -left-12 w-24 h-24 bg-hot-pink/20 rounded-full blur-xl"></div>
         
-        <h1 className="font-serif text-3xl font-extrabold uppercase tracking-wider text-maroon mb-2">NTS Blenders</h1>
-        <p className="text-[10px] font-bold uppercase tracking-widest text-coral-orange mb-6">Distillers Pvt. Ltd.</p>
+        <h1 className="font-serif text-2xl sm:text-3xl font-extrabold uppercase tracking-wider text-maroon mb-2">NTS Blenders</h1>
+        <p className="text-[10px] font-bold uppercase tracking-widest text-coral-orange mb-6">and Distillers Pvt. Ltd.</p>
         
         <h2 className="font-serif text-2xl font-bold uppercase tracking-tight text-maroon mb-6">
           Are you of legal drinking age?
