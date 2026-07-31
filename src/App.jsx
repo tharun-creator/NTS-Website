@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import Marquee from './components/Marquee'
 import AgeGate from './components/AgeGate'
 import CartDrawer from './components/CartDrawer'
-import ProductCard from './components/ProductCard'
 import BottleGallery from './components/BottleGallery'
 
 // Kinetic Row Component with pure React scroll tracking, horizontal parallax marquee, and popping bottles
@@ -189,6 +188,270 @@ const ntsProprietaryBrands = [
     colorGradient: 'from-[#A8E6CF] to-[#1A6B5C]',
     badgeText: 'LIGHT & FRESH',
     description: 'A light, fresh sugar-cane new rum with a tropical sweetness and clean maritime character.',
+  },
+  {
+    id: 'nts-whiskey-3d-model',
+    name: 'NTS Whiskey Bottle 3D',
+    price: 32.00,
+    type: 'Whisky',
+    dosage: 'Interactive 3D Bottle',
+    graphic: 'NTS',
+    image: '/bottle-2/bottle (2).png',
+    removedBgImage: '/bottle-2/bottle (2).png',
+    modelPath: '/models/whiskey-bottle/whiskey-bottle.obj',
+    materialPath: '/models/whiskey-bottle/whiskey-bottle.mtl',
+    texturePaths: [
+      '/models/whiskey-bottle/whiskey-bottle_basecolor.jpg',
+      '/models/whiskey-bottle/whiskey-bottle_metallic.jpg',
+      '/models/whiskey-bottle/whiskey-bottle_normal.jpg',
+      '/models/whiskey-bottle/whiskey-bottle_roughness.jpg',
+    ],
+    galleryBackground: 'linear-gradient(135deg, #ffffff 0%, #fff8eb 42%, #f0dcc0 100%)',
+    colorGradient: 'from-[#1b0c08] via-[#4A151C] to-[#D49A44]',
+    badgeText: '3D PREVIEW',
+    description: 'A fixed three-dimensional whiskey bottle preview on a luminous studio backdrop.',
+  },
+  {
+    id: 'nts-rum-3d-model',
+    name: 'NTS Rum Bottle 3D',
+    price: 24.00,
+    type: 'Rum',
+    dosage: 'Interactive 3D Bottle',
+    graphic: 'NTS',
+    image: '/bottle-2/bottle (1).png',
+    removedBgImage: '/bottle-2/bottle (1).png',
+    modelPath: '/models/rum-bottle/rum-bottle.obj',
+    materialPath: '/models/rum-bottle/rum-bottle.mtl',
+    texturePaths: [
+      '/models/rum-bottle/rum-bottle_basecolor.jpg',
+      '/models/rum-bottle/rum-bottle_metallic.jpg',
+      '/models/rum-bottle/rum-bottle_normal.jpg',
+      '/models/rum-bottle/rum-bottle_roughness.jpg',
+    ],
+    galleryBackground: 'linear-gradient(135deg, #ffffff 0%, #fff4e3 46%, #ead0aa 100%)',
+    colorGradient: 'from-[#100808] via-[#3A2010] to-[#B86B2D]',
+    badgeText: '3D PREVIEW',
+    description: 'A fixed three-dimensional rum bottle preview on a polished white studio backdrop.',
+  },
+  {
+    id: 'nts-gallery-whiskey-3d-model',
+    name: 'Gallery Whiskey Bottle 3D',
+    price: 32.00,
+    type: 'Whisky',
+    dosage: 'Animated 3D Bottle',
+    graphic: 'NTS',
+    image: '/bottle-2/bottle (2).png',
+    removedBgImage: '/bottle-2/bottle (2).png',
+    modelPath: '/models/gallery-whiskey/gallery-whiskey.obj',
+    materialPath: '/models/gallery-whiskey/gallery-whiskey.mtl',
+    texturePaths: [
+      '/models/gallery-whiskey/gallery-whiskey_basecolor.jpg',
+      '/models/gallery-whiskey/gallery-whiskey_metallic.jpg',
+      '/models/gallery-whiskey/gallery-whiskey_normal.jpg',
+      '/models/gallery-whiskey/gallery-whiskey_roughness.jpg',
+    ],
+    galleryBackground: 'linear-gradient(135deg, #ffffff 0%, #fff7ec 46%, #ead3b3 100%)',
+    colorGradient: 'from-[#180b07] via-[#4A151C] to-[#C78B3B]',
+    badgeText: '3D PREVIEW',
+    description: 'An animated whiskey bottle model with a smooth rotating swap-in motion.',
+  },
+  {
+    id: 'nts-gallery-rum-3d-model',
+    name: 'Gallery Rum Bottle 3D',
+    price: 24.00,
+    type: 'Rum',
+    dosage: 'Animated 3D Bottle',
+    graphic: 'NTS',
+    image: '/bottle-2/bottle (1).png',
+    removedBgImage: '/bottle-2/bottle (1).png',
+    modelPath: '/models/gallery-rum/gallery-rum.obj',
+    materialPath: '/models/gallery-rum/gallery-rum.mtl',
+    texturePaths: [
+      '/models/gallery-rum/gallery-rum_basecolor.jpg',
+      '/models/gallery-rum/gallery-rum_metallic.jpg',
+      '/models/gallery-rum/gallery-rum_normal.jpg',
+      '/models/gallery-rum/gallery-rum_roughness.jpg',
+    ],
+    galleryBackground: 'linear-gradient(135deg, #ffffff 0%, #fff4e7 48%, #e8cba4 100%)',
+    colorGradient: 'from-[#120706] via-[#3A2010] to-[#A96528]',
+    badgeText: '3D PREVIEW',
+    description: 'An animated rum bottle model with a smooth rotating swap-in motion.',
+  },
+  {
+    id: 'nts-gallery-brandy-3d-model',
+    name: 'Gallery Brandy Bottle 3D',
+    price: 28.00,
+    type: 'Brandy',
+    dosage: 'Animated 3D Bottle',
+    graphic: 'NTS',
+    image: '/bottle-2/bottle.png',
+    removedBgImage: '/bottle-2/bottle.png',
+    modelPath: '/models/gallery-brandy/gallery-brandy.obj',
+    materialPath: '/models/gallery-brandy/gallery-brandy.mtl',
+    texturePaths: [
+      '/models/gallery-brandy/gallery-brandy_basecolor.jpg',
+      '/models/gallery-brandy/gallery-brandy_metallic.jpg',
+      '/models/gallery-brandy/gallery-brandy_normal.jpg',
+      '/models/gallery-brandy/gallery-brandy_roughness.jpg',
+    ],
+    galleryBackground: 'linear-gradient(135deg, #ffffff 0%, #fff1e8 48%, #edc5ad 100%)',
+    colorGradient: 'from-[#1c0b08] via-[#7A2E22] to-[#D67745]',
+    badgeText: '3D PREVIEW',
+    description: 'An animated brandy bottle model with a smooth rotating swap-in motion.',
+  },
+]
+
+
+const ntsModelGalleryBrands = [
+  {
+    id: 'nts-oldtown-whisky-3d',
+    name: 'Old Town Indian Blended Malt Whisky',
+    price: 32.00,
+    type: 'Whisky',
+    dosage: 'Flagship Premium 3D',
+    graphic: 'NTS',
+    image: '/bottle-2/bottle (2).png',
+    removedBgImage: '/bottle-2/bottle (2).png',
+    modelPath: '/models/old town/old+town.obj',
+    materialPath: '/models/old town/old+town.mtl',
+    modelView: {
+      fitAxis: 'x',
+      scale: 0.82,
+      y: 0.84,
+      rotationX: 0.03,
+      rotationY: 0.16,
+      rotationZ: -Math.PI / 2,
+    },
+    texturePaths: [
+      '/models/old town/old+town_basecolor.jpg',
+      '/models/old town/old+town_metallic.jpg',
+      '/models/old town/old+town_normal.jpg',
+      '/models/old town/old+town_roughness.jpg',
+    ],
+    galleryBackground: 'linear-gradient(135deg, #fffaf2 0%, #f3e3cb 48%, #d9b783 100%)',
+    colorGradient: 'from-[#221008] via-[#7A4A2E] to-[#D49A44]',
+    badgeText: 'FLAGSHIP PREMIUM',
+    description: 'Dry fruit, woodiness and smoke aroma with a sweet corn and spice palate, showcased as a live 3D bottle.',
+  },
+  {
+    id: 'nts-eastcoast-blue-3d',
+    name: 'East Coast Blue',
+    price: 26.00,
+    type: 'Premium Spirit',
+    dosage: 'Cool Blue Edition',
+    graphic: 'NTS',
+    image: '/bottle-2/bottle.png',
+    removedBgImage: '/bottle-2/bottle.png',
+    modelPath: '/models/blue east coast/blue+east+coast.obj',
+    materialPath: '/models/blue east coast/blue+east+coast.mtl',
+    modelView: {
+      fitAxis: 'x',
+      scale: 0.82,
+      y: 0.84,
+      rotationX: 0.03,
+      rotationY: 0.16,
+      rotationZ: -Math.PI / 2,
+    },
+    texturePaths: [
+      '/models/blue east coast/blue+east+coast_basecolor.jpg',
+      '/models/blue east coast/blue+east+coast_metallic.jpg',
+      '/models/blue east coast/blue+east+coast_normal.jpg',
+      '/models/blue east coast/blue+east+coast_roughness.jpg',
+    ],
+    galleryBackground: 'linear-gradient(135deg, #f8fbff 0%, #dfefff 48%, #a9c9e7 100%)',
+    colorGradient: 'from-[#12233C] via-[#285B91] to-[#B9D9F3]',
+    badgeText: 'COOL BLUE',
+    description: 'A crisp East Coast bottle treatment presented with a rotating studio-lit 3D slide.',
+  },
+  {
+    id: 'nts-wanted999-brandy-3d',
+    name: 'Wanted 999 VSOP Brandy',
+    price: 35.00,
+    type: 'Brandy',
+    dosage: 'Rare & Rich 3D',
+    graphic: 'NTS',
+    image: '/bottle-2/bottle (3).png',
+    removedBgImage: '/bottle-2/bottle (3).png',
+    modelPath: '/models/wanted/wanted.obj',
+    materialPath: '/models/wanted/wanted.mtl',
+    modelView: {
+      fitAxis: 'y',
+      scale: 0.82,
+      y: 0.3,
+      rotationX: 0.03,
+      rotationY: 0.16,
+      rotationZ: 0,
+    },
+    texturePaths: [
+      '/models/wanted/wanted_basecolor.jpg',
+      '/models/wanted/wanted_metallic.jpg',
+      '/models/wanted/wanted_normal.jpg',
+      '/models/wanted/wanted_roughness.jpg',
+    ],
+    galleryBackground: 'linear-gradient(135deg, #fff8f7 0%, #f6d5cc 48%, #df8d76 100%)',
+    colorGradient: 'from-[#FBCFE8] to-[#E9542E]',
+    badgeText: 'RARE & RICH',
+    description: 'Rich grape and mixed fruit vanilla aroma with an elegant grape-pineapple palate, now shown as a 3D bottle.',
+  },
+  {
+    id: 'nts-eastcoast-brown-3d',
+    name: 'East Coast XXX Rum',
+    price: 22.00,
+    type: 'Rum',
+    dosage: 'Dark Spiced 3D',
+    graphic: 'NTS',
+    image: '/bottle-2/bottle (1).png',
+    removedBgImage: '/bottle-2/bottle (1).png',
+    modelPath: '/models/brown east coast/brown+east+coast.obj',
+    materialPath: '/models/brown east coast/brown+east+coast.mtl',
+    modelView: {
+      fitAxis: 'x',
+      scale: 0.82,
+      y: 0.84,
+      rotationX: 0.03,
+      rotationY: 0.16,
+      rotationZ: -Math.PI / 2,
+    },
+    texturePaths: [
+      '/models/brown east coast/brown+east+coast_basecolor.jpg',
+      '/models/brown east coast/brown+east+coast_metallic.jpg',
+      '/models/brown east coast/brown+east+coast_normal.jpg',
+      '/models/brown east coast/brown+east+coast_roughness.jpg',
+    ],
+    galleryBackground: 'linear-gradient(135deg, #fff6ec 0%, #edcfaa 46%, #b77b45 100%)',
+    colorGradient: 'from-[#C9A87C] to-[#3A2010]',
+    badgeText: 'DEEPLY SMOOTH',
+    description: 'Oak-aged depth with traditional spices, tropical pineapple and a cocoa-tinged finish in a live rotating bottle.',
+  },
+  {
+    id: 'nts-eastcoast-white-3d',
+    name: 'East Coast White',
+    price: 20.00,
+    type: 'Premium Spirit',
+    dosage: 'Clean White Edition',
+    graphic: 'NTS',
+    image: '/bottle-2/Product_bottle_3D_render_202607251455-removebg-preview.png',
+    removedBgImage: '/bottle-2/Product_bottle_3D_render_202607251455-removebg-preview.png',
+    modelPath: '/models/white east coast/white+east+coast.obj',
+    materialPath: '/models/white east coast/white+east+coast.mtl',
+    modelView: {
+      fitAxis: 'y',
+      scale: 0.82,
+      y: 0.3,
+      rotationX: 0.03,
+      rotationY: 0.16,
+      rotationZ: 0,
+    },
+    texturePaths: [
+      '/models/white east coast/white+east+coast_basecolor.jpg',
+      '/models/white east coast/white+east+coast_metallic.jpg',
+      '/models/white east coast/white+east+coast_normal.jpg',
+      '/models/white east coast/white+east+coast_roughness.jpg',
+    ],
+    galleryBackground: 'linear-gradient(135deg, #ffffff 0%, #edf4f2 48%, #c6d8d2 100%)',
+    colorGradient: 'from-[#F8FAF8] via-[#C9D8D2] to-[#2C5D54]',
+    badgeText: 'LIGHT & FRESH',
+    description: 'A clean white East Coast bottle with a bright studio finish and continuous 3D motion.',
   },
 ]
 
@@ -468,7 +731,7 @@ export default function App() {
 
       {/* 2. Header */}
       <header className={`sticky top-0 z-40 transition-all duration-300 ${scrolled ? 'bg-cream/95 backdrop-blur-md shadow-md py-3 sm:py-4' : 'bg-cream/90 sm:bg-transparent backdrop-blur-sm sm:backdrop-blur-none py-3 sm:py-6'}`}>
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-12 grid grid-cols-[auto_1fr_auto] items-center gap-4 lg:gap-8">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-12 grid grid-cols-[auto_1fr] items-center gap-4 lg:gap-10">
           
           <a href="#top" className="flex items-center gap-2 sm:gap-3 text-maroon hover:text-coral-orange transition-colors select-none leading-tight min-w-0">
             <img
@@ -482,7 +745,7 @@ export default function App() {
             </span>
           </a>
 
-          <nav className="hidden lg:flex items-center justify-center gap-7 xl:gap-9 text-[11px] font-bold uppercase tracking-widest">
+          <nav className="hidden lg:flex items-center justify-end gap-7 xl:gap-9 text-[11px] font-bold uppercase tracking-widest">
             <a href="#portfolio" className="hover:text-coral-orange transition-colors whitespace-nowrap">Brands</a>
             <a href="#track-record" className="hover:text-coral-orange transition-colors whitespace-nowrap">Track Record</a>
             <a href="#facility" className="hover:text-coral-orange transition-colors whitespace-nowrap">Distillery</a>
@@ -490,17 +753,10 @@ export default function App() {
             <a href="#contact" className="hover:text-coral-orange transition-colors whitespace-nowrap">B2B Proposals</a>
           </nav>
 
-          <div className="flex items-center justify-end gap-2 sm:gap-4 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider sm:tracking-widest">
-            <button 
-              onClick={() => setIsCartOpen(true)}
-              className="relative h-10 px-3 sm:px-4 bg-maroon text-cream rounded-full hover:bg-coral-orange hover:text-white transition-all flex items-center gap-1.5 shadow-sm active:scale-[0.98]"
-            >
-              <span className="hidden sm:inline">Inquiry</span>
-              <span>({cartItems.length})</span>
-            </button>
+          <div className="flex items-center justify-end text-[10px] sm:text-[11px] font-bold uppercase tracking-wider sm:tracking-widest lg:hidden">
             <button 
               onClick={() => setMobileMenuOpen(prev => !prev)}
-              className="lg:hidden h-10 px-2 text-maroon hover:text-coral-orange text-xs font-bold uppercase tracking-wider"
+              className="h-10 px-2 text-maroon hover:text-coral-orange text-xs font-bold uppercase tracking-wider"
             >
               Menu
             </button>
@@ -593,7 +849,7 @@ export default function App() {
           </div>
 
           <div className="w-full">
-            <BottleGallery brands={ntsProprietaryBrands} onAddToCart={handleAddToCart} onQuickView={setSelectedProduct} />
+            <BottleGallery brands={ntsModelGalleryBrands} onQuickView={setSelectedProduct} />
           </div>
 
 
@@ -1064,9 +1320,12 @@ export default function App() {
           {/* Left brand logo/desc column */}
           <div className="space-y-4 min-[420px]:col-span-2 sm:col-span-3 md:col-span-1">
             <div className="flex items-center gap-3">
-              {/* Rounded Brand Badge (BZ-style logo look) */}
-              <div className="bg-gradient-to-tr from-maroon to-[#E9542E] w-9 h-9 rounded-xl flex items-center justify-center text-white font-sans font-black text-xs shadow-md">
-                NTS
+              <div className="h-11 w-11 shrink-0 rounded-full bg-cream p-1 shadow-md ring-1 ring-white/15">
+                <img
+                  src="/logo.png"
+                  alt="NTS Blenders and Distillers Pvt. Ltd. logo"
+                  className="h-full w-full object-contain"
+                />
               </div>
               <span className="font-sans font-black text-white text-base tracking-tight">NTS Blenders and Distillers Pvt. Ltd.</span>
             </div>
@@ -1136,22 +1395,24 @@ export default function App() {
         </div>
 
         {/* Regulatory Disclaimer & Bottom bar */}
-        <div className="max-w-[1280px] mx-auto pt-6 text-center space-y-4 border-t border-white/10">
-          <p className="text-[8px] text-slate-500 uppercase tracking-widest font-mono leading-relaxed max-w-4xl mx-auto md:mx-0">
-            * IMFL ADVISORY: SPECIFICATION AND CAPACITY METRICS PRESENTED IN THIS PORTFOLIO ARE ACCORDING TO ACTUAL PLANT AUDITS AND GOA INDUSTRIAL ESTATE REGULATORY DOCUMENTATION. GOVERNMENT LICENSE AND COMPLIANCE CERTIFICATION ARE MAINTAINED AT SITE.
-          </p>
+        <div className="max-w-[1280px] mx-auto pt-6 border-t border-white/10">
+          <div className="mx-auto flex max-w-4xl flex-col items-center text-center space-y-4">
+            <p className="text-[8px] text-slate-500 uppercase tracking-widest font-mono leading-relaxed">
+              * IMFL ADVISORY: SPECIFICATION AND CAPACITY METRICS PRESENTED IN THIS PORTFOLIO ARE ACCORDING TO ACTUAL PLANT AUDITS AND GOA INDUSTRIAL ESTATE REGULATORY DOCUMENTATION. GOVERNMENT LICENSE AND COMPLIANCE CERTIFICATION ARE MAINTAINED AT SITE.
+            </p>
 
-          <div className="flex flex-col gap-3 items-center pt-2">
-            <div className="flex gap-4 text-[10px] text-slate-500 uppercase tracking-widest">
-              <span>(c) 2026 NTS Blenders and Distillers Pvt. Ltd. All rights reserved.</span>
-            </div>
-            
-            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[10px] text-slate-500 uppercase tracking-widest font-mono">
-              <a href="#contact" className="hover:text-slate-300 transition-colors">Terms &amp; Conditions</a>
-              <span>|</span>
-              <span>Goa, India</span>
-              <span>|</span>
-              <span>FDA CERTIFIED</span>
+            <div className="flex flex-col gap-3 items-center pt-2">
+              <p className="text-[10px] text-slate-500 uppercase tracking-widest">
+                (c) 2026 NTS Blenders and Distillers Pvt. Ltd. All rights reserved.
+              </p>
+              
+              <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[10px] text-slate-500 uppercase tracking-widest font-mono">
+                <a href="#contact" className="hover:text-slate-300 transition-colors">Terms &amp; Conditions</a>
+                <span className="text-slate-600" aria-hidden="true">|</span>
+                <span>Goa, India</span>
+                <span className="text-slate-600" aria-hidden="true">|</span>
+                <span>FDA CERTIFIED</span>
+              </div>
             </div>
           </div>
         </div>
