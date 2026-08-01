@@ -960,7 +960,7 @@ export default function App() {
       <footer className="bg-[#18202d] text-slate-300 pt-12 sm:pt-16 pb-8 px-4 sm:px-12 relative overflow-hidden border-t border-white/10">
         
         {/* Core Links & Info Grid */}
-        <div className="max-w-[1280px] mx-auto grid grid-cols-1 min-[600px]:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr] gap-y-8 min-[600px]:gap-x-10 lg:gap-x-12 items-start mb-12">
+        <div className="max-w-[1280px] mx-auto grid grid-cols-1 min-[600px]:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr] gap-y-10 min-[600px]:gap-x-10 lg:gap-x-12 items-start mb-12">
           
           {/* Left brand logo/desc column */}
           <div className="space-y-4 min-[600px]:col-span-2 lg:col-span-1 max-w-[340px]">
@@ -988,7 +988,7 @@ export default function App() {
           {/* Product Link Column */}
           <div className="space-y-4">
             <h4 className="text-[10px] font-bold uppercase tracking-widest text-white">PRODUCT</h4>
-            <ul className="text-xs space-y-2.5 font-sans font-medium text-slate-400">
+            <ul className="text-xs space-y-3 font-sans font-medium text-slate-400">
               <li><a href="#portfolio" className="hover:text-white transition-colors">Proprietary Brands</a></li>
               <li><a href="#portfolio" className="hover:text-white transition-colors">Economy Range</a></li>
               <li><a href="#portfolio" className="hover:text-white transition-colors">Bulk Spirits</a></li>
@@ -998,7 +998,7 @@ export default function App() {
           {/* Resources Link Column */}
           <div className="space-y-4">
             <h4 className="text-[10px] font-bold uppercase tracking-widest text-white">RESOURCES</h4>
-            <ul className="text-xs space-y-2.5 font-sans font-medium text-slate-400">
+            <ul className="text-xs space-y-3 font-sans font-medium text-slate-400">
               <li><a href="#facility" className="hover:text-white transition-colors">Capacity Specs</a></li>
               <li><a href="#facility" className="hover:text-white transition-colors">Facility Audits</a></li>
               <li><a href="#machinery" className="hover:text-white transition-colors">Equipment List</a></li>
@@ -1008,7 +1008,7 @@ export default function App() {
           {/* Company Link Column */}
           <div className="space-y-4">
             <h4 className="text-[10px] font-bold uppercase tracking-widest text-white">COMPANY</h4>
-            <ul className="text-xs space-y-2.5 font-sans font-medium text-slate-400">
+            <ul className="text-xs space-y-3 font-sans font-medium text-slate-400">
               <li><a href="#contact" className="hover:text-white transition-colors">About Us</a></li>
               <li><a href="#contact" className="hover:text-white transition-colors">Distillery Location</a></li>
               <li><a href="#contact" className="hover:text-white transition-colors">Contact Specs</a></li>
@@ -1018,7 +1018,7 @@ export default function App() {
           {/* Our Product Column */}
           <div className="space-y-4">
             <h4 className="text-[10px] font-bold uppercase tracking-widest text-white">OUR PRODUCT</h4>
-            <ul className="text-xs space-y-2.5 font-sans font-medium text-slate-400">
+            <ul className="text-xs space-y-3 font-sans font-medium text-slate-400">
               <li><a href="#contact" className="hover:text-white transition-colors">Regulatory Filings</a></li>
               <li><a href="#contact" className="hover:text-white transition-colors">Compliance Certs</a></li>
             </ul>
@@ -1027,19 +1027,19 @@ export default function App() {
         </div>
 
         {/* Massive Geometric Sans-Serif Wordmark (matching Botzudio font/style) */}
-        <div className="relative select-none pointer-events-none w-full text-center mt-12 mb-4 max-w-[1280px] mx-auto">
-          <h2 className="font-jakarta font-black text-[9vw] sm:text-[11vw] lg:text-[12vw] tracking-tighter leading-none text-white/10 uppercase select-none">
-            NTS BLENDERS
+        <div className="relative select-none pointer-events-none w-full text-center py-12 max-w-[1280px] mx-auto">
+          <h2 className="font-jakarta font-black text-[15vw] sm:text-[11vw] lg:text-[12vw] tracking-tighter leading-[0.9] text-white opacity-[0.07] uppercase select-none">
+            NTS <br className="sm:hidden" /> BLENDERS
           </h2>
         </div>
 
         {/* Regulatory Disclaimer & Bottom bar */}
         <div className="max-w-[1280px] mx-auto pt-6 text-center space-y-4 border-t border-white/10">
-          <p className="text-[8px] text-slate-500 uppercase tracking-widest font-mono leading-relaxed max-w-[720px] mx-auto text-center">
+          <p className="text-[8px] text-slate-500 uppercase tracking-widest font-mono leading-relaxed max-w-[340px] sm:max-w-[720px] mx-auto text-center">
             IMFL ADVISORY: SPECIFICATION AND CAPACITY METRICS PRESENTED IN THIS PORTFOLIO ARE ACCORDING TO ACTUAL PLANT AUDITS AND GOA INDUSTRIAL ESTATE REGULATORY DOCUMENTATION. GOVERNMENT LICENSE AND COMPLIANCE CERTIFICATION ARE MAINTAINED AT SITE.
           </p>
 
-          <div className="flex flex-col gap-3 items-center pt-2 max-w-[720px] mx-auto text-center">
+          <div className="flex flex-col gap-3 items-center pt-2 max-w-[340px] sm:max-w-[720px] mx-auto text-center">
             <div className="flex justify-center gap-4 text-[10px] text-slate-500 uppercase tracking-widest">
               <span>(c) 2026 NTS Blenders and Distillers Pvt. Ltd. All rights reserved.</span>
             </div>
