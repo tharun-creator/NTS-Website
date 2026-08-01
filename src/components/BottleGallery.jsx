@@ -68,8 +68,6 @@ export default function BottleGallery({ brands, onAddToCart, onQuickView }) {
   return (
     <div className="relative w-full overflow-hidden bg-white rounded-2xl sm:rounded-[2rem] border border-maroon/5 shadow-sm">
       <div className="relative min-h-[560px] sm:min-h-[640px] md:min-h-[700px] overflow-hidden flex flex-col md:flex-row items-center justify-between px-4 sm:px-10 lg:px-16 py-8 sm:py-10 md:py-14">
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_35%_42%,rgba(233,84,46,0.08),transparent_34%),radial-gradient(circle_at_70%_55%,rgba(74,21,28,0.05),transparent_38%)]" />
-
         <div className="relative w-full md:w-1/2 min-h-[300px] sm:min-h-[430px] md:min-h-[560px] flex items-center justify-center">
           <button
             type="button"
@@ -89,8 +87,6 @@ export default function BottleGallery({ brands, onAddToCart, onQuickView }) {
             <ChevronRight size={20} />
           </button>
 
-          <div className="absolute left-1/2 bottom-[12%] w-[260px] h-[260px] sm:w-[380px] sm:h-[380px] -translate-x-1/2 bg-[radial-gradient(circle,rgba(0,0,0,0.08),transparent_70%)] pointer-events-none" />
-
           <img
             key={activeProduct.id}
             src={activeImage}
@@ -100,7 +96,7 @@ export default function BottleGallery({ brands, onAddToCart, onQuickView }) {
             style={{
               transform: `translate3d(${tiltX}px, ${tiltY}px, 0) rotateY(${tiltX * 0.8}deg)`
             }}
-            className="relative z-10 w-auto max-w-[78%] h-[260px] sm:h-[440px] md:h-[590px] object-contain filter drop-shadow-[0_45px_55px_rgba(0,0,0,0.22)] transition-all duration-500 cursor-pointer hover:scale-[1.03]"
+            className="relative z-10 w-auto max-w-[78%] h-[260px] sm:h-[440px] md:h-[590px] object-contain filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer hover:scale-[1.03]"
           />
         </div>
 

@@ -231,58 +231,50 @@ const capacityMetrics = [
 const timelineMilestones = [
   {
     id: '1980',
-    label: '1980',
     year: '1980',
-    title: 'The Beginning',
+    title: 'Founding',
     desc: 'NTS is founded in Pondicherry as NTS Wines by Mr. N.T. Sambath — the first step into India\'s IMFL and beer distribution space.'
   },
   {
     id: 'network',
-    label: 'UB Network',
-    year: '1980s-90s',
-    title: 'Building the Network',
+    year: '1980s–90s',
+    title: 'Building the network',
     desc: 'Starting with regional brands from Vinbros Pondicherry, NTS earns recognition from UB Group, unlocking brands across IMFL, beer, rum, brandy, gin, vodka, and export lager categories.'
   },
   {
     id: 'mcdowell',
-    label: 'McDowell & Shaw',
     year: '1990s',
-    title: 'McDowell & Shaw Wallace Era',
+    title: 'McDowell & Shaw Wallace era',
     desc: 'Portfolio expands with McDowell\'s and Shaw Wallace brands, establishing NTS as a serious distribution force across major national spirits and beer labels.'
   },
   {
     id: '100truck',
-    label: '1997',
     year: '1997',
-    title: 'The 100-Truck Month',
+    title: '100-truck month',
     desc: 'In a single month, NTS distributes 100 truckloads of Royal Challenge Beer to smash its year-end target — a defining show of scale and execution power.'
   },
   {
     id: 'leadership',
-    label: 'Leadership',
-    year: 'Milestones',
-    title: 'Market Leadership Achievements',
+    year: '2000s',
+    title: 'Market leadership achievements',
     desc: 'McDowell\'s Traveller Brandy overtakes the No.1 McDowell\'s brand. Old Cask Rum surpasses Old Monk. Haywards 5000 leads the beer market for over a decade.'
   },
   {
     id: 'distilling',
-    label: 'Manufacturing',
     year: 'Distillation',
-    title: 'Manufacturing Segment Begins',
+    title: 'Manufacturing begins',
     desc: 'NTS launches its own brands: My Choice Brandy, OK Deluxe Brandy, and King Romeo Brandy, successfully targeting the economy IMFL segments.'
   },
   {
     id: 'goa',
-    label: 'Goa',
     year: 'Goa',
-    title: 'Goa Distillery Expansion',
+    title: 'Facility expansion',
     desc: 'NTS establishes its own distillery in Canacona Industrial Estate, Goa — a 3-acre, pollution-free unit on the state highway connecting to NH 66.'
   },
   {
     id: 'today',
-    label: 'Today',
     year: 'Today',
-    title: 'Semi-Premium Portfolio',
+    title: 'Semi-premium portfolio',
     desc: 'Launches semi-premium brands: Old Town Indian Blended Malt Whisky, East Coast Premium Malt Whisky, Grape Brandy & XXX Rum, Wanted 999 VSOP Brandy, and Zipper Vodkas.'
   }
 ]
@@ -355,28 +347,11 @@ export default function App() {
 
   // Timeline Scroll Animation States
   const timelineSectionRef = useRef(null)
-  const [activeTimelineId, setActiveTimelineId] = useState('1980')
+  const [activeTimelineIdx, setActiveTimelineIdx] = useState(0)
   const [timelineScrollProgress, setTimelineScrollProgress] = useState(0)
-  const [timelineSectionVisible, setTimelineSectionVisible] = useState(false)
   const [reducedTimelineMotion, setReducedTimelineMotion] = useState(false)
 
-  // Reveal Timeline Section on Scroll
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimelineSectionVisible(true)
-        }
-      },
-      { threshold: 0.1 }
-    )
-    if (timelineSectionRef.current) {
-      observer.observe(timelineSectionRef.current)
-    }
-    return () => observer.disconnect()
-  }, [])
-
-  // Single scroll progress source for vertical timeline line, node activation, and quick nav.
+  // Single scroll progress source for vertical timeline line and card focus activation.
   useEffect(() => {
     const section = timelineSectionRef.current
     if (!section) return
@@ -389,17 +364,17 @@ export default function App() {
     const handleScroll = () => {
       const rect = section.getBoundingClientRect()
       const viewportHeight = window.innerHeight
-      const progressStart = viewportHeight * 0.62
-      const totalDistance = Math.max(1, rect.height - viewportHeight * 0.28)
-      const rawProgress = (progressStart - rect.top) / totalDistance
-      const progress = Math.max(0, Math.min(1, rawProgress))
-      const activeIndex = Math.min(
-        timelineMilestones.length - 1,
-        Math.max(0, Math.floor(progress * timelineMilestones.length))
-      )
-
+      
+      const totalScrollable = rect.height - viewportHeight
+      const scrolled = -rect.top
+      const progress = Math.max(0, Math.min(1, totalScrollable > 0 ? scrolled / totalScrollable : 0))
       setTimelineScrollProgress(progress)
-      setActiveTimelineId(timelineMilestones[activeIndex].id)
+
+      const activeIdx = Math.min(
+        timelineMilestones.length - 1,
+        Math.max(0, Math.round(progress * (timelineMilestones.length - 1)))
+      )
+      setActiveTimelineIdx(activeIdx)
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -474,11 +449,14 @@ export default function App() {
             <img
               src="/logo.png"
               alt="NTS Blenders and Distillers Pvt. Ltd. logo"
-              className="h-10 w-10 sm:h-11 sm:w-11 object-contain shrink-0 translate-y-[1px]"
+              className="h-14 w-14 sm:h-16 sm:w-16 object-contain shrink-0 translate-y-[1px]"
             />
-            <span className="font-serif text-sm sm:text-base lg:text-lg font-extrabold tracking-wide sm:tracking-widest uppercase whitespace-nowrap">
-              <span className="sm:hidden">NTS</span>
-              <span className="hidden sm:inline">NTS Distillers</span>
+            <span className="font-serif text-maroon">
+              <span className="flex sm:hidden flex-col text-[12px] min-[375px]:text-[13px] font-semibold leading-[1.25] tracking-wide whitespace-nowrap">
+                <span>NTS Blenders and</span>
+                <span>Distillers Pvt. Ltd.</span>
+              </span>
+              <span className="hidden sm:inline text-base lg:text-lg font-extrabold tracking-widest uppercase whitespace-nowrap">NTS Distillers</span>
             </span>
           </a>
 
@@ -491,13 +469,6 @@ export default function App() {
           </nav>
 
           <div className="flex items-center justify-end gap-2 sm:gap-4 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider sm:tracking-widest">
-            <button 
-              onClick={() => setIsCartOpen(true)}
-              className="relative h-10 px-3 sm:px-4 bg-maroon text-cream rounded-full hover:bg-coral-orange hover:text-white transition-all flex items-center gap-1.5 shadow-sm active:scale-[0.98]"
-            >
-              <span className="hidden sm:inline">Inquiry</span>
-              <span>({cartItems.length})</span>
-            </button>
             <button 
               onClick={() => setMobileMenuOpen(prev => !prev)}
               className="lg:hidden h-10 px-2 text-maroon hover:text-coral-orange text-xs font-bold uppercase tracking-wider"
@@ -525,10 +496,6 @@ export default function App() {
         <div className="hero-scrim absolute left-0 bottom-0 h-[58%] w-full sm:w-[62%] lg:w-[48%] bg-[radial-gradient(ellipse_at_bottom_left,rgba(21,10,9,0.88)_0%,rgba(21,10,9,0.64)_42%,rgba(21,10,9,0)_72%)] pointer-events-none"></div>
 
         <div className="hero-copy absolute left-0 bottom-0 z-10 w-full max-w-xl px-5 pb-10 sm:px-10 sm:pb-14 lg:px-14 lg:pb-16 text-left space-y-4 sm:space-y-5 animate-heroRise">
-
-          <span className="inline-flex items-center justify-center rounded-full border border-cream/30 bg-[#150a09]/45 px-4 py-2 text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-cream shadow-lg backdrop-blur-sm">
-            Goa Distillery Since 1980
-          </span>
           <h1 className="font-rye text-[1.9rem] min-[380px]:text-[2.15rem] sm:text-4xl lg:text-5xl font-black uppercase leading-[1.05] tracking-normal text-cream drop-shadow-[0_8px_24px_rgba(0,0,0,0.75)]">
             Four Decades.<br />One Legacy.<br />Infinite Spirit.
           </h1>
@@ -657,12 +624,8 @@ export default function App() {
 
       {/* 7. Historical Legacy & Vodka Range */}
       <section 
-        id="track-record" 
-        className="bg-cover bg-center border-y border-maroon/10 relative py-14 sm:py-20 flex items-center min-h-[620px] lg:min-h-[650px] overflow-hidden"
-        style={{ 
-          backgroundImage: "url('/images/Canacona_vodka_bottles_orange_ba…_202607231523.jpeg')",
-          backgroundPosition: '0% center'
-        }}
+        id="vodka-range" 
+        className="bg-[url('/images/Canacona_vodka_bottles_orange_ba…_202607231523.jpeg')] bg-cover bg-center border-y border-maroon/10 relative py-14 sm:py-20 flex items-center min-h-[620px] lg:min-h-[650px] overflow-hidden"
       >
         <div className="absolute inset-0 bg-black/5 pointer-events-none"></div>
         
@@ -737,169 +700,107 @@ export default function App() {
                 ))}
               </div>
 
-              <div className="lg:hidden pt-2">
-                <div className="mb-3 flex items-center justify-between gap-3">
-                  <h3 className="font-sans text-[10px] font-extrabold uppercase tracking-widest text-maroon/55">
-                    Tap a Canacona flavor
-                  </h3>
-                  <span className="h-px flex-1 bg-maroon/10"></span>
-                </div>
-                <div className="grid grid-cols-3 gap-2.5">
-                  {canaconaVodkas.map((vodka) => (
-                    <button
-                      key={vodka.id}
-                      type="button"
-                      onClick={() => setSelectedProduct(vodka)}
-                      className="min-h-[132px] rounded-2xl border border-maroon/10 bg-cream/70 px-2 py-3 text-center shadow-sm transition-all active:scale-[0.98]"
-                    >
-                      <img
-                        src={vodka.image}
-                        alt={vodka.name}
-                        className="mx-auto h-20 w-full object-contain drop-shadow-[0_16px_18px_rgba(74,21,28,0.18)]"
-                      />
-                      <span className="mt-2 block font-sans text-[9px] font-extrabold uppercase leading-tight tracking-wide text-maroon">
-                        {vodka.flavor}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 8. The Timeline — 45 Years of Momentum */}
+      {/* 8. The Timeline — Decades of Brand Building */}
       <section 
         id="track-record" 
         ref={timelineSectionRef}
-        className="relative py-16 sm:py-24 bg-deep-navy text-white overflow-hidden"
+        className="relative py-12 sm:py-16 bg-cream text-maroon overflow-hidden border-t border-maroon/10"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(233,84,46,0.08),transparent_50%)] pointer-events-none" />
-        
-        <div className="relative max-w-[1280px] mx-auto px-4 sm:px-12 z-10 space-y-10 sm:space-y-12">
-          <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className={`text-[10px] font-bold uppercase tracking-widest text-[#E9542E] bg-white/10 px-3.5 py-1.5 rounded-full inline-block transition-all duration-1000 transform ${
-              timelineSectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
-            }`}>
-              THE TIMELINE — 45 YEARS OF MOMENTUM
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_12%_18%,rgba(233,84,46,0.12),transparent_28%),radial-gradient(circle_at_86%_72%,rgba(74,21,28,0.08),transparent_30%)]"></div>
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-12 relative">
+          
+          {/* Header */}
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 space-y-2.5">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-coral-orange bg-white/70 border border-maroon/10 px-4 py-2 rounded-full inline-block">
+              Track Record
             </span>
-            <h2 className={`font-rye text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-cream transition-all duration-1000 delay-100 transform ${
-              timelineSectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-            }`}>
+            <h2 className="font-rye text-2xl sm:text-4xl font-extrabold uppercase tracking-tight text-maroon">
               Decades of Brand Building
             </h2>
-            <p className={`text-xs sm:text-sm text-cream/70 font-sans max-w-md mx-auto transition-all duration-1000 delay-200 transform ${
-              timelineSectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-            }`}>
-              Scroll or click the milestones to explore our legacy of scale, distribution power, and manufacturing growth.
+            <p className="text-xs sm:text-sm text-maroon/70 font-sans max-w-lg mx-auto leading-relaxed">
+              A clear chronology of distribution scale, market leadership, and manufacturing growth.
             </p>
           </div>
 
-          {/* Vertical Scroll Timeline */}
-          <div className={`relative transition-all duration-1000 delay-300 transform ${
-            timelineSectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}>
-            <div className="sticky top-20 z-20 mb-8 flex justify-center md:hidden">
-              <div className="flex gap-2 rounded-full border border-white/10 bg-[#1B2E33]/90 px-3 py-2 backdrop-blur-md">
-                {timelineMilestones.map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => {
-                      const el = document.getElementById(`timeline-${item.id}`)
-                      if (el) el.scrollIntoView({ behavior: reducedTimelineMotion ? 'auto' : 'smooth', block: 'center' })
-                    }}
-                    className={`h-2.5 rounded-full transition-all ${
-                      activeTimelineId === item.id ? 'w-7 bg-[#E9542E]' : 'w-2.5 bg-white/20'
-                    }`}
-                    aria-label={`Jump to ${item.label}`}
-                  />
-                ))}
-              </div>
-            </div>
+          <div className="relative pl-8 sm:pl-12 lg:pl-0">
+            <div className="absolute left-4 sm:left-6 lg:left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 bg-maroon/15"></div>
+            
+            <div 
+              style={{
+                height: `${reducedTimelineMotion ? 100 : timelineScrollProgress * 100}%`,
+                transformOrigin: 'top'
+              }}
+              className="absolute left-4 sm:left-6 lg:left-1/2 top-0 w-[2px] -translate-x-1/2 bg-coral-orange transition-all duration-300 ease-out shadow-[0_0_18px_rgba(233,84,46,0.35)]"
+            ></div>
 
-            <div className="grid grid-cols-1 md:grid-cols-[170px_minmax(0,1fr)] gap-8 lg:gap-12">
-              <nav className="hidden md:block sticky top-28 self-start">
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-3 backdrop-blur-md space-y-2">
-                  {timelineMilestones.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => {
-                        const el = document.getElementById(`timeline-${item.id}`)
-                        if (el) el.scrollIntoView({ behavior: reducedTimelineMotion ? 'auto' : 'smooth', block: 'center' })
+            <div className="space-y-4 sm:space-y-5 lg:space-y-6">
+              {timelineMilestones.map((item, idx) => {
+                const isActive = activeTimelineIdx === idx;
+                const alignRight = idx % 2 !== 0;
+
+                return (
+                  <div
+                    key={item.id}
+                    id={`timeline-block-${item.id}`}
+                    className={`relative grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-10 items-stretch ${
+                      alignRight ? '' : ''
+                    }`}
+                  >
+                    <div 
+                      className={`absolute left-4 sm:left-6 lg:left-1/2 top-5 h-3.5 w-3.5 -translate-x-1/2 rounded-full border-2 transition-all duration-300 z-20 ${
+                        isActive ? 'border-coral-orange bg-coral-orange scale-125 shadow-[0_0_0_7px_rgba(233,84,46,0.12)]' : 'border-maroon/25 bg-cream'
+                      }`}
+                    />
+
+                    <article
+                      style={{
+                        transform: reducedTimelineMotion ? 'none' : (isActive ? 'translateY(0)' : 'translateY(4px)'),
                       }}
-                      className={`w-full text-left px-3 py-2 rounded-xl text-[10px] uppercase tracking-widest font-bold transition-all ${
-                        activeTimelineId === item.id
-                          ? 'bg-[#E9542E] text-white shadow-lg shadow-[#E9542E]/25'
-                          : 'text-cream/55 hover:bg-white/10 hover:text-cream'
+                      className={`rounded-lg border p-4 sm:p-5 transition-all duration-300 ${
+                        alignRight ? 'lg:col-start-2' : 'lg:col-start-1'
+                      } ${
+                        isActive
+                          ? 'bg-maroon text-cream border-coral-orange shadow-2xl shadow-maroon/20'
+                          : 'bg-white/85 text-maroon border-maroon/10 shadow-sm'
                       }`}
                     >
-                      {item.label}
-                    </button>
-                  ))}
-                </div>
-              </nav>
-
-              <div className="relative pl-8 md:pl-0">
-                <div className="absolute left-3 md:left-1/2 top-8 bottom-8 w-px -translate-x-1/2 bg-white/12"></div>
-                <div
-                  style={{
-                    transform: `scaleY(${reducedTimelineMotion ? 1 : timelineScrollProgress})`,
-                    transformOrigin: 'top'
-                  }}
-                  className="absolute left-3 md:left-1/2 top-8 bottom-8 w-[3px] -translate-x-1/2 rounded-full bg-[#E9542E] shadow-[0_0_16px_rgba(233,84,46,0.65)] transition-transform duration-150 ease-out"
-                ></div>
-
-                <div className="space-y-10 md:space-y-16">
-                  {timelineMilestones.map((item, idx) => {
-                    const nodeProgress = timelineMilestones.length === 1 ? 1 : idx / (timelineMilestones.length - 1)
-                    const isReached = reducedTimelineMotion || timelineScrollProgress + 0.02 >= nodeProgress
-                    const isActive = activeTimelineId === item.id
-                    const alignRight = idx % 2 === 0
-
-                    return (
-                      <div
-                        key={item.id}
-                        id={`timeline-${item.id}`}
-                        className={`relative grid md:grid-cols-2 gap-6 md:gap-16 items-center scroll-mt-32 ${
-                          alignRight ? '' : 'md:[&>*:last-child]:col-start-1 md:[&>*:last-child]:row-start-1'
-                        }`}
-                      >
-                        <div className={`hidden md:block ${alignRight ? '' : 'md:col-start-2'}`}></div>
-
-                        <div
-                          className={`absolute left-3 md:left-1/2 top-7 h-5 w-5 -translate-x-1/2 rounded-full border-2 transition-all duration-300 ${
-                            isReached
-                              ? 'border-[#E9542E] bg-[#E9542E] shadow-[0_0_0_8px_rgba(233,84,46,0.12),0_0_24px_rgba(233,84,46,0.45)]'
-                              : 'border-white/20 bg-[#1B2E33]'
-                          }`}
-                        ></div>
-
-                        <article
-                          className={`rounded-[1.25rem] sm:rounded-[1.5rem] border p-5 sm:p-8 backdrop-blur-md transition-all duration-500 ${
-                            isReached
-                              ? 'bg-white/8 border-[#E9542E]/45 text-cream shadow-[0_20px_45px_-18px_rgba(233,84,46,0.34)] opacity-100 translate-y-0'
-                              : 'bg-white/4 border-white/10 text-cream/65 opacity-55 translate-y-4'
-                          } ${isActive ? 'scale-[1.015]' : 'scale-100'}`}
-                        >
-                          <span className="text-xl sm:text-2xl font-serif font-black text-coral-orange block mb-3">
-                            {item.year}
-                          </span>
-                          <h3 className="font-serif text-lg sm:text-xl font-bold uppercase tracking-wide text-cream leading-snug mb-3">
-                            {item.title}
-                          </h3>
-                          <p className="text-xs sm:text-sm text-cream/78 font-sans leading-relaxed font-medium">
-                            {item.desc}
-                          </p>
-                        </article>
+                      <div className="flex items-center justify-between gap-4 mb-3">
+                        <span className={`text-[10px] font-bold uppercase tracking-widest font-mono ${
+                          isActive ? 'text-coral-orange' : 'text-maroon/45'
+                        }`}>
+                          {String(idx + 1).padStart(2, '0')} / {String(timelineMilestones.length).padStart(2, '0')}
+                        </span>
+                        <span className={`h-px flex-1 ${
+                          isActive ? 'bg-cream/20' : 'bg-maroon/10'
+                        }`}></span>
                       </div>
-                    )
-                  })}
-                </div>
-              </div>
+
+                      <span className={`font-serif text-3xl sm:text-4xl font-extrabold tracking-tight block mb-2 ${
+                        isActive ? 'text-coral-orange' : 'text-maroon'
+                      }`}>
+                        {item.year}
+                      </span>
+                      <h3 className={`font-serif text-base sm:text-lg font-bold uppercase tracking-wide leading-snug mb-2 ${
+                        isActive ? 'text-cream' : 'text-maroon'
+                      }`}>
+                        {item.title}
+                      </h3>
+                      <p className={`text-xs sm:text-sm font-sans leading-relaxed ${
+                        isActive ? 'text-cream/80' : 'text-maroon/75'
+                      }`}>
+                        {item.desc}
+                      </p>
+                    </article>
+                  </div>
+                );
+              })}
             </div>
           </div>
-
 
         </div>
       </section>
@@ -977,7 +878,7 @@ export default function App() {
       </section>
 
       {/* 9. B2B Proposal & Contact Section */}
-      <section id="contact" className="py-16 sm:py-24 bg-maroon text-cream relative overflow-hidden">
+      <section id="contact" className="py-16 sm:py-24 bg-[#ff7aa3] text-maroon relative overflow-hidden">
         
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 relative z-10 w-full">
           
@@ -986,10 +887,10 @@ export default function App() {
             <span className="text-xs font-bold uppercase tracking-widest bg-cream text-maroon px-4 py-1.5 rounded-full inline-block mb-6 shadow-sm">
               MANUFACTURING TIE-UP PROPOSALS
             </span>
-            <h2 className="font-rye text-3xl sm:text-5xl md:text-6xl font-extrabold uppercase leading-[0.95] tracking-tighter max-w-4xl mx-auto mb-4 text-cream">
+            <h2 className="font-rye text-3xl sm:text-5xl md:text-6xl font-extrabold uppercase leading-[0.95] tracking-tighter max-w-4xl mx-auto mb-4 text-maroon">
               Contract Bottling &amp; Blending Partnership
             </h2>
-            <p className="text-sm font-sans max-w-xl mx-auto text-gold-soft/85 leading-relaxed">
+            <p className="text-sm font-sans max-w-xl mx-auto text-maroon/80 leading-relaxed">
               Direct queries are reviewed by our Managing Director, Prashanth Sambath. Fill in your details and we'll get back to you.
             </p>
           </div>
@@ -1009,43 +910,43 @@ export default function App() {
                 );
                 window.location.href = `mailto:md@ntsdistillers.com?subject=${subject}&body=${body}`;
               }}
-              className="bg-bg-maroon/80 backdrop-blur-md border border-cream/15 rounded-3xl p-5 sm:p-8 space-y-5 shadow-2xl"
+              className="bg-cream/90 backdrop-blur-md border border-maroon/20 rounded-3xl p-5 sm:p-8 space-y-5 shadow-2xl"
             >
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-gold-soft block">Your Name</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-maroon block">Your Name</label>
                   <input
                     name="name"
                     type="text"
                     required
                     placeholder="Prashanth Sambath"
-                    className="w-full bg-cream text-maroon placeholder-maroon/45 border border-cream/20 rounded-xl px-4 py-3.5 text-sm font-sans focus:outline-none focus:border-coral-orange focus:ring-2 focus:ring-coral-orange/25 transition-all"
+                    className="w-full bg-white text-maroon placeholder-maroon/40 border border-maroon/20 rounded-xl px-4 py-3.5 text-sm font-sans focus:outline-none focus:border-maroon focus:ring-2 focus:ring-maroon/20 transition-all"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-gold-soft block">Email Address</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-maroon block">Email Address</label>
                   <input
                     name="email"
                     type="email"
                     required
                     placeholder="you@company.com"
-                    className="w-full bg-cream text-maroon placeholder-maroon/45 border border-cream/20 rounded-xl px-4 py-3.5 text-sm font-sans focus:outline-none focus:border-coral-orange focus:ring-2 focus:ring-coral-orange/25 transition-all"
+                    className="w-full bg-white text-maroon placeholder-maroon/40 border border-maroon/20 rounded-xl px-4 py-3.5 text-sm font-sans focus:outline-none focus:border-maroon focus:ring-2 focus:ring-maroon/20 transition-all"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-gold-soft block">Message</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-maroon block">Message</label>
                   <textarea
                     name="message"
                     required
                     rows={6}
                     placeholder="Tell us about your manufacturing requirements, volumes, or partnership interest..."
-                    className="w-full bg-cream text-maroon placeholder-maroon/45 border border-cream/20 rounded-xl px-4 py-3.5 text-sm font-sans focus:outline-none focus:border-coral-orange focus:ring-2 focus:ring-coral-orange/25 transition-all resize-none"
+                    className="w-full bg-white text-maroon placeholder-maroon/40 border border-maroon/20 rounded-xl px-4 py-3.5 text-sm font-sans focus:outline-none focus:border-maroon focus:ring-2 focus:ring-maroon/20 transition-all resize-none"
                   />
                 </div>
               </div>
               <button
                 type="submit"
-                className="w-full py-4 bg-coral-orange text-cream font-bold text-xs uppercase tracking-widest rounded-full hover:bg-cream hover:text-maroon transition-all duration-300 shadow-lg shadow-coral-orange/25 active:scale-[0.98]"
+                className="w-full py-4 bg-maroon text-cream font-bold text-xs uppercase tracking-widest rounded-full hover:bg-coral-orange hover:text-white transition-all duration-300 shadow-lg active:scale-[0.98]"
               >
                 Send Message
               </button>
@@ -1059,15 +960,12 @@ export default function App() {
       <footer className="bg-[#18202d] text-slate-300 pt-12 sm:pt-16 pb-8 px-4 sm:px-12 relative overflow-hidden border-t border-white/10">
         
         {/* Core Links & Info Grid */}
-        <div className="max-w-[1280px] mx-auto grid grid-cols-1 min-[420px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 sm:gap-8 items-start mb-12">
+        <div className="max-w-[1280px] mx-auto grid grid-cols-1 min-[600px]:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr] gap-y-8 min-[600px]:gap-x-10 lg:gap-x-12 items-start mb-12">
           
           {/* Left brand logo/desc column */}
-          <div className="space-y-4 min-[420px]:col-span-2 sm:col-span-3 md:col-span-1">
+          <div className="space-y-4 min-[600px]:col-span-2 lg:col-span-1 max-w-[340px]">
             <div className="flex items-center gap-3">
-              {/* Rounded Brand Badge (BZ-style logo look) */}
-              <div className="bg-gradient-to-tr from-maroon to-[#E9542E] w-9 h-9 rounded-xl flex items-center justify-center text-white font-sans font-black text-xs shadow-md">
-                NTS
-              </div>
+              <img src="/logo.png" alt="NTS Logo" className="h-10 w-10 sm:h-12 sm:w-12 object-contain" />
               <span className="font-sans font-black text-white text-base tracking-tight">NTS Blenders and Distillers Pvt. Ltd.</span>
             </div>
             <p className="text-slate-400 text-xs leading-relaxed font-sans max-w-[240px]">
@@ -1137,12 +1035,12 @@ export default function App() {
 
         {/* Regulatory Disclaimer & Bottom bar */}
         <div className="max-w-[1280px] mx-auto pt-6 text-center space-y-4 border-t border-white/10">
-          <p className="text-[8px] text-slate-500 uppercase tracking-widest font-mono leading-relaxed max-w-4xl mx-auto md:mx-0">
-            * IMFL ADVISORY: SPECIFICATION AND CAPACITY METRICS PRESENTED IN THIS PORTFOLIO ARE ACCORDING TO ACTUAL PLANT AUDITS AND GOA INDUSTRIAL ESTATE REGULATORY DOCUMENTATION. GOVERNMENT LICENSE AND COMPLIANCE CERTIFICATION ARE MAINTAINED AT SITE.
+          <p className="text-[8px] text-slate-500 uppercase tracking-widest font-mono leading-relaxed max-w-[720px] mx-auto text-center">
+            IMFL ADVISORY: SPECIFICATION AND CAPACITY METRICS PRESENTED IN THIS PORTFOLIO ARE ACCORDING TO ACTUAL PLANT AUDITS AND GOA INDUSTRIAL ESTATE REGULATORY DOCUMENTATION. GOVERNMENT LICENSE AND COMPLIANCE CERTIFICATION ARE MAINTAINED AT SITE.
           </p>
 
-          <div className="flex flex-col gap-3 items-center pt-2">
-            <div className="flex gap-4 text-[10px] text-slate-500 uppercase tracking-widest">
+          <div className="flex flex-col gap-3 items-center pt-2 max-w-[720px] mx-auto text-center">
+            <div className="flex justify-center gap-4 text-[10px] text-slate-500 uppercase tracking-widest">
               <span>(c) 2026 NTS Blenders and Distillers Pvt. Ltd. All rights reserved.</span>
             </div>
             
