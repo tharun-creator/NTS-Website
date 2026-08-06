@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 const STORAGE_KEY = 'nts_distillers_age_verified'
-const MINIMUM_AGE = 21
+const MINIMUM_AGE = 18
 
 function getAge(dateOfBirth) {
   const today = new Date()
@@ -84,7 +84,7 @@ export default function AgeGate() {
     const dateOfBirth = new Date(Number(dob.year), Number(dob.month) - 1, Number(dob.day))
 
     if (getAge(dateOfBirth) < MINIMUM_AGE) {
-      window.location.href = 'https://www.google.com'
+      setError('You are not eligible to proceed to the website.')
       return
     }
 
