@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Instagram } from 'lucide-react'
+import { Instagram, Phone, Mail } from 'lucide-react'
 import Marquee from './components/Marquee'
 import AgeGate from './components/AgeGate'
 import CartDrawer from './components/CartDrawer'
@@ -891,16 +891,28 @@ export default function App() {
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 relative z-10 w-full">
           
           {/* Header */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-10">
             <span className="text-xs font-bold uppercase tracking-widest bg-cream text-maroon px-4 py-1.5 rounded-full inline-block mb-6 shadow-sm">
               MANUFACTURING TIE-UP PROPOSALS
             </span>
             <h2 className="font-rye text-3xl sm:text-5xl md:text-6xl font-extrabold uppercase leading-[0.95] tracking-tighter max-w-4xl mx-auto mb-4 text-maroon">
               Contract Bottling &amp; Blending Partnership
             </h2>
-            <p className="text-sm font-sans max-w-xl mx-auto text-maroon/80 leading-relaxed">
+            <p className="text-sm font-sans max-w-xl mx-auto text-maroon/80 leading-relaxed mb-6">
               Direct queries are reviewed by our Managing Director, Prashanth Sambath. Fill in your details and we'll get back to you.
             </p>
+            
+            {/* Direct Contact Details */}
+            <div className="flex flex-wrap justify-center gap-4 max-w-md mx-auto mb-8">
+              <a href="tel:8925523801" className="flex items-center gap-2 bg-cream text-maroon px-5 py-2.5 rounded-full shadow-md text-xs font-sans font-bold hover:bg-maroon hover:text-cream transition-all duration-300">
+                <Phone className="w-3.5 h-3.5 text-coral-orange" />
+                <span>+91 89255 23801</span>
+              </a>
+              <a href="mailto:Ntsdistillers@gmail.com" className="flex items-center gap-2 bg-cream text-maroon px-5 py-2.5 rounded-full shadow-md text-xs font-sans font-bold hover:bg-maroon hover:text-cream transition-all duration-300">
+                <Mail className="w-3.5 h-3.5 text-coral-orange" />
+                <span>Ntsdistillers@gmail.com</span>
+              </a>
+            </div>
           </div>
 
           {/* Centered B2B Form Card */}
