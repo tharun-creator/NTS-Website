@@ -132,7 +132,7 @@ body.age-gate-open {
   --terracotta: #E9542E;
   --gold: #C9A15A;
   align-items: center;
-  background: var(--maroon-deepest);
+  background: var(--cream);
   display: flex;
   height: 100vh;
   inset: 0;
@@ -215,10 +215,10 @@ body.age-gate-open {
 
 .age-gate-headline {
   color: var(--cream);
-  font-family: 'Monoton', sans-serif;
+  font-family: 'Bebas Neue', sans-serif;
   font-size: 38px;
   font-weight: 400;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.04em;
   line-height: 1.4;
   margin: 52px 0 0;
   max-width: 760px;

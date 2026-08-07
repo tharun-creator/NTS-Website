@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { Instagram } from 'lucide-react'
 import Marquee from './components/Marquee'
 import AgeGate from './components/AgeGate'
 import CartDrawer from './components/CartDrawer'
@@ -335,6 +336,9 @@ const canaconaVodkas = [
   }
 ]
 
+// Google Apps Script Web App URL. Replace this with your actual deployed Web App URL.
+const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxnpzMR6cE7T7I8AjnpzoPu7GO6l0wCC5JK13Hd_GSgDfg4FJEpxYLMZRbHB0884ZGk/exec";
+
 export default function App() {
   const [cartItems, setCartItems] = useState([])
   const [isCartOpen, setIsCartOpen] = useState(false)
@@ -344,6 +348,10 @@ export default function App() {
 
   // Capacity Selector State
   const [inquiryType, setInquiryType] = useState('blending')
+
+  // Contact Form Submission States
+  const [formSubmitting, setFormSubmitting] = useState(false)
+  const [formStatus, setFormStatus] = useState('idle') // 'idle' | 'success' | 'error'
 
   // Timeline Scroll Animation States
   const timelineSectionRef = useRef(null)
@@ -898,17 +906,49 @@ export default function App() {
           {/* Centered B2B Form Card */}
           <div className="max-w-xl mx-auto">
             <form
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
+                setFormSubmitting(true);
+                setFormStatus('idle');
+
                 const fd = new FormData(e.target);
                 const name = fd.get('name');
                 const email = fd.get('email');
                 const message = fd.get('message');
-                const subject = encodeURIComponent(`Partnership Inquiry from ${name}`);
-                const body = encodeURIComponent(
-                  `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
-                );
-                window.location.href = `mailto:md@ntsdistillers.com?subject=${subject}&body=${body}`;
+
+                if (!GOOGLE_APPS_SCRIPT_URL || GOOGLE_APPS_SCRIPT_URL.includes('YOUR_GOOGLE_APPS_SCRIPT')) {
+                  const subject = encodeURIComponent(`Partnership Inquiry from ${name}`);
+                  const body = encodeURIComponent(
+                    `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+                  );
+                  window.location.href = `mailto:md@ntsdistillers.com?subject=${subject}&body=${body}`;
+                  setFormSubmitting(false);
+                  return;
+                }
+
+                try {
+                  const formData = new URLSearchParams();
+                  formData.append('name', name);
+                  formData.append('email', email);
+                  formData.append('message', message);
+
+                  await fetch(GOOGLE_APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                      'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData.toString(),
+                  });
+
+                  setFormStatus('success');
+                  e.target.reset();
+                } catch (error) {
+                  console.error('Error submitting form:', error);
+                  setFormStatus('error');
+                } finally {
+                  setFormSubmitting(false);
+                }
               }}
               className="bg-cream/90 backdrop-blur-md border border-maroon/20 rounded-3xl p-5 sm:p-8 space-y-5 shadow-2xl"
             >
@@ -919,8 +959,9 @@ export default function App() {
                     name="name"
                     type="text"
                     required
+                    disabled={formSubmitting}
                     placeholder="Prashanth Sambath"
-                    className="w-full bg-white text-maroon placeholder-maroon/40 border border-maroon/20 rounded-xl px-4 py-3.5 text-sm font-sans focus:outline-none focus:border-maroon focus:ring-2 focus:ring-maroon/20 transition-all"
+                    className="w-full bg-white text-maroon placeholder-maroon/40 border border-maroon/20 rounded-xl px-4 py-3.5 text-sm font-sans focus:outline-none focus:border-maroon focus:ring-2 focus:ring-maroon/20 transition-all disabled:opacity-75"
                   />
                 </div>
                 <div className="space-y-2">
@@ -929,8 +970,9 @@ export default function App() {
                     name="email"
                     type="email"
                     required
+                    disabled={formSubmitting}
                     placeholder="you@company.com"
-                    className="w-full bg-white text-maroon placeholder-maroon/40 border border-maroon/20 rounded-xl px-4 py-3.5 text-sm font-sans focus:outline-none focus:border-maroon focus:ring-2 focus:ring-maroon/20 transition-all"
+                    className="w-full bg-white text-maroon placeholder-maroon/40 border border-maroon/20 rounded-xl px-4 py-3.5 text-sm font-sans focus:outline-none focus:border-maroon focus:ring-2 focus:ring-maroon/20 transition-all disabled:opacity-75"
                   />
                 </div>
                 <div className="space-y-2">
@@ -939,16 +981,31 @@ export default function App() {
                     name="message"
                     required
                     rows={6}
+                    disabled={formSubmitting}
                     placeholder="Tell us about your manufacturing requirements, volumes, or partnership interest..."
-                    className="w-full bg-white text-maroon placeholder-maroon/40 border border-maroon/20 rounded-xl px-4 py-3.5 text-sm font-sans focus:outline-none focus:border-maroon focus:ring-2 focus:ring-maroon/20 transition-all resize-none"
+                    className="w-full bg-white text-maroon placeholder-maroon/40 border border-maroon/20 rounded-xl px-4 py-3.5 text-sm font-sans focus:outline-none focus:border-maroon focus:ring-2 focus:ring-maroon/20 transition-all resize-none disabled:opacity-75"
                   />
                 </div>
               </div>
+
+              {formStatus === 'success' && (
+                <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 rounded-xl text-xs font-semibold text-center">
+                  Thank you! Your message has been sent successfully.
+                </div>
+              )}
+
+              {formStatus === 'error' && (
+                <div className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-600 rounded-xl text-xs font-semibold text-center">
+                  Something went wrong. Please try again or email us directly at md@ntsdistillers.com.
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="w-full py-4 bg-maroon text-cream font-bold text-xs uppercase tracking-widest rounded-full hover:bg-coral-orange hover:text-white transition-all duration-300 shadow-lg active:scale-[0.98]"
+                disabled={formSubmitting}
+                className="w-full py-4 bg-maroon text-cream font-bold text-xs uppercase tracking-widest rounded-full hover:bg-coral-orange hover:text-white transition-all duration-300 shadow-lg active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Send Message
+                {formSubmitting ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           </div>
@@ -973,14 +1030,8 @@ export default function App() {
             </p>
             {/* Outline social badges */}
             <div className="flex gap-2.5 pt-2">
-              <a href="#contact" className="w-8 h-8 rounded-lg border border-slate-700/60 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-500 transition-all">
-                <span className="text-[10px] font-bold">WEB</span>
-              </a>
-              <a href="#contact" className="w-8 h-8 rounded-lg border border-slate-700/60 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-500 transition-all">
-                <span className="text-[10px] font-bold">IG</span>
-              </a>
-              <a href="#contact" className="w-8 h-8 rounded-lg border border-slate-700/60 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-500 transition-all">
-                <span className="text-[10px] font-bold">IN</span>
+              <a href="https://www.instagram.com/ntsdistillers?igsh=dTByc3M3cjExNmo1" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg border border-slate-700/60 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-500 transition-all">
+                <Instagram className="w-4 h-4" />
               </a>
             </div>
           </div>
