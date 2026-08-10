@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
+import { motion } from 'framer-motion'
 
 const STORAGE_KEY = 'nts_distillers_age_verified'
 const MINIMUM_AGE = 18
@@ -29,17 +30,16 @@ function isValidDate(day, month, year) {
 }
 
 export default function AgeGate() {
-  const [isVerified, setIsVerified] = useState(true)
+  const [isVerified, setIsVerified] = useState(() => {
+    if (typeof window === 'undefined') return true
+    return localStorage.getItem(STORAGE_KEY) === 'true'
+  })
   const [dob, setDob] = useState({ day: '', month: '', year: '' })
   const [error, setError] = useState('')
-  const monthRef = useRef(null)
-  const yearRef = useRef(null)
 
-  useEffect(() => {
-    const verified = localStorage.getItem(STORAGE_KEY)
-    if (verified !== 'true') {
-      setIsVerified(false)
-    }
+  const years = useMemo(() => {
+    const currentYear = new Date().getFullYear()
+    return Array.from({ length: 100 }, (_, index) => String(currentYear - index))
   }, [])
 
   useEffect(() => {
@@ -50,34 +50,23 @@ export default function AgeGate() {
   }, [isVerified])
 
   const handleDateChange = (field, value) => {
-    const maxLength = field === 'year' ? 4 : 2
-    const nextValue = value.replace(/\D/g, '').slice(0, maxLength)
-
     setDob((current) => ({
       ...current,
-      [field]: nextValue,
+      [field]: value,
     }))
     setError('')
-
-    if (field === 'day' && nextValue.length === 2) {
-      monthRef.current?.focus()
-    }
-
-    if (field === 'month' && nextValue.length === 2) {
-      yearRef.current?.focus()
-    }
   }
 
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    if (dob.day.length !== 2 || dob.month.length !== 2 || dob.year.length !== 4) {
-      setError('Please enter your complete date of birth.')
+    if (!dob.day || !dob.month || !dob.year) {
+      setError('Select your complete date of birth to continue.')
       return
     }
 
     if (!isValidDate(dob.day, dob.month, dob.year)) {
-      setError('Please enter a valid date of birth.')
+      setError('Please select a valid date of birth.')
       return
     }
 
@@ -95,124 +84,109 @@ export default function AgeGate() {
   if (isVerified) return null
 
   return (
-    <div className="age-gate-page" role="dialog" aria-modal="true" aria-labelledby="age-gate-title">
-      <div className="age-gate-modal">
-        <form className="age-gate-modal-inner" onSubmit={handleSubmit} noValidate>
-          <div className="age-gate-logo" aria-label="NTS Blenders and Distillers Pvt. Ltd.">
-            <img
-              src="/logo.png"
-              alt="NTS Blenders and Distillers Pvt. Ltd. logo"
-              className="age-gate-logo-mark"
-            />
-            <span className="age-gate-logo-main">NTS BLENDERS</span>
-            <span className="age-gate-logo-sub">AND DISTILLERS PVT. LTD.</span>
-          </div>
+    <motion.div
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-[radial-gradient(circle_at_20%_20%,rgba(233,84,46,0.24),transparent_30%),radial-gradient(circle_at_82%_72%,rgba(201,161,90,0.18),transparent_32%),linear-gradient(135deg,#150A09,#4A151C_54%,#2C0F14)] p-4 text-cream sm:p-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.35, ease: 'easeOut' }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="age-gate-title"
+    >
+      <motion.form
+        className="relative w-full max-w-[620px] overflow-hidden rounded-lg border border-gold/35 bg-[#2C0F14]/92 p-6 text-center shadow-[0_28px_90px_rgba(0,0,0,0.42)] backdrop-blur-md sm:p-10"
+        initial={{ opacity: 0, scale: 0.95, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
+        onSubmit={handleSubmit}
+        noValidate
+      >
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-gold via-coral-orange to-gold" />
 
-          <h1 className="age-gate-headline" id="age-gate-title">
-            We&apos;ve been blending since 1980.{' '}
-            <span>Tell us you&apos;ve been around a while too.</span>
-          </h1>
+        <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full border border-gold/45 bg-cream p-3 shadow-[0_16px_40px_rgba(0,0,0,0.28)]">
+          <img src="/logo.png" alt="NTS Blenders and Distillers logo" className="h-full w-full object-contain" />
+        </div>
 
-          <div className="age-gate-date-row" aria-label="Date of birth">
-            <div className="age-gate-date-box">
-              <input
-                aria-label="Day"
-                autoComplete="bday-day"
-                inputMode="numeric"
-                maxLength={2}
-                name="day"
-                onChange={(event) => handleDateChange('day', event.target.value)}
-                placeholder="DD"
-                type="text"
-                value={dob.day}
-              />
-            </div>
+        <p className="mt-6 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-gold">
+          NTS Blenders and Distillers Pvt. Ltd.
+        </p>
+        <h1 id="age-gate-title" className="mt-4 font-rye text-3xl leading-tight text-cream sm:text-5xl">
+          Verify Your Age
+        </h1>
+        <p className="mx-auto mt-4 max-w-md font-lora text-sm leading-7 text-cream/72">
+          Please confirm your date of birth before entering this spirits portfolio.
+        </p>
 
-            <div className="age-gate-date-box">
-              <input
-                ref={monthRef}
-                aria-label="Month"
-                autoComplete="bday-month"
-                inputMode="numeric"
-                maxLength={2}
-                name="month"
-                onChange={(event) => handleDateChange('month', event.target.value)}
-                placeholder="MM"
-                type="text"
-                value={dob.month}
-              />
-            </div>
+        <div className="mt-8 grid grid-cols-3 gap-3" aria-label="Date of birth">
+          <label className="block text-left">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-cream/58">Day</span>
+            <select
+              aria-label="Day"
+              autoComplete="bday-day"
+              className="mt-2 h-12 w-full rounded-md border border-gold/25 bg-cream px-3 font-sans text-sm font-bold text-maroon outline-none transition-colors focus:border-coral-orange"
+              name="day"
+              onChange={(event) => handleDateChange('day', event.target.value)}
+              value={dob.day}
+            >
+              <option value="">DD</option>
+              {Array.from({ length: 31 }, (_, index) => {
+                const day = String(index + 1).padStart(2, '0')
+                return <option key={day} value={day}>{day}</option>
+              })}
+            </select>
+          </label>
 
-            <div className="age-gate-date-box">
-              <input
-                ref={yearRef}
-                aria-label="Year"
-                autoComplete="bday-year"
-                inputMode="numeric"
-                maxLength={4}
-                name="year"
-                onChange={(event) => handleDateChange('year', event.target.value)}
-                placeholder="YYYY"
-                type="text"
-                value={dob.year}
-              />
-            </div>
-          </div>
+          <label className="block text-left">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-cream/58">Month</span>
+            <select
+              aria-label="Month"
+              autoComplete="bday-month"
+              className="mt-2 h-12 w-full rounded-md border border-gold/25 bg-cream px-3 font-sans text-sm font-bold text-maroon outline-none transition-colors focus:border-coral-orange"
+              name="month"
+              onChange={(event) => handleDateChange('month', event.target.value)}
+              value={dob.month}
+            >
+              <option value="">MM</option>
+              {Array.from({ length: 12 }, (_, index) => {
+                const month = String(index + 1).padStart(2, '0')
+                return <option key={month} value={month}>{month}</option>
+              })}
+            </select>
+          </label>
 
-          <p className="age-gate-consent">
-            By clicking Enter, I agree to the Terms of Use. I understand that my personal information will
-            be processed in accordance with the <a href="#contact">Privacy Policy</a>.
+          <label className="block text-left">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-cream/58">Year</span>
+            <select
+              aria-label="Year"
+              autoComplete="bday-year"
+              className="mt-2 h-12 w-full rounded-md border border-gold/25 bg-cream px-3 font-sans text-sm font-bold text-maroon outline-none transition-colors focus:border-coral-orange"
+              name="year"
+              onChange={(event) => handleDateChange('year', event.target.value)}
+              value={dob.year}
+            >
+              <option value="">YYYY</option>
+              {years.map((year) => <option key={year} value={year}>{year}</option>)}
+            </select>
+          </label>
+        </div>
+
+        {error && (
+          <p className="mt-4 rounded-md border border-coral-orange/40 bg-coral-orange/12 px-4 py-3 font-sans text-xs font-bold uppercase tracking-wide text-coral-orange" role="alert">
+            {error}
           </p>
+        )}
 
-          {error && (
-            <p className="age-gate-error" role="alert">
-              {error}
-            </p>
-          )}
+        <button
+          className="mt-7 inline-flex w-full max-w-xs items-center justify-center rounded-full bg-coral-orange px-7 py-4 font-sans text-xs font-black uppercase tracking-[0.22em] text-cream transition-all duration-200 hover:-translate-y-0.5 hover:bg-cream hover:text-maroon active:scale-[0.98]"
+          type="submit"
+        >
+          Enter
+        </button>
 
-          <button className="age-gate-enter" type="submit">
-            Enter
-          </button>
-
-          <p className="age-gate-tagline">EMBRACE THE CRAFT · ENJOY RESPONSIBLY</p>
-
-          <footer className="age-gate-footer">
-            <nav className="age-gate-footer-links" aria-label="Age gate legal links">
-              <a href="#contact">Terms of Use</a>
-              <a href="#contact">Privacy Policy</a>
-              <a href="#contact">Cookie Policy</a>
-              <a href="#contact">Sustainability</a>
-              <a href="#contact">Contact Us</a>
-              <a href="#contact">FAQs</a>
-              <a href="#contact">Pressroom</a>
-              <a href="#contact">Accessibility</a>
-            </nav>
-
-            <p className="age-gate-distillery">NTS Blenders and Distillers · Pondicherry, India</p>
-
-            <p className="age-gate-legal">
-              NTS Blenders and Distillers Pvt. Ltd. and associated trademarks are owned or licensed by
-              their respective rights holders. This website is intended only for adults of legal drinking
-              age. Please do not share alcohol-related content with anyone under the legal drinking age.
-            </p>
-
-            <a className="age-gate-data-link" href="#contact">Do Not Sell or Share My Data</a>
-
-            <div className="age-gate-legal-stack">
-              <a href="#contact">Visit a responsible-drinking resource</a>
-              <span>Trademark ownership remains with the respective rights holders.</span>
-              <span>Products and packaging may vary by region.</span>
-            </div>
-
-            <p className="age-gate-ghost">NTS Blenders</p>
-          </footer>
-        </form>
-      </div>
-
-      <div className="age-gate-seal" aria-hidden="true">
-        <span>NTS</span>
-        <small>EST. 1980</small>
-      </div>
-    </div>
+        <p className="mx-auto mt-6 max-w-md font-sans text-[11px] leading-5 text-cream/52">
+          This website is intended only for adults of legal drinking age. Enjoy responsibly.
+        </p>
+      </motion.form>
+    </motion.div>
   )
 }

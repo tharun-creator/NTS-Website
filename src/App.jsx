@@ -1,1232 +1,190 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { Instagram, Phone, Mail } from 'lucide-react'
-import Marquee from './components/Marquee'
+import React, { useMemo, useState } from 'react'
+import { X } from 'lucide-react'
 import AgeGate from './components/AgeGate'
-import CartDrawer from './components/CartDrawer'
-import ProductCard from './components/ProductCard'
-import BottleGallery from './components/BottleGallery'
+import BrandTimeline from './components/BrandTimeline'
+import CategoryMarquee from './components/CategoryMarquee'
+import Portfolio from './components/Portfolio'
+import SpiritCarousel from './components/SpiritCarousel'
+import Testimonials from './components/Testimonials'
+import Newsletter from './components/Newsletter'
+import FooterRedesign from './components/FooterRedesign'
+import HandoffPage from './components/HandoffPage'
+import LegacySections from './components/LegacySections'
+import TrustStrip from './components/TrustStrip'
 
-// Kinetic Row Component with pure React scroll tracking, horizontal parallax marquee, and popping bottles
-function KineticRow({ text, direction, bottleImage }) {
-  const rowRef = useRef(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [entryProgress, setEntryProgress] = useState(0);
-  
-  const targetProgress = useRef(0);
-  const currentProgress = useRef(0);
+const announcementItems = [
+  'GOA MANUFACTURING FACILITY',
+  'CONTRACT BOTTLING & BLENDING PARTNERS',
+  '15+ PROPRIETARY IMFL BRANDS',
+  'NTS BLENDERS AND DISTILLERS PVT. LTD.',
+]
 
-  useEffect(() => {
-    let animationFrameId;
-
-    const updateProgress = () => {
-      // Smooth linear interpolation (lerp) for liquid-smooth momentum scrolling
-      currentProgress.current += (targetProgress.current - currentProgress.current) * 0.08;
-      setScrollProgress(currentProgress.current);
-
-      if (rowRef.current) {
-        const rect = rowRef.current.getBoundingClientRect();
-        const viewportHeight = window.innerHeight;
-        const totalDist = viewportHeight + rect.height;
-        const currentDist = viewportHeight - rect.top;
-        let eProgress = currentDist / totalDist;
-        eProgress = Math.max(0, Math.min(1, eProgress));
-        setEntryProgress(eProgress);
-      }
-
-      if (Math.abs(targetProgress.current - currentProgress.current) > 0.0001) {
-        animationFrameId = requestAnimationFrame(updateProgress);
-      }
-    };
-
-    const handleScroll = () => {
-      if (!rowRef.current) return;
-      const rect = rowRef.current.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      
-      const elementCenter = rect.top + rect.height / 2;
-      const viewportCenter = viewportHeight / 2;
-      
-      // Calculate target progress from -1.5 to 1.5 relative to viewport center
-      let progress = (viewportCenter - elementCenter) / (viewportHeight / 2);
-      progress = Math.max(-1.5, Math.min(1.5, progress));
-      
-      targetProgress.current = progress;
-      
-      cancelAnimationFrame(animationFrameId);
-      animationFrameId = requestAnimationFrame(updateProgress);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
-
-  // Parallax horizontal offset
-  const xOffset = direction === 'left' ? scrollProgress * -200 : scrollProgress * 200;
-  
-  // Center focus progress (1 when centered, 0 when far away)
-  const centerFocus = 1 - Math.min(1, Math.abs(scrollProgress));
-  
-  // Brand name text scale and opacity popping
-  const textScale = 0.9 + centerFocus * 0.15; // Grows from 0.9 to 1.05 when centered
-  const textOpacity = 0.3 + centerFocus * 0.7; // Fades from 0.3 to 1.0
-  const textColor = centerFocus > 0.55 ? 'text-[#E9542E]' : 'text-[#4a151c]';
-
-  // Bottle image pop scale, rotation, and vertical float parallax
-  const popScale = Math.pow(centerFocus, 2.2) * 1.8 + 0.2; // Scales up to 2x
-  const popOpacity = Math.min(1, Math.pow(centerFocus, 2) * 1.5);
-  const rotateDeg = scrollProgress * -15; // Smooth rotation based on scroll momentum
-  const translateY = scrollProgress * -40; // Vertical parallax float in opposite direction
-
+function AnnouncementMarquee() {
+  const tickerItems = [...announcementItems, ...announcementItems, ...announcementItems, ...announcementItems]
   return (
-    <div 
-      ref={rowRef} 
-      className="py-16 sm:py-24 overflow-hidden w-full flex justify-center items-center select-none relative min-h-[320px] sm:min-h-[460px]"
-    >
-      <div 
-        style={{
-          transform: `translateX(${xOffset}px) scale(${textScale})`,
-          opacity: textOpacity,
-          fontFamily: '"Rye", cursive',
-          lineHeight: '0.85',
-          textShadow: centerFocus > 0.55 ? '0 15px 35px rgba(233, 84, 46, 0.15)' : 'none',
-        }}
-        className={`font-extrabold uppercase transition-colors duration-500 text-5xl sm:text-8xl md:text-9xl lg:text-[11rem] tracking-normal whitespace-nowrap text-center relative z-10 ${textColor}`}
-      >
-        {text}
+    <div className="w-full overflow-hidden border-b border-maroon/35 bg-[#F4ECDF] py-2.5 text-maroon">
+      <div className="inline-flex min-w-max animate-marquee items-center whitespace-nowrap">
+        {tickerItems.map((item, index) => (
+          <span key={`${item}-${index}`} className="inline-flex items-center font-sans text-[11px] font-black uppercase tracking-[0.18em] text-maroon">
+            <span className="mx-8 inline-block h-1.5 w-1.5 rounded-full bg-maroon/70" aria-hidden="true" />
+            {item}
+          </span>
+        ))}
       </div>
-
-      {/* Popping Bottle Overlay */}
-      {bottleImage && (
-        <div
-          style={{
-            transform: `translate(-50%, -50%) scale(${popScale}) rotate(${rotateDeg}deg) translateY(${translateY}px)`,
-            opacity: popOpacity,
-            pointerEvents: 'none',
-            // spring-like elastic curve for satisfying pop response
-            transition: 'transform 0.1s ease-out, opacity 0.15s ease-out',
-          }}
-          className="absolute left-1/2 top-1/2 w-[200px] h-[380px] sm:w-[280px] sm:h-[500px] flex items-center justify-center z-20"
-        >
-          <img
-            src={bottleImage}
-            alt={`${text} popping bottle`}
-            className="max-w-full max-h-full object-contain filter drop-shadow-[0_35px_50px_rgba(0,0,0,0.55)] transform hover:scale-105 transition-transform duration-300"
-          />
-        </div>
-      )}
     </div>
-  );
+  )
 }
 
-
-// Proprietary Brands Portfolio
-const ntsProprietaryBrands = [
-  {
-    id: 'nts-oldtown-whisky',
-    name: 'Old Town Indian Blended Malt Whisky',
-    price: 32.00,
-    type: 'Whisky',
-    dosage: 'Flagship Premium',
-    graphic: '🥃',
-    image: '/bottle-2/bottle (2).png',
-    removedBgImage: '/bottle-2/bottle (2).png',
-    colorGradient: 'from-[#FDBA74] to-[#7A4A2E]',
-    badgeText: 'FLAGSHIP PREMIUM',
-    description: 'Dry fruit, woodiness and smoke aroma with a sweet corn and spice palate. The hallmark of NTS distilling heritage.',
-  },
-  {
-    id: 'nts-eastcoast-brandy',
-    name: 'East Coast Indian Blended Grape Brandy',
-    price: 26.00,
-    type: 'Brandy',
-    dosage: 'Blended Grape',
-    graphic: '🍷',
-    image: '/bottle-2/bottle.png',
-    removedBgImage: '/bottle-2/bottle.png',
-    colorGradient: 'from-[#D9C4A8] to-[#7A4A2E]',
-    badgeText: 'SMOOTH FINISH',
-    description: 'Distinctive fig and honey aroma, completing with a remarkably smooth melon finish. 75° Proof, 750ml.',
-  },
-  {
-    id: 'nts-wanted999-brandy',
-    name: 'Wanted 999 VSOP Brandy',
-    price: 35.00,
-    type: 'Brandy',
-    dosage: 'Rare & Rich',
-    graphic: '🍇',
-    image: '/bottle-2/bottle (3).png',
-    removedBgImage: '/bottle-2/bottle (3).png',
-    colorGradient: 'from-[#FBCFE8] to-[#E9542E]',
-    badgeText: 'RARE & RICH',
-    description: 'Rich grape and mixed fruit vanilla aroma. An elegant grape-pineapple palate with a VSOP depth. 750ml.',
-  },
-  {
-    id: 'nts-eastcoast-xxx-rum',
-    name: 'East Coast XXX Rum',
-    price: 22.00,
-    type: 'Rum',
-    dosage: 'Dark Spiced',
-    graphic: '🥥',
-    image: '/bottle-2/bottle (1).png',
-    removedBgImage: '/bottle-2/bottle (1).png',
-    colorGradient: 'from-[#C9A87C] to-[#3A2010]',
-    badgeText: 'DEEPLY SMOOTH',
-    description: 'Oak-aged depth with traditional spices, tropical pineapple and a cocoa-tinged finish. 750ml.',
-  },
-  {
-    id: 'nts-eastcoast-sugar-rum',
-    name: 'East Coast Sugar New Rum',
-    price: 20.00,
-    type: 'Rum',
-    dosage: 'Sugar Cane New',
-    graphic: '🌴',
-    image: '/bottle-2/Product_bottle_3D_render_202607251455-removebg-preview.png',
-    removedBgImage: '/bottle-2/Product_bottle_3D_render_202607251455-removebg-preview.png',
-    colorGradient: 'from-[#A8E6CF] to-[#1A6B5C]',
-    badgeText: 'LIGHT & FRESH',
-    description: 'A light, fresh sugar-cane new rum with a tropical sweetness and clean maritime character.',
-  },
-]
-
-
-// Economy Brands Portfolio
-const ntsEconomyBrands = [
-  { id: 'nts-mychoice', name: 'My Choice Brandy', type: 'Brandy', desc: 'Economy-segment brand, local distillery tie-up.' },
-  { id: 'nts-okdeluxe', name: 'OK Deluxe Brandy', type: 'Brandy', desc: 'Economy-segment brand, local distillery tie-up.' },
-  { id: 'nts-kingromeo', name: 'King Romeo Brandy', type: 'Brandy', desc: 'Economy-segment brand, local distillery tie-up.' }
-]
-
-// Historically Distributed Groups
-const distributedBrands = [
-  {
-    group: 'UB Group (CDL / Carew Phipson)',
-    brands: ['Vin Grape', 'Top Rum', "Carew's Fine Brandy", 'Red Riband Vodka', "Booth's Gin", 'Kalyani Beer', 'UB Export Lager', 'Bullet Strong', 'Kingfisher']
-  },
-  {
-    group: "McDowell's Portfolio (UB Group)",
-    brands: ["McDowell's Traveller Brandy & Whisky", 'Old Cask Rum', 'Blue Riband Gin', 'Duet', 'Tango', 'Golden Amber Brandy', "Men's Choice Whisky"]
-  },
-  {
-    group: 'Shaw Wallace',
-    brands: ['Haywards Fine Whisky', 'Punch Brandy', 'Haywards 5000 Beer', 'Haywards Lager', 'Haywards 2000', 'Royal Challenge Beer']
-  },
-  {
-    group: 'Other Major Portfolios',
-    brands: ['Spencer & Co. brands', 'Zingaro Beer (Pondicherry)', 'Sand Piper Beer (Pondicherry)']
-  }
-]
-
-// Capacity Metric Data
-const capacityMetrics = [
-  { label: 'Blending Capacity', current: '1,40,000 L', planned: '5,40,000 L' },
-  { label: 'ENA Storage Capacity', current: '1,20,000 L', planned: '3,00,000 L' },
-  { label: 'Production Capacity', current: '75,000 cases/month', planned: '2,50,000 cases/month' },
-  { label: 'Bonded Warehouse Capacity', current: '25,000 cases', planned: '60,000 cases' }
-]
-
-const timelineMilestones = [
-  {
-    id: '1980',
-    year: '1980',
-    title: 'Founding',
-    desc: 'NTS is founded in Pondicherry as NTS Wines by Mr. N.T. Sambath — the first step into India\'s IMFL and beer distribution space.'
-  },
-  {
-    id: 'network',
-    year: '1980s–90s',
-    title: 'Building the network',
-    desc: 'Starting with regional brands from Vinbros Pondicherry, NTS earns recognition from UB Group, unlocking brands across IMFL, beer, rum, brandy, gin, vodka, and export lager categories.'
-  },
-  {
-    id: 'mcdowell',
-    year: '1990s',
-    title: 'McDowell & Shaw Wallace era',
-    desc: 'Portfolio expands with McDowell\'s and Shaw Wallace brands, establishing NTS as a serious distribution force across major national spirits and beer labels.'
-  },
-  {
-    id: '100truck',
-    year: '1997',
-    title: '100-truck month',
-    desc: 'In a single month, NTS distributes 100 truckloads of Royal Challenge Beer to smash its year-end target — a defining show of scale and execution power.'
-  },
-  {
-    id: 'leadership',
-    year: '2000s',
-    title: 'Market leadership achievements',
-    desc: 'McDowell\'s Traveller Brandy overtakes the No.1 McDowell\'s brand. Old Cask Rum surpasses Old Monk. Haywards 5000 leads the beer market for over a decade.'
-  },
-  {
-    id: 'distilling',
-    year: 'Distillation',
-    title: 'Manufacturing begins',
-    desc: 'NTS launches its own brands: My Choice Brandy, OK Deluxe Brandy, and King Romeo Brandy, successfully targeting the economy IMFL segments.'
-  },
-  {
-    id: 'goa',
-    year: 'Goa',
-    title: 'Facility expansion',
-    desc: 'NTS establishes its own distillery in Canacona Industrial Estate, Goa — a 3-acre, pollution-free unit on the state highway connecting to NH 66.'
-  },
-  {
-    id: 'today',
-    year: 'Today',
-    title: 'Semi-premium portfolio',
-    desc: 'Launches semi-premium brands: Old Town Indian Blended Malt Whisky, East Coast Premium Malt Whisky, Grape Brandy & XXX Rum, Wanted 999 VSOP Brandy, and Zipper Vodkas.'
-  }
-]
-
-// Machinery on Site List
-const machineryList = [
-  { desc: 'Rotary Washing Machine', count: 3 },
-  { desc: '8-Head Vacuum Filling Machine (auto cut system)', count: 6 },
-  { desc: 'Manual ROPP Sealing Machine', count: 2 },
-  { desc: 'Automatic 6-Head ROPP Cap Sealing Machine', count: 2 },
-  { desc: 'Automatic Guala Cap Pressing Machine', count: 3 },
-  { desc: 'Inspection Unit (1½ ft x 4 ft)', count: 3 },
-  { desc: 'Maharshi Label Machine', count: 2 },
-  { desc: 'Interpack Technologies Label Machine', count: 1 },
-  { desc: 'Control Print Limited – Label Printer', count: 3 },
-  { desc: 'Conveyor Belts (24-Feet & 40-Feet twin track with dip tray)', count: 6 },
-  { desc: '240-Litre Liquor Rejection Tank with Transfer Pump', count: 3 },
-  { desc: 'Packing Machine', count: 1 }
-]
-
-// Canacona Premium Vodka range (from background-remover images)
-const canaconaVodkas = [
-  {
-    id: 'canacona-kiwi',
-    name: 'Canacona Vodka - Zimmy Pop Kiwi',
-    image: '/images/product-1_202607241330.png',
-    flavor: 'Zimmy Pop Kiwi',
-    color: 'from-[#a3e635] to-[#4d7c0f]',
-    bgTheme: '#8da946',
-    abv: '37.5%',
-    tagline: 'Crisp Electric Kiwi Blast',
-    desc: 'An invigorating green vodka infusion that delivers a vibrant punch of tart kiwi, smooth grain spirit refinement, and a refreshing citrus finish.',
-    notes: 'Sweet kiwi pulp, zesty lime peel, smooth body.'
-  },
-  {
-    id: 'canacona-apple',
-    name: 'Canacona Vodka - Apple Blast Room',
-    image: '/images/prodcut-2_202607241330.png',
-    flavor: 'Apple Blast Room',
-    color: 'from-[#ef4444] to-[#7f1d1d]',
-    bgTheme: '#b0342b',
-    abv: '37.5%',
-    tagline: 'Orchard-Fresh Tart Red Apple',
-    desc: 'An explosive sweet-tart red apple taste experience. Crafted with premium grain alcohol and natural apple essence for an elegant mouthfeel and juicy finish.',
-    notes: 'Freshly cut apples, subtle caramel, crisp tart finish.'
-  },
-  {
-    id: 'canacona-orange',
-    name: 'Canacona Vodka - Zimmy Twist Orange',
-    image: '/images/prodcut-3_202607241330.png',
-    flavor: 'Zimmy Twist Orange',
-    color: 'from-[#f97316] to-[#7c2d12]',
-    bgTheme: '#d97706',
-    abv: '37.5%',
-    tagline: 'Zesty Sweet Orange Peel Burst',
-    desc: 'A sun-drenched orange sensation loaded with citrus oils and rich orange peel extracts. Exceptionally smooth body, perfect on the rocks or with tonic water.',
-    notes: 'Sweet orange marmalade, zesty peel oil, clean citrus finish.'
-  }
-]
-
-// Google Apps Script Web App URL. Replace this with your actual deployed Web App URL.
-const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxnpzMR6cE7T7I8AjnpzoPu7GO6l0wCC5JK13Hd_GSgDfg4FJEpxYLMZRbHB0884ZGk/exec";
-
-export default function App() {
-  const [cartItems, setCartItems] = useState([])
-  const [isCartOpen, setIsCartOpen] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const [selectedProduct, setSelectedProduct] = useState(null)
-
-  // Capacity Selector State
-  const [inquiryType, setInquiryType] = useState('blending')
-
-  // Contact Form Submission States
-  const [formSubmitting, setFormSubmitting] = useState(false)
-  const [formStatus, setFormStatus] = useState('idle') // 'idle' | 'success' | 'error'
-
-  // Timeline Scroll Animation States
-  const timelineSectionRef = useRef(null)
-  const [activeTimelineIdx, setActiveTimelineIdx] = useState(0)
-  const [timelineScrollProgress, setTimelineScrollProgress] = useState(0)
-  const [reducedTimelineMotion, setReducedTimelineMotion] = useState(false)
-
-  // Single scroll progress source for vertical timeline line and card focus activation.
-  useEffect(() => {
-    const section = timelineSectionRef.current
-    if (!section) return
-
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const updateMotionPreference = () => setReducedTimelineMotion(mediaQuery.matches)
-    updateMotionPreference()
-    mediaQuery.addEventListener('change', updateMotionPreference)
-
-    const handleScroll = () => {
-      const rect = section.getBoundingClientRect()
-      const viewportHeight = window.innerHeight
-      
-      const totalScrollable = rect.height - viewportHeight
-      const scrolled = -rect.top
-      const progress = Math.max(0, Math.min(1, totalScrollable > 0 ? scrolled / totalScrollable : 0))
-      setTimelineScrollProgress(progress)
-
-      const activeIdx = Math.min(
-        timelineMilestones.length - 1,
-        Math.max(0, Math.round(progress * (timelineMilestones.length - 1)))
-      )
-      setActiveTimelineIdx(activeIdx)
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    window.addEventListener('resize', handleScroll)
-    handleScroll()
-    const timer1 = setTimeout(handleScroll, 100)
-    const timer2 = setTimeout(handleScroll, 600)
-
-    return () => {
-      mediaQuery.removeEventListener('change', updateMotionPreference)
-      window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', handleScroll)
-      clearTimeout(timer1)
-      clearTimeout(timer2)
-    }
-  }, [])
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true)
-      } else {
-        setScrolled(false)
-      }
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  const handleAddToCart = (product) => {
-    setCartItems(prev => {
-      const existing = prev.find(item => item.id === product.id)
-      if (existing) return prev
-      return [...prev, product]
-    })
-    setIsCartOpen(true)
-  }
-
-  const removeFromCart = (id) => {
-    setCartItems(prev => prev.filter(item => item.id !== id))
-  }
-
+function Header() {
   return (
-    <div id="top" className="min-h-screen flex flex-col font-sans selection:bg-coral-orange selection:text-white bg-cream">
-      {/* SVG Clip Paths definitions for Cloud Masks */}
-      <svg width="0" height="0" className="absolute pointer-events-none">
-        <defs>
-          <clipPath id="cloud-mask-large" clipPathUnits="objectBoundingBox">
-            <path d="M 0.5,0 C 0.68,0 0.82,0.06 0.9,0.18 C 0.98,0.3 1,0.48 0.96,0.65 C 0.92,0.82 0.8,0.92 0.66,0.97 C 0.52,1.02 0.38,1 0.24,0.94 C 0.1,0.88 0.02,0.74 0,0.58 C -0.02,0.42 0.06,0.26 0.16,0.14 C 0.26,0.02 0.38,0 0.5,0 Z" />
-          </clipPath>
-          <clipPath id="cloud-mask-accent" clipPathUnits="objectBoundingBox">
-            <path d="M 0.5,0 C 0.7,0 0.85,0.1 0.93,0.25 C 1.01,0.4 1.03,0.6 0.95,0.76 C 0.87,0.92 0.72,0.98 0.5,0.98 C 0.28,0.98 0.12,0.92 0.04,0.76 C -0.04,0.6 0.01,0.4 0.09,0.25 C 0.17,0.1 0.3,0 0.5,0 Z" />
-          </clipPath>
-        </defs>
-      </svg>
-
-      <AgeGate />
-      
-      {/* 1. Announcement Bar */}
-      <Marquee 
-        items={["NTS BLENDERS AND DISTILLERS PVT. LTD.", "ESTABLISHED 1980", "GOA MANUFACTURING FACILITY", "CONTRACT BOTTLING & BLENDING PARTNERS", "15+ PROPRIETARY IMFL BRANDS"]} 
-        bgClass="bg-cream" 
-        textClass="text-maroon border-b border-maroon/20"
-        speed="20s"
-      />
-
-      {/* 2. Header */}
-      <header className={`sticky top-0 z-40 transition-all duration-300 ${scrolled ? 'bg-cream/95 backdrop-blur-md shadow-md py-3 sm:py-4' : 'bg-cream/90 sm:bg-transparent backdrop-blur-sm sm:backdrop-blur-none py-3 sm:py-6'}`}>
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-8 lg:px-12 grid grid-cols-[auto_1fr_auto] items-center gap-4 lg:gap-8">
-          
-          <a href="#top" className="flex items-center gap-2 sm:gap-3 text-maroon hover:text-coral-orange transition-colors select-none leading-tight min-w-0">
-            <img
-              src="/logo.png"
-              alt="NTS Blenders and Distillers Pvt. Ltd. logo"
-              className="h-14 w-14 sm:h-16 sm:w-16 object-contain shrink-0 translate-y-[1px]"
-            />
-            <span className="font-serif text-maroon">
-              <span className="flex sm:hidden flex-col text-[12px] min-[375px]:text-[13px] font-semibold leading-[1.25] tracking-wide whitespace-nowrap">
-                <span>NTS Blenders and</span>
-                <span>Distillers Pvt. Ltd.</span>
-              </span>
-              <span className="hidden sm:inline text-base lg:text-lg font-extrabold tracking-widest uppercase whitespace-nowrap">NTS Distillers</span>
+    <div className="sticky left-0 right-0 top-0 z-50 bg-[#F4ECDF] text-maroon">
+      <AnnouncementMarquee />
+      <header className="bg-[#F4ECDF] px-5 py-4 sm:px-8">
+        <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-6">
+          <a href="#top" className="flex items-center gap-3" aria-label="NTS Distillers home">
+            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-maroon font-serif text-[13px] font-black uppercase tracking-normal text-cream shadow-[inset_0_0_0_1px_rgba(244,236,223,0.18)]">
+              NTS
+            </span>
+            <span className="font-serif text-[15px] font-black uppercase tracking-[0.16em] text-maroon sm:text-lg">
+              NTS Distillers
             </span>
           </a>
 
-          <nav className="hidden lg:flex items-center justify-center gap-7 xl:gap-9 text-[11px] font-bold uppercase tracking-widest">
-            <a href="#portfolio" className="hover:text-coral-orange transition-colors whitespace-nowrap">Brands</a>
-            <a href="#track-record" className="hover:text-coral-orange transition-colors whitespace-nowrap">Track Record</a>
-            <a href="#facility" className="hover:text-coral-orange transition-colors whitespace-nowrap">Distillery</a>
-            <a href="#machinery" className="hover:text-coral-orange transition-colors whitespace-nowrap">Machinery</a>
-            <a href="#contact" className="hover:text-coral-orange transition-colors whitespace-nowrap">B2B Proposals</a>
+          <nav className="hidden items-center gap-8 font-sans text-[11px] font-black uppercase tracking-[0.16em] text-maroon lg:flex">
+            <a className="transition-colors hover:text-coral-orange" href="#portfolio">Brands</a>
+            <a className="transition-colors hover:text-coral-orange" href="#track-record">Track Record</a>
+            <a className="transition-colors hover:text-coral-orange" href="#facility">Distillery</a>
+            <a className="transition-colors hover:text-coral-orange" href="#machinery">Machinery</a>
+            <a className="transition-colors hover:text-coral-orange" href="#updates">B2B Proposals</a>
           </nav>
-
-          <div className="flex items-center justify-end gap-2 sm:gap-4 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider sm:tracking-widest">
-            <button 
-              onClick={() => setMobileMenuOpen(prev => !prev)}
-              className="lg:hidden h-10 px-2 text-maroon hover:text-coral-orange text-xs font-bold uppercase tracking-wider"
-            >
-              Menu
-            </button>
-          </div>
         </div>
-
-        {/* Mobile Navigation Dropdown */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 right-0 bg-cream border-b border-maroon/10 p-6 flex flex-col gap-2 text-xs font-bold uppercase tracking-widest shadow-lg z-50">
-            <a href="#portfolio" onClick={() => setMobileMenuOpen(false)} className="py-3.5 px-4 rounded-xl hover:bg-maroon/5 hover:text-coral-orange transition-colors">Brands</a>
-            <a href="#track-record" onClick={() => setMobileMenuOpen(false)} className="py-3.5 px-4 rounded-xl hover:bg-maroon/5 hover:text-coral-orange transition-colors">Track Record</a>
-            <a href="#facility" onClick={() => setMobileMenuOpen(false)} className="py-3.5 px-4 rounded-xl hover:bg-maroon/5 hover:text-coral-orange transition-colors">Distillery</a>
-            <a href="#machinery" onClick={() => setMobileMenuOpen(false)} className="py-3.5 px-4 rounded-xl hover:bg-maroon/5 hover:text-coral-orange transition-colors">Machinery</a>
-            <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="py-3.5 px-4 rounded-xl hover:bg-maroon/5 hover:text-coral-orange transition-colors">B2B Proposals</a>
-          </div>
-        )}
       </header>
+    </div>
+  )
+}
 
-      {/* 3. Hero Section */}
-      <section className="hero-section group relative min-h-[680px] h-[calc(100svh-44px)] sm:h-[92vh] flex flex-col overflow-hidden bg-neutral-900">
-        <div className="hero-bg absolute inset-0 bg-[url('/hero-bg.jpg')] bg-cover bg-[60%_bottom] sm:bg-[center_bottom] opacity-100 transition-transform duration-[1400ms] ease-out group-hover:scale-105"></div>
-        <div className="hero-scrim absolute left-0 bottom-0 h-[58%] w-full sm:w-[62%] lg:w-[48%] bg-[radial-gradient(ellipse_at_bottom_left,rgba(21,10,9,0.88)_0%,rgba(21,10,9,0.64)_42%,rgba(21,10,9,0)_72%)] pointer-events-none"></div>
+function Hero() {
+  return (
+    <section id="top" className="hero-section group relative min-h-[680px] overflow-hidden bg-[#E9542E] text-white sm:min-h-[calc(100svh-106px)]">
+      <div className="hero-bg absolute inset-0 bg-[url('/hero-bg.jpg')] bg-cover bg-[58%_bottom] opacity-100 transition-transform duration-[1400ms] ease-out group-hover:scale-[1.025] sm:bg-center" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(74,21,28,0.48)_0%,rgba(74,21,28,0.2)_30%,rgba(74,21,28,0)_62%),linear-gradient(0deg,rgba(21,10,9,0.44)_0%,rgba(21,10,9,0)_48%)]" />
 
-        <div className="hero-copy absolute left-0 bottom-0 z-10 w-full max-w-xl px-5 pb-10 sm:px-10 sm:pb-14 lg:px-14 lg:pb-16 text-left space-y-4 sm:space-y-5 animate-heroRise">
-          <h1 className="font-rye text-[1.9rem] min-[380px]:text-[2.15rem] sm:text-4xl lg:text-5xl font-black uppercase leading-[1.05] tracking-normal text-cream drop-shadow-[0_8px_24px_rgba(0,0,0,0.75)]">
-            Four Decades.<br />One Legacy.<br />Infinite Spirit.
+      <div className="relative z-10 flex min-h-[680px] items-end px-5 pb-14 sm:min-h-[calc(100svh-106px)] sm:px-10 sm:pb-16 lg:px-14 lg:pb-20">
+        <div className="hero-copy w-full max-w-[min(35vw,520px)] min-w-[300px] text-left max-[640px]:max-w-[88vw] max-[640px]:min-w-0">
+          <h1 className="font-rye text-[clamp(2.5rem,4.35vw,4.45rem)] font-black uppercase leading-[0.96] tracking-normal text-white drop-shadow-[0_8px_24px_rgba(0,0,0,0.55)] max-[640px]:text-[clamp(2.2rem,12vw,3.25rem)]">
+            FOUR DECADES.
+            <br />
+            ONE LEGACY.
+            <br />
+            INFINITE SPIRIT.
           </h1>
-          <p className="text-sm sm:text-base text-cream max-w-md font-sans leading-relaxed font-semibold drop-shadow-[0_4px_14px_rgba(0,0,0,0.85)]">
+          <p className="mt-5 max-w-[460px] font-sans text-sm font-medium leading-relaxed text-white drop-shadow-[0_4px_14px_rgba(0,0,0,0.62)] sm:text-base">
             From a single distribution venture in Pondicherry to a full-scale manufacturing powerhouse, NTS has been shaping India's alcobev landscape since 1980.
           </p>
-          <div className="flex pt-2">
-            <a 
-              href="#track-record" 
-              className="w-full sm:w-auto px-8 py-4 bg-[#E9542E] text-white hover:bg-cream hover:text-maroon font-bold rounded-full transition-all duration-300 text-xs uppercase tracking-widest shadow-lg text-center hover:-translate-y-1 active:scale-[0.98]"
-            >
+          <div className="mt-8 flex">
+            <a className="rounded-full bg-coral-orange px-8 py-4 text-center font-sans text-xs font-black uppercase tracking-widest text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-cream hover:text-maroon active:scale-[0.98]" href="#track-record">
               Explore Our Journey
             </a>
           </div>
-
-        </div>
-      </section>
-
-      {/* Credibility Trust Strip (B2B Authority) */}
-      <div className="bg-bg-maroon border-y border-maroon/20 py-6 w-full relative z-10">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-12 grid grid-cols-2 md:grid-cols-4 gap-x-3 gap-y-6 text-center text-cream/80">
-          <div className="space-y-1 reveal-soft">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-coral-orange block">Heritage Legacy</span>
-            <span className="font-serif text-lg font-bold text-cream">ESTD 1980</span>
-          </div>
-          <div className="space-y-1 border-l border-white/5 reveal-soft delay-100">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-coral-orange block">Distillery Location</span>
-            <span className="font-serif text-lg font-bold text-cream">Goa, India</span>
-          </div>
-          <div className="space-y-1 md:border-l border-white/5 reveal-soft delay-200">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-coral-orange block">Quality Standard</span>
-            <span className="font-serif text-lg font-bold text-cream">FDA Compliant</span>
-          </div>
-          <div className="space-y-1 border-l border-white/5 reveal-soft delay-300">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-coral-orange block">Industrial Scale</span>
-            <span className="font-serif text-lg font-bold text-cream">Export Certified</span>
-          </div>
         </div>
       </div>
+    </section>
+  )
+}
 
+function ProductModal({ product, onClose }) {
+  if (!product) return null
 
-      {/* Hero Secondary Marquee */}
-      <Marquee 
-        items={["WHISKY", "BRANDY", "RUM", "VODKA", "BOTTLING SERVICES", "BULK DE-MINERALIZED SPIRITS", "QUALITY CONTROL LAB"]} 
-        bgClass="bg-coral-orange" 
-        textClass="text-cream"
-        speed="22s"
-      />
-
-      {/* 4. First Product Grid */}
-      <section id="portfolio" className="pt-16 sm:pt-24 pb-10 sm:pb-12 bg-cream">
-        <div className="max-w-[1280px] mx-auto px-6 sm:px-12">
-          
-          <div className="text-center max-w-2xl mx-auto space-y-3 mb-10 sm:mb-16">
-            <span className="text-[11px] font-bold uppercase tracking-widest text-coral-orange">PROPRIETARY portfolio</span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-extrabold uppercase text-maroon leading-tight mt-1">
-              Spirits as Delicious as They Are Delightful
-            </h2>
-            <p className="text-sm text-maroon/70 font-sans leading-relaxed">
-              We manufacture premium proprietary products across 4 categories. Browse our premium distillation range and add brands to your inquiry portfolio.
-            </p>
-          </div>
-
-          <div className="w-full">
-            <BottleGallery brands={ntsProprietaryBrands} onAddToCart={handleAddToCart} onQuickView={setSelectedProduct} />
-          </div>
-
-
-
-          {/* Economy Brands sub-row */}
-          <div className="mt-0 pt-8 border-t border-maroon/10">
-            <h3 className="font-rye text-xl font-bold uppercase text-maroon mb-6 text-center">Economy Brandy & Local Distillery Segments</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {ntsEconomyBrands.map(brand => (
-                <div key={brand.id} className="bg-white p-6 rounded-3xl border border-maroon/5 flex flex-col justify-between hover:shadow-lg transition-all">
-                  <div>
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-coral-orange px-2 py-0.5 bg-coral-orange/10 rounded-full inline-block mb-3">{brand.type}</span>
-                    <h4 className="font-serif text-base font-bold uppercase text-maroon mb-2">{brand.name}</h4>
-                  <p className="text-xs text-maroon/75 font-sans leading-relaxed">{brand.desc}</p>
-                </div>
-              </div>
-              ))}
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* 6. Brand Info (Clean, Functional, Feel Good Layout) */}
-      <section 
-        className="py-16 sm:py-24 border-t border-maroon/10 bg-cover bg-center bg-no-repeat relative"
-        style={{ backgroundImage: "url('/images/Vodka_and_spirits_collection_lin._202607241659.jpeg')" }}
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/72 p-4 backdrop-blur-md"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${product.name} profile`}
+    >
+      <div
+        className="relative grid max-h-[88vh] w-full max-w-4xl overflow-hidden rounded-lg border border-cream/12 bg-cream text-maroon shadow-2xl md:grid-cols-[0.86fr_1fr]"
+        onClick={(event) => event.stopPropagation()}
       >
-        {/* Soft cream overlay to maintain text readability */}
-        <div className="absolute inset-0 bg-cream/90 backdrop-blur-[1px] pointer-events-none"></div>
-
-        <div className="relative z-10 max-w-[1280px] mx-auto px-4 sm:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
-          {/* Left Side: Dominant tt.png Image */}
-          <div className="lg:col-span-6 w-full max-w-lg mx-auto flex items-center justify-center">
-            <img 
-              src="/images/tt.png" 
-              alt="NTS Blenders and Distillers Pvt. Ltd. premium products" 
-              className="w-full h-auto rounded-[2rem] shadow-2xl border border-maroon/10 object-cover"
-            />
-          </div>
-
-            {/* Right Side: Copy & Rating */}
-            <div className="lg:col-span-6 space-y-6">
-              <span className="text-[11px] font-extrabold uppercase tracking-widest text-coral-orange">OUR STORY (Brand Intro)</span>
-              <h2 className="font-rye text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-maroon leading-[1.05]">
-                Four Decades of Blending & Distilling Mastery
-              </h2>
-              <p className="text-sm text-maroon/85 leading-relaxed font-sans font-medium">
-                Born in 1980 in Pondicherry under the name <strong>NTS WINES</strong>, founded by <strong>Mr. N.T. Sambath</strong>, what started as a bold distribution venture has grown into a powerhouse spanning IMFL, beer, imported FMFL, and — proudly — our own manufactured brands. Today, under <strong>Prashanth Sambath's</strong> leadership as Managing Director, NTS Blenders and Distillers Pvt. Ltd. stands as a trusted name with a rich, decades-deep history and an eye firmly on the future.
-              </p>
-              <div className="flex items-center gap-4 pt-2">
-                <span className="text-3xl font-extrabold text-coral-orange">5.0</span>
-                <div className="space-y-0.5">
-                  <div className="flex text-coral-orange text-sm font-bold">★★★★★</div>
-                  <div className="text-[10px] text-maroon/80 uppercase tracking-widest font-mono font-bold">Industry Certified Standards</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-      {/* 7. Historical Legacy & Vodka Range */}
-      <section 
-        id="vodka-range" 
-        className="bg-[url('/images/Canacona_vodka_bottles_orange_ba…_202607231523.jpeg')] bg-cover bg-center border-y border-maroon/10 relative py-14 sm:py-20 flex items-center min-h-[620px] lg:min-h-[650px] overflow-hidden"
-      >
-        <div className="absolute inset-0 bg-black/5 pointer-events-none"></div>
-        
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-12 w-full relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            
-            {/* Left side: Transparent click zones positioned exactly on top of the bottles in the background image */}
-            <div className="hidden lg:block lg:col-span-4 relative h-[450px] sm:h-[550px] select-none lg:-translate-x-6 xl:-translate-x-20">
-              {/* Green Kiwi Bottle Click Zone */}
-              <div 
-                onClick={() => setSelectedProduct(canaconaVodkas[0])}
-                className="absolute left-[8%] bottom-[5%] w-[25%] h-[80%] cursor-pointer group rounded-3xl"
-                title="View Zimmy Pop Kiwi"
-              >
-                <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 rounded-3xl transition-all duration-300 flex items-center justify-center border border-white/0 group-hover:border-white/10">
-                  <span className="bg-[#E9542E] text-white text-[10px] font-bold px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-md">
-                    Kiwi Details
-                  </span>
-                </div>
-              </div>
-
-              {/* Red Apple Bottle Click Zone */}
-              <div 
-                onClick={() => setSelectedProduct(canaconaVodkas[1])}
-                className="absolute left-[36%] bottom-[10%] w-[26%] h-[80%] cursor-pointer group rounded-3xl"
-                title="View Apple Blast Room"
-              >
-                <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 rounded-3xl transition-all duration-300 flex items-center justify-center border border-white/0 group-hover:border-white/10">
-                  <span className="bg-[#E9542E] text-white text-[10px] font-bold px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-md">
-                    Apple Details
-                  </span>
-                </div>
-              </div>
-
-              {/* Orange Bottle Click Zone */}
-              <div 
-                onClick={() => setSelectedProduct(canaconaVodkas[2])}
-                className="absolute right-[8%] bottom-[5%] w-[25%] h-[80%] cursor-pointer group rounded-3xl"
-                title="View Zimmy Twist Orange"
-              >
-                <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 rounded-3xl transition-all duration-300 flex items-center justify-center border border-white/0 group-hover:border-white/10">
-                  <span className="bg-[#E9542E] text-white text-[10px] font-bold px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-md">
-                    Orange Details
-                  </span>
-                </div>
-              </div>
-            </div>
-            
-            {/* Right side: White card containing details (pushed to the right) */}
-            <div className="lg:col-span-6 lg:col-start-7 bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-12 shadow-2xl space-y-6">
-              <span className="text-[11px] font-bold uppercase tracking-widest text-[#E9542E]">
-                DISTRIBUTION LEGACY
-              </span>
-              <h2 className="font-rye text-3xl sm:text-4xl lg:text-[40px] font-extrabold uppercase text-maroon leading-tight">
-                Four Decades of Distribution & Market Leadership
-              </h2>
-              
-              <p className="text-xs sm:text-sm text-maroon/70 font-sans leading-relaxed">
-                Prior to manufacturing its own brands, NTS built its business distributing brands on behalf of major spirits groups in India. These include:
-              </p>
-              
-              <div className="space-y-4 pt-2">
-                {distributedBrands.map((group, idx) => (
-                  <div key={idx} className="border-l-2 border-[#E9542E] pl-4 py-1 space-y-1">
-                    <h4 className="font-serif text-xs font-bold uppercase text-[#E9542E] tracking-wider">
-                      {group.group}
-                    </h4>
-                    <p className="text-[11px] sm:text-xs text-maroon/80 font-sans leading-relaxed">
-                      {group.brands.join(', ')}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-            </div>
+        <div className="flex min-h-[280px] items-center justify-center bg-[linear-gradient(145deg,#150A09,#2C0F14)] p-8">
+          <div className="flex h-64 w-44 items-center justify-center rounded-md border border-cream/12 bg-cream/8 text-center font-serif text-3xl font-black uppercase text-cream">
+            NTS
           </div>
         </div>
-      </section>
 
-      {/* 8. The Timeline — Decades of Brand Building */}
-      <section 
-        id="track-record" 
-        ref={timelineSectionRef}
-        className="relative py-12 sm:py-16 bg-cream text-maroon overflow-hidden border-t border-maroon/10"
-      >
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_12%_18%,rgba(233,84,46,0.12),transparent_28%),radial-gradient(circle_at_86%_72%,rgba(74,21,28,0.08),transparent_30%)]"></div>
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-12 relative">
-          
-          {/* Header */}
-          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 space-y-2.5">
-            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-coral-orange bg-white/70 border border-maroon/10 px-4 py-2 rounded-full inline-block">
-              Track Record
-            </span>
-            <h2 className="font-rye text-2xl sm:text-4xl font-extrabold uppercase tracking-tight text-maroon">
-              Decades of Brand Building
-            </h2>
-            <p className="text-xs sm:text-sm text-maroon/70 font-sans max-w-lg mx-auto leading-relaxed">
-              A clear chronology of distribution scale, market leadership, and manufacturing growth.
-            </p>
-          </div>
-
-          <div className="relative pl-8 sm:pl-12 lg:pl-0">
-            <div className="absolute left-4 sm:left-6 lg:left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 bg-maroon/15"></div>
-            
-            <div 
-              style={{
-                height: `${reducedTimelineMotion ? 100 : timelineScrollProgress * 100}%`,
-                transformOrigin: 'top'
-              }}
-              className="absolute left-4 sm:left-6 lg:left-1/2 top-0 w-[2px] -translate-x-1/2 bg-coral-orange transition-all duration-300 ease-out shadow-[0_0_18px_rgba(233,84,46,0.35)]"
-            ></div>
-
-            <div className="space-y-4 sm:space-y-5 lg:space-y-6">
-              {timelineMilestones.map((item, idx) => {
-                const isActive = activeTimelineIdx === idx;
-                const alignRight = idx % 2 !== 0;
-
-                return (
-                  <div
-                    key={item.id}
-                    id={`timeline-block-${item.id}`}
-                    className={`relative grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-10 items-stretch ${
-                      alignRight ? '' : ''
-                    }`}
-                  >
-                    <div 
-                      className={`absolute left-4 sm:left-6 lg:left-1/2 top-5 h-3.5 w-3.5 -translate-x-1/2 rounded-full border-2 transition-all duration-300 z-20 ${
-                        isActive ? 'border-coral-orange bg-coral-orange scale-125 shadow-[0_0_0_7px_rgba(233,84,46,0.12)]' : 'border-maroon/25 bg-cream'
-                      }`}
-                    />
-
-                    <article
-                      style={{
-                        transform: reducedTimelineMotion ? 'none' : (isActive ? 'translateY(0)' : 'translateY(4px)'),
-                      }}
-                      className={`rounded-lg border p-4 sm:p-5 transition-all duration-300 ${
-                        alignRight ? 'lg:col-start-2' : 'lg:col-start-1'
-                      } ${
-                        isActive
-                          ? 'bg-maroon text-cream border-coral-orange shadow-2xl shadow-maroon/20'
-                          : 'bg-white/85 text-maroon border-maroon/10 shadow-sm'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between gap-4 mb-3">
-                        <span className={`text-[10px] font-bold uppercase tracking-widest font-mono ${
-                          isActive ? 'text-coral-orange' : 'text-maroon/45'
-                        }`}>
-                          {String(idx + 1).padStart(2, '0')} / {String(timelineMilestones.length).padStart(2, '0')}
-                        </span>
-                        <span className={`h-px flex-1 ${
-                          isActive ? 'bg-cream/20' : 'bg-maroon/10'
-                        }`}></span>
-                      </div>
-
-                      <span className={`font-serif text-3xl sm:text-4xl font-extrabold tracking-tight block mb-2 ${
-                        isActive ? 'text-coral-orange' : 'text-maroon'
-                      }`}>
-                        {item.year}
-                      </span>
-                      <h3 className={`font-serif text-base sm:text-lg font-bold uppercase tracking-wide leading-snug mb-2 ${
-                        isActive ? 'text-cream' : 'text-maroon'
-                      }`}>
-                        {item.title}
-                      </h3>
-                      <p className={`text-xs sm:text-sm font-sans leading-relaxed ${
-                        isActive ? 'text-cream/80' : 'text-maroon/75'
-                      }`}>
-                        {item.desc}
-                      </p>
-                    </article>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* 9. Distillery Facility & Capacity Metric (Bundle & Save Layout) */}
-      <section id="facility" className="py-16 sm:py-24 bg-cream relative">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-12">
-          <div className="bg-maroon text-cream rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-12 lg:p-16 border border-maroon/20 relative overflow-hidden shadow-2xl space-y-10 sm:space-y-12">
-            
-            <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-coral-orange/10 rounded-full blur-3xl"></div>
-            
-            <div className="text-center max-w-2xl mx-auto space-y-4">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-coral-orange bg-white/15 px-3.5 py-1.5 rounded-full inline-block">
-                GOA DISTILLERY SERVICES
-              </span>
-              <h2 className="font-rye text-3xl sm:text-5xl font-extrabold uppercase tracking-tight">
-                Capacity Metric & Storage Specs
-              </h2>
-              <p className="text-xs sm:text-sm opacity-90 leading-relaxed font-sans max-w-xl mx-auto">
-                Select your contract bottling schedules or request technical data for bulk spirits.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-              {capacityMetrics.map((metric, i) => (
-                <div key={i} className="bg-white/5 backdrop-blur-sm p-6 rounded-xl border border-dashed border-white/15 space-y-2">
-                  <h4 className="text-[10px] font-bold uppercase tracking-widest text-coral-orange">{metric.label}</h4>
-                  <div className="text-xl sm:text-2xl font-mono font-extrabold text-cream tracking-tight">{metric.current}</div>
-                  <div className="text-[9px] font-mono opacity-60">Target Expansion: {metric.planned}</div>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex justify-center pt-4">
-              <a 
-                href="#contact"
-                className="w-full sm:w-auto px-8 sm:px-10 py-4 bg-coral-orange text-white hover:bg-cream hover:text-maroon font-bold rounded-full transition-all duration-300 text-xs uppercase tracking-widest shadow-lg text-center"
-              >
-                Inquire Bottling & Blending Capacity
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 8. Machinery on Site */}
-      <section id="machinery" className="py-16 sm:py-20 bg-white border-y border-maroon/10">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-12">
-          
-          <div className="text-center max-w-2xl mx-auto space-y-3 mb-10 sm:mb-16">
-            <span className="text-[11px] font-bold uppercase tracking-widest text-coral-orange">ENGINEERING CAPABILITY</span>
-            <h2 className="font-rye text-3xl sm:text-4xl font-extrabold uppercase text-maroon leading-tight mt-1">
-              Machinery & Equipment on Site
-            </h2>
-            <p className="text-sm text-maroon/70 font-sans leading-relaxed">
-              Equipped with high-performance automated filling, sealing, conveyor systems, and quality control systems to ensure premium packaging and quality control.
-            </p>
-          </div>
-
-          {/* Machinery Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {machineryList.map((m, idx) => (
-              <div key={idx} className="bg-cream/30 p-6 rounded-2xl border border-maroon/5 flex justify-between items-center hover:bg-cream/60 transition-all">
-                <div className="space-y-1">
-                  <h4 className="font-serif text-sm font-bold uppercase text-maroon leading-snug">{m.desc}</h4>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-coral-orange">Fully Commissioned</span>
-                </div>
-                <div className="bg-maroon text-cream text-base font-bold w-10 h-10 rounded-full flex items-center justify-center shadow-md">
-                  {m.count}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 9. B2B Proposal & Contact Section */}
-      <section id="contact" className="py-16 sm:py-24 bg-[#ff7aa3] text-maroon relative overflow-hidden">
-        
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 relative z-10 w-full">
-          
-          {/* Header */}
-          <div className="text-center mb-10">
-            <span className="text-xs font-bold uppercase tracking-widest bg-cream text-maroon px-4 py-1.5 rounded-full inline-block mb-6 shadow-sm">
-              MANUFACTURING TIE-UP PROPOSALS
-            </span>
-            <h2 className="font-rye text-3xl sm:text-5xl md:text-6xl font-extrabold uppercase leading-[0.95] tracking-tighter max-w-4xl mx-auto mb-4 text-maroon">
-              Contract Bottling &amp; Blending Partnership
-            </h2>
-            <p className="text-sm font-sans max-w-xl mx-auto text-maroon/80 leading-relaxed mb-6">
-              Direct queries are reviewed by our Managing Director, Prashanth Sambath. Fill in your details and we'll get back to you.
-            </p>
-            
-            {/* Direct Contact Details */}
-            <div className="flex flex-wrap justify-center gap-4 max-w-md mx-auto mb-8">
-              <a href="tel:8925523801" className="flex items-center gap-2 bg-cream text-maroon px-5 py-2.5 rounded-full shadow-md text-xs font-sans font-bold hover:bg-maroon hover:text-cream transition-all duration-300">
-                <Phone className="w-3.5 h-3.5 text-coral-orange" />
-                <span>+91 89255 23801</span>
-              </a>
-              <a href="mailto:Ntsdistillers@gmail.com" className="flex items-center gap-2 bg-cream text-maroon px-5 py-2.5 rounded-full shadow-md text-xs font-sans font-bold hover:bg-maroon hover:text-cream transition-all duration-300">
-                <Mail className="w-3.5 h-3.5 text-coral-orange" />
-                <span>Ntsdistillers@gmail.com</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Centered B2B Form Card */}
-          <div className="max-w-xl mx-auto">
-            <form
-              onSubmit={async (e) => {
-                e.preventDefault();
-                setFormSubmitting(true);
-                setFormStatus('idle');
-
-                const fd = new FormData(e.target);
-                const name = fd.get('name');
-                const email = fd.get('email');
-                const message = fd.get('message');
-
-                if (!GOOGLE_APPS_SCRIPT_URL || GOOGLE_APPS_SCRIPT_URL.includes('YOUR_GOOGLE_APPS_SCRIPT')) {
-                  const subject = encodeURIComponent(`Partnership Inquiry from ${name}`);
-                  const body = encodeURIComponent(
-                    `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
-                  );
-                  window.location.href = `mailto:md@ntsdistillers.com?subject=${subject}&body=${body}`;
-                  setFormSubmitting(false);
-                  return;
-                }
-
-                try {
-                  const formData = new URLSearchParams();
-                  formData.append('name', name);
-                  formData.append('email', email);
-                  formData.append('message', message);
-
-                  await fetch(GOOGLE_APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                      'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: formData.toString(),
-                  });
-
-                  setFormStatus('success');
-                  e.target.reset();
-                } catch (error) {
-                  console.error('Error submitting form:', error);
-                  setFormStatus('error');
-                } finally {
-                  setFormSubmitting(false);
-                }
-              }}
-              className="bg-cream/90 backdrop-blur-md border border-maroon/20 rounded-3xl p-5 sm:p-8 space-y-5 shadow-2xl"
-            >
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-maroon block">Your Name</label>
-                  <input
-                    name="name"
-                    type="text"
-                    required
-                    disabled={formSubmitting}
-                    placeholder="Prashanth Sambath"
-                    className="w-full bg-white text-maroon placeholder-maroon/40 border border-maroon/20 rounded-xl px-4 py-3.5 text-sm font-sans focus:outline-none focus:border-maroon focus:ring-2 focus:ring-maroon/20 transition-all disabled:opacity-75"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-maroon block">Email Address</label>
-                  <input
-                    name="email"
-                    type="email"
-                    required
-                    disabled={formSubmitting}
-                    placeholder="you@company.com"
-                    className="w-full bg-white text-maroon placeholder-maroon/40 border border-maroon/20 rounded-xl px-4 py-3.5 text-sm font-sans focus:outline-none focus:border-maroon focus:ring-2 focus:ring-maroon/20 transition-all disabled:opacity-75"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-maroon block">Message</label>
-                  <textarea
-                    name="message"
-                    required
-                    rows={6}
-                    disabled={formSubmitting}
-                    placeholder="Tell us about your manufacturing requirements, volumes, or partnership interest..."
-                    className="w-full bg-white text-maroon placeholder-maroon/40 border border-maroon/20 rounded-xl px-4 py-3.5 text-sm font-sans focus:outline-none focus:border-maroon focus:ring-2 focus:ring-maroon/20 transition-all resize-none disabled:opacity-75"
-                  />
-                </div>
-              </div>
-
-              {formStatus === 'success' && (
-                <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 rounded-xl text-xs font-semibold text-center">
-                  Thank you! Your message has been sent successfully.
-                </div>
-              )}
-
-              {formStatus === 'error' && (
-                <div className="p-4 bg-rose-500/10 border border-rose-500/20 text-rose-600 rounded-xl text-xs font-semibold text-center">
-                  Something went wrong. Please try again or email us directly at md@ntsdistillers.com.
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={formSubmitting}
-                className="w-full py-4 bg-maroon text-cream font-bold text-xs uppercase tracking-widest rounded-full hover:bg-coral-orange hover:text-white transition-all duration-300 shadow-lg active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {formSubmitting ? 'Sending...' : 'Send Message'}
-              </button>
-            </form>
-          </div>
-
-        </div>
-      </section>
-
-      {/* 10. Footer Section (Styled exactly like the Botzudio blue reference layout) */}
-      <footer className="bg-[#18202d] text-slate-300 pt-12 sm:pt-16 pb-8 px-4 sm:px-12 relative overflow-hidden border-t border-white/10">
-        
-        {/* Core Links & Info Grid */}
-        <div className="max-w-[1280px] mx-auto grid grid-cols-1 min-[600px]:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr] gap-y-10 min-[600px]:gap-x-10 lg:gap-x-12 items-start mb-12">
-          
-          {/* Left brand logo/desc column */}
-          <div className="space-y-4 min-[600px]:col-span-2 lg:col-span-1 max-w-[340px]">
-            <div className="flex items-center gap-3">
-              <img src="/logo.png" alt="NTS Logo" className="h-10 w-10 sm:h-12 sm:w-12 object-contain" />
-              <span className="font-sans font-black text-white text-base tracking-tight">NTS Blenders and Distillers Pvt. Ltd.</span>
-            </div>
-            <p className="text-slate-400 text-xs leading-relaxed font-sans max-w-[240px]">
-              Heritage alcobev manufacturing and contract bottling services since 1980. Professional quality, zero compliance friction.
-            </p>
-            {/* Outline social badges */}
-            <div className="flex gap-2.5 pt-2">
-              <a href="https://www.instagram.com/ntsdistillers?igsh=dTByc3M3cjExNmo1" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg border border-slate-700/60 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-500 transition-all">
-                <Instagram className="w-4 h-4" />
-              </a>
-            </div>
-          </div>
-
-          {/* Product Link Column */}
-          <div className="space-y-4">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-white">PRODUCT</h4>
-            <ul className="text-xs space-y-3 font-sans font-medium text-slate-400">
-              <li><a href="#portfolio" className="hover:text-white transition-colors">Proprietary Brands</a></li>
-              <li><a href="#portfolio" className="hover:text-white transition-colors">Economy Range</a></li>
-              <li><a href="#portfolio" className="hover:text-white transition-colors">Bulk Spirits</a></li>
-            </ul>
-          </div>
-
-          {/* Resources Link Column */}
-          <div className="space-y-4">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-white">RESOURCES</h4>
-            <ul className="text-xs space-y-3 font-sans font-medium text-slate-400">
-              <li><a href="#facility" className="hover:text-white transition-colors">Capacity Specs</a></li>
-              <li><a href="#facility" className="hover:text-white transition-colors">Facility Audits</a></li>
-              <li><a href="#machinery" className="hover:text-white transition-colors">Equipment List</a></li>
-            </ul>
-          </div>
-
-          {/* Company Link Column */}
-          <div className="space-y-4">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-white">COMPANY</h4>
-            <ul className="text-xs space-y-3 font-sans font-medium text-slate-400">
-              <li><a href="#contact" className="hover:text-white transition-colors">About Us</a></li>
-              <li><a href="#contact" className="hover:text-white transition-colors">Distillery Location</a></li>
-              <li><a href="#contact" className="hover:text-white transition-colors">Contact Specs</a></li>
-            </ul>
-          </div>
-
-          {/* Our Product Column */}
-          <div className="space-y-4">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-white">OUR PRODUCT</h4>
-            <ul className="text-xs space-y-3 font-sans font-medium text-slate-400">
-              <li><a href="#contact" className="hover:text-white transition-colors">Regulatory Filings</a></li>
-              <li><a href="#contact" className="hover:text-white transition-colors">Compliance Certs</a></li>
-            </ul>
-          </div>
-
-        </div>
-
-        {/* Massive Geometric Sans-Serif Wordmark (matching Botzudio font/style) */}
-        <div className="relative select-none pointer-events-none w-full text-center py-12 max-w-[1280px] mx-auto">
-          <h2 className="font-jakarta font-black text-[15vw] sm:text-[11vw] lg:text-[12vw] tracking-tighter leading-[0.9] text-white opacity-[0.07] uppercase select-none">
-            NTS <br className="sm:hidden" /> BLENDERS
-          </h2>
-        </div>
-
-        {/* Regulatory Disclaimer & Bottom bar */}
-        <div className="max-w-[1280px] mx-auto pt-6 text-center space-y-4 border-t border-white/10">
-          <p className="text-[8px] text-slate-500 uppercase tracking-widest font-mono leading-relaxed max-w-[340px] sm:max-w-[720px] mx-auto text-center">
-            IMFL ADVISORY: SPECIFICATION AND CAPACITY METRICS PRESENTED IN THIS PORTFOLIO ARE ACCORDING TO ACTUAL PLANT AUDITS AND GOA INDUSTRIAL ESTATE REGULATORY DOCUMENTATION. GOVERNMENT LICENSE AND COMPLIANCE CERTIFICATION ARE MAINTAINED AT SITE.
-          </p>
-
-          <div className="flex flex-col gap-3 items-center pt-2 max-w-[340px] sm:max-w-[720px] mx-auto text-center">
-            <div className="flex justify-center gap-4 text-[10px] text-slate-500 uppercase tracking-widest">
-              <span>(c) 2026 NTS Blenders and Distillers Pvt. Ltd. All rights reserved.</span>
-            </div>
-            
-            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[10px] text-slate-500 uppercase tracking-widest font-mono">
-              <a href="#contact" className="hover:text-slate-300 transition-colors">Terms &amp; Conditions</a>
-              <span>|</span>
-              <span>Goa, India</span>
-              <span>|</span>
-              <span>FDA CERTIFIED</span>
-            </div>
-          </div>
-        </div>
-      </footer>
- 
-      {/* Cart/Inquiry Drawer */}
-      <CartDrawer 
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        cartItems={cartItems}
-        removeFromCart={removeFromCart}
-      />
-
-      {/* Product Detail Pop-up Modal */}
-      {selectedProduct && (
-        <div 
-          onClick={() => setSelectedProduct(null)}
-          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm transition-all duration-300 animate-fadeIn"
-        >
-          <div 
-            onClick={(e) => e.stopPropagation()}
-            className="bg-cream rounded-[1.5rem] sm:rounded-[2rem] max-w-2xl w-full border border-maroon/10 overflow-hidden relative shadow-2xl flex flex-col md:flex-row animate-scaleIn max-h-[90vh] overflow-y-auto"
+        <div className="overflow-y-auto p-7 sm:p-9">
+          <button
+            type="button"
+            onClick={onClose}
+            className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-maroon text-cream transition-colors hover:bg-coral-orange"
+            aria-label="Close product profile"
           >
-            
-            {/* Left side: Flavor Theme color panel + image */}
-            <div className={`w-full md:w-[45%] bg-gradient-to-b ${selectedProduct.color || selectedProduct.colorGradient || 'from-maroon/80 to-maroon'} p-6 sm:p-8 flex flex-col items-center justify-center relative min-h-[220px] sm:min-h-[300px] md:min-h-full`}>
-              <div className="absolute inset-0 bg-black/5 pointer-events-none"></div>
-              
-              <img 
-                src={selectedProduct.removedBgImage || selectedProduct.image} 
-                alt={selectedProduct.name}
-                className="max-h-[260px] md:max-h-[320px] object-contain drop-shadow-[0_20px_20px_rgba(0,0,0,0.4)] transform hover:scale-105 transition-transform duration-300 relative z-10"
-              />
+            <X className="h-5 w-5" />
+          </button>
+
+          <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-coral-orange">
+            {product.type || product.category || 'IMFL'} / {product.dosage || product.style || 'Portfolio'}
+          </span>
+          <h2 className="mt-4 pr-12 font-serif text-3xl font-black uppercase leading-tight tracking-normal sm:text-4xl">
+            {product.name}
+          </h2>
+          <p className="mt-4 font-sans text-sm font-semibold leading-7 text-maroon/72">
+            {product.tagline || product.desc || product.description || 'Premium spirits crafted for trade partners.'}
+          </p>
+          <div className="mt-7 grid grid-cols-2 gap-3">
+            <div className="rounded-md border border-maroon/10 bg-white/60 p-4">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-maroon/50">ABV</span>
+              <p className="mt-1 font-serif text-xl font-black">{product.abv || '42.8%'}</p>
             </div>
-            
-            {/* Right side: Product Details */}
-            <div className="w-full md:w-[55%] p-6 sm:p-10 flex flex-col justify-between space-y-4 sm:space-y-6 bg-white relative">
-              
-              {/* Close Button */}
-              <button 
-                onClick={() => setSelectedProduct(null)}
-                className="absolute top-4 right-4 w-11 h-11 rounded-full bg-maroon/5 text-maroon hover:bg-maroon hover:text-cream flex items-center justify-center transition-all text-base font-bold z-20 active:scale-95"
-                aria-label="Close details"
-              >
-                X
-              </button>
- 
-              <div className="space-y-4">
-                <div className="space-y-1">
-                  <span className="text-[10px] font-bold tracking-widest uppercase text-coral-orange">
-                    {selectedProduct.type || 'IMFL Portfolio'}
-                  </span>
-                  <h3 className="font-serif text-2xl font-extrabold uppercase text-maroon leading-tight">
-                    {selectedProduct.flavor || selectedProduct.name}
-                  </h3>
-                  <div className="inline-block bg-cream text-maroon text-[9px] font-bold px-2.5 py-0.5 rounded-full mt-1.5">
-                    ABV: {selectedProduct.abv || '42.8%'}
-                  </div>
-                </div>
- 
-                <div className="h-px bg-maroon/10"></div>
- 
-                <div className="space-y-1.5">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-maroon/60">Tagline</p>
-                  <p className="text-xs font-semibold text-maroon italic">
-                    "{selectedProduct.tagline || selectedProduct.dosage || 'Premium spirits crafted to perfection'}"
-                  </p>
-                </div>
- 
-                <div className="space-y-1.5">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-maroon/60">Profile</p>
-                  <p className="text-xs text-maroon/80 font-sans leading-relaxed">
-                    {selectedProduct.desc || selectedProduct.description}
-                  </p>
-                </div>
- 
-                <div className="space-y-1.5">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-maroon/60">Tasting Notes</p>
-                  <p className="text-xs text-maroon/70 font-sans leading-relaxed">
-                    {selectedProduct.notes || 'Rich, complex bouquet with balanced finish.'}
-                  </p>
-                </div>
-              </div>
- 
-              <div className="pt-4 flex gap-3">
-                <button 
-                  onClick={() => {
-                    handleAddToCart({
-                      id: selectedProduct.id,
-                      name: selectedProduct.name,
-                      type: selectedProduct.type || 'IMFL',
-                      dosage: selectedProduct.dosage || selectedProduct.tagline,
-                      graphic: selectedProduct.graphic || 'NTS',
-                      image: selectedProduct.image
-                    });
-                    setSelectedProduct(null);
-                  }}
-                  className="flex-1 py-3 bg-[#E9542E] text-white hover:bg-maroon font-bold rounded-full text-xs uppercase tracking-widest transition-all shadow-md"
-                >
-                  Add to Inquiry
-                </button>
-                <button 
-                  onClick={() => setSelectedProduct(null)}
-                  className="px-5 py-3 border border-maroon/20 text-maroon hover:bg-maroon/5 font-bold rounded-full text-xs uppercase tracking-widest transition-all"
-                >
-                  Back
-                </button>
-              </div>
- 
+            <div className="rounded-md border border-maroon/10 bg-white/60 p-4">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-maroon/50">Profile</span>
+              <p className="mt-1 font-serif text-xl font-black">{product.dosage || product.style || 'Premium'}</p>
             </div>
- 
           </div>
+          <a
+            href="mailto:Ntsdistillers@gmail.com?subject=NTS partnership inquiry"
+            className="mt-8 inline-flex rounded-full bg-maroon px-7 py-3 text-xs font-black uppercase tracking-widest text-cream transition-colors hover:bg-coral-orange"
+          >
+            Start Inquiry
+          </a>
         </div>
-      )}
+      </div>
     </div>
+  )
+}
+
+export default function App() {
+  const [selectedProduct, setSelectedProduct] = useState(null)
+  const showHandoffPage = useMemo(() => {
+    if (typeof window === 'undefined') return false
+    return new URLSearchParams(window.location.search).get('handoff') === 'true'
+  }, [])
+
+  if (showHandoffPage) {
+    return (
+      <>
+        <AgeGate />
+        <HandoffPage />
+      </>
+    )
+  }
+
+  return (
+    <main className="min-h-screen overflow-x-hidden bg-cream text-maroon">
+      <AgeGate />
+      <Header />
+      <Hero />
+      <TrustStrip />
+      <CategoryMarquee />
+      <SpiritCarousel onQuickView={setSelectedProduct} />
+      <LegacySections onQuickView={setSelectedProduct} />
+      <Portfolio />
+      <BrandTimeline />
+      <Testimonials />
+      <Newsletter />
+      <FooterRedesign />
+      <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />
+    </main>
   )
 }
