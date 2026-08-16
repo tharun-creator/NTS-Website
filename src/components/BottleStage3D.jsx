@@ -5,13 +5,29 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader'
 import * as THREE from 'three'
 
+// Enable global caching for Three.js loaders
+THREE.Cache.enabled = true
+
+const PRELOAD_ASSETS = [
+  { obj: '/models/wanted/wanted.obj', mtl: '/models/wanted/wanted.mtl' },
+  { obj: '/models/brown-east-coast/brown-east-coast.obj', mtl: '/models/brown-east-coast/brown-east-coast.mtl' },
+  { obj: '/models/blue-east-coast/blue-east-coast.obj', mtl: '/models/blue-east-coast/blue-east-coast.mtl' },
+  { obj: '/models/white-east-coast/white-east-coast.obj', mtl: '/models/white-east-coast/white-east-coast.mtl' }
+]
+
+// Preload assets for instant model swaps
+PRELOAD_ASSETS.forEach((asset) => {
+  useLoader.preload(MTLLoader, asset.mtl)
+  useLoader.preload(OBJLoader, asset.obj)
+})
+
 function BrandedLoader() {
   const { progress } = useProgress()
   return (
     <Html center>
       <div style={{ display:'flex',flexDirection:'column',alignItems:'center',gap:12,pointerEvents:'none',userSelect:'none' }}>
         <div style={{ width:40,height:40,border:'2px solid rgba(74,21,28,0.12)',borderTop:'2px solid #E9542E',borderRadius:'50%',animation:'spin 0.9s linear infinite' }} />
-        <span style={{ fontFamily:'"Space Mono",monospace',fontSize:9,letterSpacing:'0.22em',textTransform:'uppercase',color:'rgba(74,21,28,0.55)' }}>
+        <span className="font-mono" style={{ fontSize:9,letterSpacing:'0.22em',textTransform:'uppercase',color:'rgba(74,21,28,0.55)' }}>
           {Math.round(progress)}% loading
         </span>
       </div>
@@ -21,11 +37,66 @@ function BrandedLoader() {
 
 function BottleMesh({ objPath, mtlPath, isInteracting }) {
   const meshRef = useRef(null)
-  const materials = useLoader(MTLLoader, mtlPath)
-  const obj = useLoader(OBJLoader, objPath, (loader) => {
+  
+  // Track active asset paths and transition scale state
+  const [currentObj, setCurrentObj] = useState({ objPath, mtlPath })
+  const [scaleFactor, setScaleFactor] = useState(0)
+
+  // Animate scale on initial mount
+  useEffect(() => {
+    let start = null
+    const duration = 250
+    function animate(timestamp) {
+      if (!start) start = timestamp
+      const progress = Math.min((timestamp - start) / duration, 1)
+      // Ease out cubic
+      setScaleFactor(1 - Math.pow(1 - progress, 3))
+      if (progress < 1) {
+        requestAnimationFrame(animate)
+      }
+    }
+    requestAnimationFrame(animate)
+  }, [])
+
+  // Animate smooth scale transition when target model paths change
+  useEffect(() => {
+    if (objPath !== currentObj.objPath || mtlPath !== currentObj.mtlPath) {
+      let start = null
+      const duration = 140
+      function animateDown(timestamp) {
+        if (!start) start = timestamp
+        const progress = Math.min((timestamp - start) / duration, 1)
+        setScaleFactor(1 - progress)
+        if (progress < 1) {
+          requestAnimationFrame(animateDown)
+        } else {
+          // Swap model reference and animate scale back up
+          setCurrentObj({ objPath, mtlPath })
+          let startUp = null
+          const durationUp = 220
+          function animateUp(t) {
+            if (!startUp) startUp = t
+            const p = Math.min((t - startUp) / durationUp, 1)
+            // cubic ease out
+            setScaleFactor(1 - Math.pow(1 - p, 3))
+            if (p < 1) {
+              requestAnimationFrame(animateUp)
+            }
+          }
+          requestAnimationFrame(animateUp)
+        }
+      }
+      requestAnimationFrame(animateDown)
+    }
+  }, [objPath, mtlPath, currentObj])
+
+  // Load the current active model from memory cache
+  const materials = useLoader(MTLLoader, currentObj.mtlPath)
+  const obj = useLoader(OBJLoader, currentObj.objPath, (loader) => {
     materials.preload()
     loader.setMaterials(materials)
   })
+  
   const scene = useMemo(() => obj.clone(true), [obj])
 
   useEffect(() => {
@@ -41,34 +112,60 @@ function BottleMesh({ objPath, mtlPath, isInteracting }) {
         })
       }
     })
-    const box = new THREE.Box3().setFromObject(scene)
-    const size = new THREE.Vector3()
+
+    // 1. Reset scale, rotation, and position to measure raw bounds
+    scene.scale.setScalar(1)
+    scene.rotation.set(0, 0, 0)
+    scene.position.set(0, 0, 0)
+
+    let box = new THREE.Box3().setFromObject(scene)
+    let size = new THREE.Vector3()
     box.getSize(size)
+
+    // 2. Rotate to align bottle vertically (Y-axis should be longest dimension)
+    if (size.x > size.y && size.x > size.z) {
+      scene.rotation.z = Math.PI / 2
+    } else if (size.z > size.y && size.z > size.x) {
+      scene.rotation.x = Math.PI / 2
+    }
+
+    // 3. Re-calculate bounding box after alignment rotation
+    box = new THREE.Box3().setFromObject(scene)
+    box.getSize(size)
+
+    // 4. Scale to standard dimension
     const maxDim = Math.max(size.x, size.y, size.z) || 1
     const scale = 3 / maxDim
     scene.scale.setScalar(scale)
+
+    // 5. Center the model at (0,0,0)
     const center = new THREE.Vector3()
     box.getCenter(center)
     scene.position.set(-center.x * scale, -center.y * scale, -center.z * scale)
 
     if (import.meta.env.DEV) {
-      console.info('[BottleStage3D] model bounds', {
-        objPath,
-        mtlPath,
+      console.info('[BottleStage3D] model bounds (normalized)', {
+        objPath: currentObj.objPath,
+        mtlPath: currentObj.mtlPath,
         size: size.toArray(),
         center: center.toArray(),
         normalizedScale: scale,
+        rotation: [scene.rotation.x, scene.rotation.y, scene.rotation.z]
       })
     }
-  }, [scene, objPath, mtlPath])
+  }, [scene, currentObj])
 
   useFrame((_, delta) => {
     if (meshRef.current && !isInteracting) {
-      meshRef.current.rotation.y += delta * 0.18
+      meshRef.current.rotation.y += delta * 0.15
     }
   })
 
-  return <primitive ref={meshRef} object={scene} />
+  return (
+    <group rotation={[0.10, 0, -0.05]} scale={scaleFactor}>
+      <primitive ref={meshRef} object={scene} />
+    </group>
+  )
 }
 
 class BottleErrorBoundary extends Component {
@@ -99,23 +196,31 @@ export default function BottleStage3D({ objPath, mtlPath, accentColor, fallbackI
   if (!webGLSupported) return FallbackImg
 
   return (
-    <div style={{ position:'relative', width:'100%', height:'100%' }}>
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+      {/* Accent glow behind bottle */}
       <div style={{
-        position:'absolute', inset:0, borderRadius:'50%',
-        background:`radial-gradient(ellipse at 50% 60%, ${accentColor}40 0%, transparent 70%)`,
-        pointerEvents:'none', zIndex:0, filter:'blur(40px)', transition:'background 0.8s ease',
+        position: 'absolute', inset: 0, borderRadius: '50%',
+        background: `radial-gradient(ellipse at 50% 50%, ${accentColor}25 0%, #0d1a1f 55%, transparent 78%)`,
+        pointerEvents: 'none', zIndex: 0, filter: 'blur(38px)',
+        opacity: 0.75, transition: 'opacity 0.8s ease',
+      }} />
+      {/* Shadow */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        filter: 'drop-shadow(8px 10px 22px rgba(0,0,0,0.42))',
+        pointerEvents: 'none', zIndex: 2,
       }} />
       <BottleErrorBoundary fallback={FallbackImg}>
         <Canvas
-          dpr={[1,2]}
-          camera={{ position:[0,0,5.5], fov:38 }}
-          style={{ position:'relative', zIndex:1, width:'100%', height:'100%' }}
-          gl={{ antialias:true, alpha:true }}
+          dpr={[1, 2]}
+          camera={{ position: [0, 0, 5.5], fov: 36 }}
+          style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%' }}
+          gl={{ antialias: true, alpha: true }}
           onPointerDown={() => setIsInteracting(true)}
           onPointerUp={() => setIsInteracting(false)}
           onPointerLeave={() => setIsInteracting(false)}
         >
-          <ambientLight intensity={0.45} />
+          <ambientLight intensity={0.55} />
           <directionalLight position={[3,5,4]} intensity={1.6} color="#FFF5E8" />
           <directionalLight position={[-3,2,-2]} intensity={0.5} color="#C8D8F0" />
           <pointLight position={[0,-2,3]} intensity={0.4} color="#F4ECDF" />
@@ -125,7 +230,7 @@ export default function BottleStage3D({ objPath, mtlPath, accentColor, fallbackI
           </Suspense>
           <OrbitControls
             enableZoom={false} enablePan={false} enableRotate={true}
-            autoRotate={!isInteracting} autoRotateSpeed={1.2}
+            autoRotate={!isInteracting} autoRotateSpeed={1.0}
             minPolarAngle={Math.PI/3} maxPolarAngle={Math.PI/1.6}
           />
         </Canvas>

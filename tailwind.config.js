@@ -7,6 +7,16 @@ export default {
   theme: {
     extend: {
       colors: {
+        'bg': 'oklch(0.9369 0.0124 91.5)',
+        'surface': 'oklch(0.9942 0.0069 88.6)',
+        'fg': 'oklch(0.2170 0.0038 106.7)',
+        'ink': 'oklch(0.16 0.01 95)',
+        'accent': 'oklch(0.7389 0.1348 59.6)',
+        'brick': 'oklch(0.405 0.13 32)',
+        'terracotta': 'oklch(0.65 0.11 47)',
+        'mustard': 'oklch(0.82 0.14 87)',
+        'blue': 'oklch(0.53 0.13 247)',
+        'strawberry': 'oklch(0.48 0.15 20)',
         'cream': '#F4ECDF',
         'maroon': '#4A151C',
         'bg-deep': '#150A09',
@@ -25,12 +35,8 @@ export default {
       },
       fontFamily: {
         serif: ['"Playfair Display"', 'Georgia', 'serif'],
-        sans: ['"Work Sans"', 'sans-serif'],
-        lora: ['"Lora"', 'serif'],
-        rye: ['"Rye"', 'cursive'],
+        sans: ['"Work Sans"', 'system-ui', 'sans-serif'],
         mono: ['"Space Mono"', 'monospace'],
-        gasoek: ['"Gasoek One"', 'sans-serif'],
-        jakarta: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
       },
       animation: {
         'marquee': 'marquee 25s linear infinite',

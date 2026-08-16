@@ -85,7 +85,7 @@ export default function AgeGate() {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-[radial-gradient(circle_at_20%_20%,rgba(233,84,46,0.24),transparent_30%),radial-gradient(circle_at_82%_72%,rgba(201,161,90,0.18),transparent_32%),linear-gradient(135deg,#150A09,#4A151C_54%,#2C0F14)] p-4 text-cream sm:p-8"
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-[#150a09]/75 backdrop-blur-md p-4 sm:p-8"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.35, ease: 'easeOut' }}
@@ -94,36 +94,35 @@ export default function AgeGate() {
       aria-labelledby="age-gate-title"
     >
       <motion.form
-        className="relative w-full max-w-[620px] overflow-hidden rounded-lg border border-gold/35 bg-[#2C0F14]/92 p-6 text-center shadow-[0_28px_90px_rgba(0,0,0,0.42)] backdrop-blur-md sm:p-10"
+        className="relative w-full max-w-[600px] overflow-hidden rounded-3xl border-2 border-[#3E1F18]/20 bg-[#F5EFE6] p-8 text-center shadow-[0_30px_90px_rgba(21,10,9,0.45)] sm:p-12"
         initial={{ opacity: 0, scale: 0.95, y: 12 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
         onSubmit={handleSubmit}
         noValidate
       >
-        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-gold via-coral-orange to-gold" />
-
-        <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full border border-gold/45 bg-cream p-3 shadow-[0_16px_40px_rgba(0,0,0,0.28)]">
-          <img src="/logo.png" alt="NTS Blenders and Distillers logo" className="h-full w-full object-contain" />
+        {/* NTS Emblem Seal Logo */}
+        <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full transition-transform duration-300 hover:scale-105">
+          <img src="/logo.png" alt="NTS Blenders and Distillers logo" className="h-full w-full object-contain filter drop-shadow-[0_8px_20px_rgba(62,31,24,0.3)]" />
         </div>
 
-        <p className="mt-6 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-gold">
-          NTS Blenders and Distillers Pvt. Ltd.
+        <p className="mt-5 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-[#E9542E]">
+          NTS BLENDERS AND DISTILLERS PVT. LTD.
         </p>
-        <h1 id="age-gate-title" className="mt-4 font-rye text-3xl leading-tight text-cream sm:text-5xl">
-          Verify Your Age
+        <h1 id="age-gate-title" className="mt-3 font-serif text-3xl font-black uppercase leading-none text-[#3E1F18] sm:text-5xl">
+          VERIFY YOUR AGE
         </h1>
-        <p className="mx-auto mt-4 max-w-md font-lora text-sm leading-7 text-cream/72">
+        <p className="mx-auto mt-4 max-w-md font-sans text-sm font-medium leading-relaxed text-[#3E1F18]/80">
           Please confirm your date of birth before entering this spirits portfolio.
         </p>
 
         <div className="mt-8 grid grid-cols-3 gap-3" aria-label="Date of birth">
           <label className="block text-left">
-            <span className="font-mono text-[10px] uppercase tracking-widest text-cream/58">Day</span>
+            <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#3E1F18]/75">Day</span>
             <select
               aria-label="Day"
               autoComplete="bday-day"
-              className="mt-2 h-12 w-full rounded-md border border-gold/25 bg-cream px-3 font-sans text-sm font-bold text-maroon outline-none transition-colors focus:border-coral-orange"
+              className="mt-2 h-12 w-full rounded-lg border border-[#3E1F18]/30 bg-white px-3 font-sans text-sm font-bold text-[#3E1F18] outline-none transition-colors focus:border-[#E9542E]"
               name="day"
               onChange={(event) => handleDateChange('day', event.target.value)}
               value={dob.day}
@@ -137,11 +136,11 @@ export default function AgeGate() {
           </label>
 
           <label className="block text-left">
-            <span className="font-mono text-[10px] uppercase tracking-widest text-cream/58">Month</span>
+            <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#3E1F18]/75">Month</span>
             <select
               aria-label="Month"
               autoComplete="bday-month"
-              className="mt-2 h-12 w-full rounded-md border border-gold/25 bg-cream px-3 font-sans text-sm font-bold text-maroon outline-none transition-colors focus:border-coral-orange"
+              className="mt-2 h-12 w-full rounded-lg border border-[#3E1F18]/30 bg-white px-3 font-sans text-sm font-bold text-[#3E1F18] outline-none transition-colors focus:border-[#E9542E]"
               name="month"
               onChange={(event) => handleDateChange('month', event.target.value)}
               value={dob.month}
@@ -155,11 +154,11 @@ export default function AgeGate() {
           </label>
 
           <label className="block text-left">
-            <span className="font-mono text-[10px] uppercase tracking-widest text-cream/58">Year</span>
+            <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#3E1F18]/75">Year</span>
             <select
               aria-label="Year"
               autoComplete="bday-year"
-              className="mt-2 h-12 w-full rounded-md border border-gold/25 bg-cream px-3 font-sans text-sm font-bold text-maroon outline-none transition-colors focus:border-coral-orange"
+              className="mt-2 h-12 w-full rounded-lg border border-[#3E1F18]/30 bg-white px-3 font-sans text-sm font-bold text-[#3E1F18] outline-none transition-colors focus:border-[#E9542E]"
               name="year"
               onChange={(event) => handleDateChange('year', event.target.value)}
               value={dob.year}
@@ -171,19 +170,19 @@ export default function AgeGate() {
         </div>
 
         {error && (
-          <p className="mt-4 rounded-md border border-coral-orange/40 bg-coral-orange/12 px-4 py-3 font-sans text-xs font-bold uppercase tracking-wide text-coral-orange" role="alert">
+          <p className="mt-4 rounded-md border border-[#E9542E]/50 bg-[#E9542E]/15 px-4 py-3 font-sans text-xs font-bold uppercase tracking-wide text-[#E9542E]" role="alert">
             {error}
           </p>
         )}
 
         <button
-          className="mt-7 inline-flex w-full max-w-xs items-center justify-center rounded-full bg-coral-orange px-7 py-4 font-sans text-xs font-black uppercase tracking-[0.22em] text-cream transition-all duration-200 hover:-translate-y-0.5 hover:bg-cream hover:text-maroon active:scale-[0.98]"
+          className="mt-8 inline-flex w-full max-w-xs items-center justify-center rounded-full bg-[#E9542E] px-7 py-4 font-sans text-xs font-black uppercase tracking-[0.22em] text-white shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#3E1F18] hover:text-white active:scale-[0.98]"
           type="submit"
         >
-          Enter
+          ENTER
         </button>
 
-        <p className="mx-auto mt-6 max-w-md font-sans text-[11px] leading-5 text-cream/52">
+        <p className="mx-auto mt-6 max-w-md font-sans text-[11px] leading-5 text-[#3E1F18]/65 font-medium">
           This website is intended only for adults of legal drinking age. Enjoy responsibly.
         </p>
       </motion.form>

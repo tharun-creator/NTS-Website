@@ -529,7 +529,7 @@ function FooterRedesign() {
             (c) 2026 NTS Blenders and Distillers Pvt. Ltd. All rights reserved.
           </p>
           <div className="mt-5 h-[86px] overflow-hidden sm:h-[112px] md:h-[150px] lg:h-[194px]">
-            <div className="flex whitespace-nowrap text-[76px] font-black lowercase leading-[0.78] tracking-[-0.09em] text-black min-[390px]:text-[86px] sm:text-[120px] md:text-[166px] lg:text-[222px] xl:text-[252px]" style={{ fontFamily: '"Inter Tight", "Plus Jakarta Sans", system-ui, sans-serif' }}>
+            <div className="flex whitespace-nowrap text-[76px] font-black lowercase leading-[0.78] tracking-[-0.09em] text-black min-[390px]:text-[86px] sm:text-[120px] md:text-[166px] lg:text-[222px] xl:text-[252px] font-sans">
               <span>nts</span>
               <span className="ml-[0.22em]">distillers</span>
             </div>

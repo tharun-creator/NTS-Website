@@ -122,30 +122,20 @@ function ModelStage({ product, direction, reduceMotion, goNext, goPrev, pause, r
   return (
     <div className="relative z-20 order-1 min-h-[360px] w-full md:order-2 md:min-h-[620px]">
       <div className="absolute left-1/2 top-1/2 h-[min(76vw,520px)] w-[min(76vw,520px)] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cream/10 bg-cream/[0.035] shadow-[inset_0_0_100px_rgba(244,236,223,0.05)]" />
-      <AnimatePresence mode="wait" custom={direction} initial={false}>
-        <motion.div
-          key={product.id}
-          custom={direction}
-          variants={modelVariants}
-          initial={reduceMotion ? { opacity: 0 } : "enter"}
-          animate={reduceMotion ? { opacity: 1 } : "center"}
-          exit={reduceMotion ? { opacity: 0 } : "exit"}
-          transition={reduceMotion ? { duration: 0.2 } : TRANSITIONS.bottleSpring}
-          className="absolute inset-0"
-          style={{ perspective: 1200 }}
-          onDragStart={pause}
-          onHoverStart={pause}
-          onHoverEnd={resume}
-        >
-          <BottleStage3D
-            objPath={product.objPath}
-            mtlPath={product.mtlPath}
-            accentColor={product.accentColor}
-            fallbackImage={product.fallbackImage}
-            productName={product.name}
-          />
-        </motion.div>
-      </AnimatePresence>
+      <div 
+        className="absolute inset-0 max-md:scale-[0.80] md:scale-[0.85] lg:scale-100"
+        onDragStart={pause}
+        onHoverStart={pause}
+        onHoverEnd={resume}
+      >
+        <BottleStage3D
+          objPath={product.objPath}
+          mtlPath={product.mtlPath}
+          accentColor={product.accentColor}
+          fallbackImage={product.fallbackImage}
+          productName={product.name}
+        />
+      </div>
     </div>
   )
 }
@@ -242,15 +232,10 @@ function ProductText({ product, activeIndex, total, reduceMotion, onQuickView })
             <p className="mx-auto max-w-md font-sans text-sm leading-[1.8] text-cream/70 md:mx-0">{product.description}</p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
-            <span className="rounded-md border border-cream/12 bg-cream/8 px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-wider text-cream/85">
-              ABV {product.abv}
-            </span>
-            <span className="rounded-md border border-cream/12 bg-cream/8 px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-wider text-cream/85">
-              ${product.price.toFixed(2)}
-            </span>
-          </div>
 
+
+          {/* Coral hairline separator above CTA */}
+          <div className="mt-6 border-t" style={{ borderColor: '#E9542E', opacity: 0.55 }} />
           <button
             type="button"
             onClick={() =>
@@ -267,7 +252,7 @@ function ProductText({ product, activeIndex, total, reduceMotion, onQuickView })
                 colorGradient: "from-[#0a1f22] to-[#0d2b30]",
               })
             }
-            className="rounded-full bg-cream px-7 py-3.5 font-sans text-[10px] font-extrabold uppercase tracking-widest text-maroon shadow-lg shadow-black/20 transition-colors hover:bg-coral-orange hover:text-white focus:outline-none focus:ring-2 focus:ring-coral-orange focus:ring-offset-2 focus:ring-offset-[#0a1f22] active:scale-[0.98]"
+            className="mt-5 rounded-lg bg-cream px-7 py-3.5 font-sans text-[10px] font-extrabold uppercase tracking-widest text-maroon shadow-lg shadow-black/20 transition-colors hover:bg-coral-orange hover:text-white focus:outline-none focus:ring-2 focus:ring-coral-orange focus:ring-offset-2 focus:ring-offset-[#0a1f22] active:scale-[0.98]"
           >
             View Profile Specs
           </button>

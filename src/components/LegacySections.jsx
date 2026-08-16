@@ -81,7 +81,7 @@ export default function LegacySections({ onQuickView }) {
 
           <div className="space-y-6 lg:col-span-6">
             <span className="text-[11px] font-extrabold uppercase tracking-widest text-coral-orange">OUR STORY</span>
-            <h2 className="font-rye text-3xl font-extrabold uppercase leading-[1.05] tracking-tight text-maroon sm:text-5xl">
+            <h2 className="font-serif text-3xl font-extrabold uppercase leading-[1.05] tracking-tight text-maroon sm:text-5xl">
               Four Decades of Blending & Distilling Mastery
             </h2>
             <p className="font-sans text-sm font-medium leading-relaxed text-maroon/85">
@@ -132,7 +132,7 @@ export default function LegacySections({ onQuickView }) {
 
             <div className="space-y-6 rounded-[2rem] bg-white p-6 shadow-2xl sm:rounded-[2.5rem] sm:p-12 lg:col-span-6 lg:col-start-7">
               <span className="text-[11px] font-bold uppercase tracking-widest text-[#E9542E]">DISTRIBUTION LEGACY</span>
-              <h2 className="font-rye text-3xl font-extrabold uppercase leading-tight text-maroon sm:text-4xl lg:text-[40px]">
+              <h2 className="font-serif text-3xl font-extrabold uppercase leading-tight text-maroon sm:text-4xl lg:text-[40px]">
                 Four Decades of Distribution & Market Leadership
               </h2>
               <p className="font-sans text-xs leading-relaxed text-maroon/70 sm:text-sm">

@@ -1,133 +1,158 @@
-﻿import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-}
+import { Instagram, Mail, Phone, ArrowUpRight } from 'lucide-react'
 
 export default function FooterRedesign() {
-  const portfolioLinks = [
-    ['Our Spirits', '#portfolio'],
-    ['Process', '#process'],
-    ['Facility', '#details'],
-    ['Partnerships', '#contact'],
-  ]
+  const [email, setEmail] = useState('')
+  const [subscribed, setSubscribed] = useState(false)
 
-  const exploreLinks = [
-    ['About', '#about'],
-    ['Workshop', '#workshop'],
-    ['All Products', '#portfolio'],
-    ['Careers', '#contact'],
-  ]
-
-  const contactLinks = [
-    ['PH', 'Phone', '+91 89255 23801', 'tel:8925523801'],
-    ['EM', 'Email', 'Ntsdistillers@gmail.com', 'mailto:Ntsdistillers@gmail.com'],
-    ['GO', 'Location', 'Canacona Industrial Estate, Goa', '#contact'],
-  ]
+  const handleSubscribe = (e) => {
+    e.preventDefault()
+    if (email.trim()) {
+      setSubscribed(true)
+    }
+  }
 
   return (
-    <footer className="bg-[#150A09] px-5 py-6 md:px-8 lg:px-14">
-      <motion.div
-        variants={fadeUp}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.18 }}
-        className="mx-auto max-w-[1440px] overflow-hidden rounded-2xl border border-cream/10 bg-[linear-gradient(145deg,#2C0F14,#150A09)] px-6 pb-0 pt-14 text-cream sm:px-8 md:px-12 md:pt-16 lg:px-14"
-      >
-        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
-          <h2 className="max-w-[520px] font-serif text-[30px] font-semibold leading-[1.08] tracking-normal text-cream text-left md:text-[42px]">
-            Four decades of spirits.
-            <br />Built for the trade.
+    <footer className="w-full overflow-hidden bg-[#F5EFE6] text-[#150a09]" aria-label="Site footer" id="footer">
+      {/* 1. High-Impact Top Banner Band (Inspired by reference design) */}
+      <div className="w-full bg-[#E9542E] px-6 py-10 text-white sm:px-12 sm:py-14 lg:px-16">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <h2 className="font-serif text-3xl font-black uppercase tracking-tight sm:text-4xl lg:text-5xl">
+            Let’s work together
           </h2>
 
-          <a
-            href="#contact"
-            className="inline-flex w-fit items-center justify-center rounded-full bg-coral-orange px-7 py-3 text-xs font-bold uppercase tracking-widest text-white transition-colors duration-300 hover:bg-cream hover:text-maroon focus:outline-none focus:ring-2 focus:ring-coral-orange/60 focus:ring-offset-2 focus:ring-offset-bg-deep"
-          >
-            Start a Partnership
-          </a>
-        </div>
-
-        <div className="mt-16 grid gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-12 text-left">
-          <div>
-            <h3 className="text-[12px] font-semibold uppercase tracking-[0.18em] text-gold-soft">
-              Portfolio
-            </h3>
-            <nav className="mt-5 flex flex-col items-start gap-2.5 text-[14px] font-medium text-cream/76">
-              {portfolioLinks.map(([label, href]) => (
-                <a
-                  key={label}
-                  href={href}
-                  className="relative w-fit after:absolute after:left-0 after:top-full after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100"
-                >
-                  {label}
-                </a>
-              ))}
-            </nav>
-          </div>
-
-          <div>
-            <h3 className="text-[12px] font-semibold uppercase tracking-[0.18em] text-gold-soft">
-              Explore
-            </h3>
-            <nav className="mt-5 flex flex-col items-start gap-2.5 text-[14px] font-medium text-cream/76">
-              {exploreLinks.map(([label, href]) => (
-                <a
-                  key={label}
-                  href={href}
-                  className="relative w-fit after:absolute after:left-0 after:top-full after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100"
-                >
-                  {label}
-                </a>
-              ))}
-            </nav>
-          </div>
-
-          <div>
-            <h3 className="text-[12px] font-semibold uppercase tracking-[0.18em] text-gold-soft">
-              Direct Contact
-            </h3>
-            <div className="mt-5 flex flex-col items-start gap-3 text-[14px] font-medium text-cream/76">
-              {contactLinks.map(([icon, label, handle, href]) => (
-                <a key={label} href={href} className="group flex w-fit items-center gap-3">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full border border-cream/15 bg-cream/8 text-[10px] font-bold text-gold-soft transition-colors duration-300 group-hover:border-coral-orange">
-                    {icon}
-                  </span>
-                  <span className="relative after:absolute after:left-0 after:top-full after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 group-hover:after:scale-x-100">
-                    <span className="sr-only">{label} </span>
-                    {handle}
-                  </span>
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-14 md:mt-16 text-left">
-          <p className="text-[13px] font-medium text-cream/45">
-            © 2026 NTS Blenders and Distillers Pvt. Ltd. All rights reserved.
-          </p>
-
-          <div className="mt-5 h-[86px] overflow-hidden sm:h-[112px] md:h-[150px] lg:h-[194px]">
-            <div
-              className="flex whitespace-nowrap text-[64px] font-black uppercase leading-[0.78] tracking-normal text-cream/8 min-[390px]:text-[76px] sm:text-[108px] md:text-[152px] lg:text-[198px] xl:text-[226px]"
-              style={{ fontFamily: '"Playfair Display", Georgia, serif' }}
+          <div className="flex flex-wrap items-center gap-6 text-xs font-extrabold uppercase tracking-widest sm:gap-10 sm:text-sm">
+            <a
+              href="mailto:Ntsdistillers@gmail.com"
+              className="inline-flex items-center gap-2 border-b-2 border-white pb-1 transition-opacity hover:opacity-80"
             >
-              <span>NTS</span>
-              <span className="ml-[0.18em]">Blenders</span>
-            </div>
+              <Mail className="h-4 w-4" />
+              Get in Touch
+            </a>
+            <a
+              href="mailto:Ntsdistillers@gmail.com?subject=NTS B2B Proposal Request"
+              className="inline-flex items-center gap-2 border-b-2 border-white pb-1 transition-opacity hover:opacity-80"
+            >
+              B2B Proposals
+              <ArrowUpRight className="h-4 w-4" />
+            </a>
           </div>
         </div>
-      </motion.div>
+      </div>
+
+      {/* 2. Main Footer Body */}
+      <div className="mx-auto max-w-[1440px] px-6 pt-14 pb-6 sm:px-12 lg:px-16">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
+          
+          {/* Left Column: Social & Mail Logos, Newsletter, Terms */}
+          <div className="flex flex-col justify-between gap-8 lg:col-span-6">
+            <div>
+              <p className="font-sans text-xs font-bold uppercase tracking-[0.2em] text-[#150a09]/60">
+                Connect With Us
+              </p>
+              
+              {/* Instagram & Mail Logos */}
+              <div className="mt-4 flex items-center gap-3">
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram Profile"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-[#150a09]/20 bg-white text-[#150a09] shadow-sm transition-all duration-300 hover:-translate-y-1 hover:bg-[#E9542E] hover:text-white"
+                >
+                  <Instagram className="h-5 w-5" />
+                </a>
+                <a
+                  href="mailto:Ntsdistillers@gmail.com"
+                  aria-label="Send Email"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-[#150a09]/20 bg-white text-[#150a09] shadow-sm transition-all duration-300 hover:-translate-y-1 hover:bg-[#E9542E] hover:text-white"
+                >
+                  <Mail className="h-5 w-5" />
+                </a>
+                <a
+                  href="tel:8925523801"
+                  aria-label="Call NTS Distillers"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-[#150a09]/20 bg-white text-[#150a09] shadow-sm transition-all duration-300 hover:-translate-y-1 hover:bg-[#E9542E] hover:text-white"
+                >
+                  <Phone className="h-5 w-5" />
+                </a>
+              </div>
+
+              {/* Newsletter Signup */}
+              <div className="mt-8 max-w-md">
+                <p className="font-sans text-xs font-bold uppercase tracking-wider text-[#150a09]/70">
+                  Join B2B Trade Updates
+                </p>
+                {subscribed ? (
+                  <p className="mt-2 font-sans text-sm font-bold text-[#E9542E]">
+                    ✓ Thank you for subscribing!
+                  </p>
+                ) : (
+                  <form onSubmit={handleSubscribe} className="mt-2 flex items-center border-b border-[#150a09]/40 pb-2">
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      className="w-full bg-transparent font-sans text-sm outline-none placeholder:text-[#150a09]/40"
+                    />
+                    <button
+                      type="submit"
+                      className="ml-2 font-sans text-xs font-black uppercase tracking-widest text-[#E9542E] hover:text-[#150a09]"
+                    >
+                      Join →
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
+
+            {/* Legal & Copyright */}
+            <div className="flex flex-wrap items-center gap-6 font-sans text-xs font-medium text-[#150a09]/70">
+              <span>© {new Date().getFullYear()} NTS Blenders and Distillers Pvt. Ltd.</span>
+              <a href="#footer" className="hover:underline">Terms of Use</a>
+              <a href="#footer" className="hover:underline">Privacy Policy</a>
+            </div>
+          </div>
+
+          {/* Right Columns: Manufacturing & Corporate Locations */}
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-6">
+            <div>
+              <p className="font-sans text-xs font-extrabold uppercase tracking-wider text-[#150a09]">
+                Goa Manufacturing Facility
+              </p>
+              <p className="mt-3 font-sans text-xs leading-relaxed text-[#150a09]/75">
+                Main Distillery & High-Speed Bottling Unit<br />
+                Goa Manufacturing Plant, India<br />
+                <span className="font-semibold text-[#150a09]">Phone:</span> +91 8925523801<br />
+                <span className="font-semibold text-[#150a09]">Email:</span> Ntsdistillers@gmail.com
+              </p>
+            </div>
+
+            <div>
+              <p className="font-sans text-xs font-extrabold uppercase tracking-wider text-[#150a09]">
+                Pondicherry Commercial HQ
+              </p>
+              <p className="mt-3 font-sans text-xs leading-relaxed text-[#150a09]/75">
+                Distribution & Commercial Headquarters<br />
+                Shaping Alcobev since 1980<br />
+                15+ Proprietary IMFL Brands<br />
+                Contract Bottling & Blending Partners
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        {/* 3. GIANT MASSIVE BRAND WORDMARK AT BOTTOM (Inspired by reference image) */}
+        <div className="mt-14 w-full select-none overflow-hidden border-t border-[#150a09]/15 pt-4 text-center">
+          <h2 className="font-serif text-[15.5vw] font-black uppercase leading-[0.78] tracking-tighter text-[#150a09]">
+            NTS BLENDERS
+          </h2>
+        </div>
+      </div>
     </footer>
   )
 }
