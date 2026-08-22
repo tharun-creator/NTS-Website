@@ -146,7 +146,7 @@ export default function Portfolio() {
   return (
     <section
       id="portfolio-carousel"
-      className="relative overflow-hidden bg-[#150A09] px-4 py-[88px] text-cream md:px-8 md:py-[120px] select-none"
+      className="relative overflow-hidden bg-[#050505] px-4 py-[88px] text-cream md:px-8 md:py-[120px] select-none"
       tabIndex={0}
       aria-roledescription="carousel"
       aria-label="NTS spirits portfolio carousel"
@@ -155,7 +155,7 @@ export default function Portfolio() {
         if (event.key === 'ArrowLeft') moveCarousel(-1)
       }}
     >
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_0%,rgba(233,84,46,0.16),transparent_34%),linear-gradient(180deg,rgba(74,21,28,0.28),rgba(21,10,9,0))]" />
+      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(180deg,rgba(255,255,255,0.045),rgba(0,0,0,0))]" />
       <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }} className="relative mx-auto max-w-[1280px] text-center flex flex-col items-center">
         <Badge>Portfolio</Badge>
         <h2 className="mx-auto mt-5 max-w-2xl text-[34px] md:text-[48px] font-bold leading-tight tracking-normal text-cream font-serif uppercase">
@@ -193,7 +193,7 @@ export default function Portfolio() {
                 key={modelIndex}
                 aria-hidden={!isActive}
                 aria-label={`${model.name}, ${model.tag}. ${model.desc}`}
-                className={`group absolute left-1/2 top-0 flex h-[540px] w-[min(420px,calc(100vw-40px))] select-none flex-col rounded-2xl border border-[#E3C98F]/25 bg-[#F4ECDF] p-5 text-maroon will-change-transform md:h-[580px] ${
+                className={`group absolute left-1/2 top-0 flex h-[540px] w-[min(420px,calc(100vw-40px))] select-none flex-col rounded-2xl border border-[#FFFFFF]/25 bg-[#FFFFFF] p-5 text-maroon will-change-transform md:h-[580px] ${
                   isActive ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'
                 }`}
                 initial={false}
@@ -213,7 +213,7 @@ export default function Portfolio() {
                 <span className="inline-flex w-fit rounded-full bg-maroon px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-cream font-mono">
                   {model.tag}
                 </span>
-                <div className="mt-5 flex flex-1 items-center justify-center overflow-hidden rounded-xl border border-maroon/10 bg-[linear-gradient(145deg,#fffaf1,#eadfcd)]">
+                <div className="mt-5 flex flex-1 items-center justify-center overflow-hidden rounded-xl border border-maroon/10 bg-[linear-gradient(145deg,#ffffff,#f2f2f2)]">
                   <img
                     src={model.image}
                     alt={`${model.name} bottle`}

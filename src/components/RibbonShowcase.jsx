@@ -15,7 +15,7 @@ const RIBBONS_DATA = [
   {
     id: 'facility',
     title: 'Goa Manufacturing Facility',
-    bgClass: 'bg-[#F4ECDF] text-[#150a09]',
+    bgClass: 'bg-[#FFFFFF] text-[#050505]',
     hoverBg: 'hover:bg-white',
     rot: '1deg',
     icon: Factory,
@@ -24,8 +24,8 @@ const RIBBONS_DATA = [
   {
     id: 'bottling',
     title: 'Contract Bottling & Blending',
-    bgClass: 'bg-[#4A151C] text-[#F4ECDF]',
-    hoverBg: 'hover:bg-[#631B25]',
+    bgClass: 'bg-[#111111] text-[#FFFFFF]',
+    hoverBg: 'hover:bg-[#050505]',
     rot: '-1deg',
     icon: ShieldCheck,
     link: '#footer',
@@ -33,8 +33,8 @@ const RIBBONS_DATA = [
   {
     id: 'heritage',
     title: '40+ Years Heritage',
-    bgClass: 'bg-[#C9A15A] text-[#150a09]',
-    hoverBg: 'hover:bg-[#D9B16A]',
+    bgClass: 'bg-[#E9542E] text-[#050505]',
+    hoverBg: 'hover:bg-[#FFFFFF]',
     rot: '1.5deg',
     icon: Award,
     link: '#legacy',

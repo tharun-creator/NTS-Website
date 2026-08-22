@@ -26,8 +26,8 @@ function BrandedLoader() {
   return (
     <Html center>
       <div style={{ display:'flex',flexDirection:'column',alignItems:'center',gap:12,pointerEvents:'none',userSelect:'none' }}>
-        <div style={{ width:40,height:40,border:'2px solid rgba(74,21,28,0.12)',borderTop:'2px solid #E9542E',borderRadius:'50%',animation:'spin 0.9s linear infinite' }} />
-        <span className="font-mono" style={{ fontSize:9,letterSpacing:'0.22em',textTransform:'uppercase',color:'rgba(74,21,28,0.55)' }}>
+        <div style={{ width:40,height:40,border:'2px solid rgba(255,255,255,0.12)',borderTop:'2px solid #E9542E',borderRadius:'50%',animation:'spin 0.9s linear infinite' }} />
+        <span className="font-mono" style={{ fontSize:9,letterSpacing:'0.22em',textTransform:'uppercase',color:'rgba(255,255,255,0.55)' }}>
           {Math.round(progress)}% loading
         </span>
       </div>
@@ -200,7 +200,7 @@ export default function BottleStage3D({ objPath, mtlPath, accentColor, fallbackI
       {/* Accent glow behind bottle */}
       <div style={{
         position: 'absolute', inset: 0, borderRadius: '50%',
-        background: `radial-gradient(ellipse at 50% 50%, ${accentColor}25 0%, #0d1a1f 55%, transparent 78%)`,
+        background: '#050505',
         pointerEvents: 'none', zIndex: 0, filter: 'blur(38px)',
         opacity: 0.75, transition: 'opacity 0.8s ease',
       }} />
@@ -223,7 +223,7 @@ export default function BottleStage3D({ objPath, mtlPath, accentColor, fallbackI
           <ambientLight intensity={0.55} />
           <directionalLight position={[3,5,4]} intensity={1.6} color="#FFF5E8" />
           <directionalLight position={[-3,2,-2]} intensity={0.5} color="#C8D8F0" />
-          <pointLight position={[0,-2,3]} intensity={0.4} color="#F4ECDF" />
+          <pointLight position={[0,-2,3]} intensity={0.4} color="#FFFFFF" />
           <Environment preset="studio" />
           <Suspense fallback={<BrandedLoader />}>
             <BottleMesh objPath={objPath} mtlPath={mtlPath} isInteracting={isInteracting} />

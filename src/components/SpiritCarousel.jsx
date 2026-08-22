@@ -27,12 +27,12 @@ const PRODUCTS = [
       scale: 0.9,
       position: [-0.08, 0, 0],
     },
-    accentColor: "#E9542E",
+    accentColor: "#FFFFFF",
     description: "A fruit-forward VSOP brandy with grape, pineapple brightness, vanilla warmth and a rounded finish.",
     bgElements: [
-      { type: "orb", className: "right-[2%] top-[12%] h-52 w-52 bg-[#E9542E]/28 blur-2xl" },
+      { type: "orb", className: "right-[2%] top-[12%] h-52 w-52 bg-white/10 blur-2xl" },
       { type: "swirl", className: "left-[9%] top-[21%] h-36 w-36 border-[#F4A6C8]/35" },
-      { type: "drop", className: "right-[24%] bottom-[15%] h-16 w-16 bg-[#E3C98F]/24" },
+      { type: "drop", className: "right-[24%] bottom-[15%] h-16 w-16 bg-[#FFFFFF]/24" },
     ],
   },
   {
@@ -52,12 +52,12 @@ const PRODUCTS = [
       scale: 0.9,
       position: [-0.08, 0, 0],
     },
-    accentColor: "#B47A4B",
+    accentColor: "#FFFFFF",
     description: "A grape brandy profile with honeyed lift, ripe fig notes and a clean, quietly luxurious finish.",
     bgElements: [
-      { type: "orb", className: "left-[10%] top-[14%] h-48 w-48 bg-[#B47A4B]/30 blur-2xl" },
-      { type: "swirl", className: "right-[12%] bottom-[12%] h-40 w-40 border-[#E3C98F]/30" },
-      { type: "grain", className: "right-[28%] top-[24%] text-[#F4ECDF]/22" },
+      { type: "orb", className: "left-[10%] top-[14%] h-48 w-48 bg-white/10 blur-2xl" },
+      { type: "swirl", className: "right-[12%] bottom-[12%] h-40 w-40 border-[#FFFFFF]/30" },
+      { type: "grain", className: "right-[28%] top-[24%] text-[#FFFFFF]/22" },
     ],
   },
   {
@@ -82,7 +82,7 @@ const PRODUCTS = [
     bgElements: [
       { type: "orb", className: "right-[6%] top-[18%] h-52 w-52 bg-[#1E6FAD]/30 blur-2xl" },
       { type: "wave", className: "left-[6%] bottom-[16%] h-20 w-52 border-[#5FB8D9]/35" },
-      { type: "drop", className: "left-[24%] top-[20%] h-14 w-14 bg-[#C9A15A]/22" },
+      { type: "drop", className: "left-[24%] top-[20%] h-14 w-14 bg-white/10" },
     ],
   },
   {
@@ -95,7 +95,7 @@ const PRODUCTS = [
     style: "Light & Fresh",
     objPath: "/models/white-east-coast/white-east-coast.obj",
     mtlPath: "/models/white-east-coast/white-east-coast.mtl",
-    fallbackImage: "/bottle-2/Product_bottle_3D_render_202607251455-removebg-preview.png",
+    fallbackImage: "/bottle-2/east-coast-premium-malt-whisky.png",
     modelPose: {
       axisRotation: [0, 0, -Math.PI / 2],
       stageRotation: [0.16, -0.42, 0.62],
@@ -121,7 +121,7 @@ const modelVariants = {
 function ModelStage({ product, direction, reduceMotion, goNext, goPrev, pause, resume }) {
   return (
     <div className="relative z-20 order-1 min-h-[360px] w-full md:order-2 md:min-h-[620px]">
-      <div className="absolute left-1/2 top-1/2 h-[min(76vw,520px)] w-[min(76vw,520px)] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cream/10 bg-cream/[0.035] shadow-[inset_0_0_100px_rgba(244,236,223,0.05)]" />
+      <div className="absolute left-1/2 top-1/2 h-[min(76vw,520px)] w-[min(76vw,520px)] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cream/10 bg-cream/[0.035] shadow-[inset_0_0_100px_rgba(255,255,255,0.05)]" />
       <div 
         className="absolute inset-0 max-md:scale-[0.80] md:scale-[0.85] lg:scale-100"
         onDragStart={pause}
@@ -164,12 +164,12 @@ function BackgroundLayer({ product, direction, reduceMotion }) {
     <motion.div
       className="absolute inset-0 overflow-hidden"
       animate={{
-        background: `radial-gradient(circle at 80% 18%, ${product.accentColor}35, transparent 32%), radial-gradient(circle at 16% 84%, ${product.accentColor}24, transparent 30%), linear-gradient(135deg, #0a1f22 0%, #0d2b30 48%, #071316 100%)`,
+        background: 'linear-gradient(135deg, #030303 0%, #080808 48%, #000000 100%)',
       }}
       transition={reduceMotion ? { duration: 0 } : TRANSITIONS.bg}
       aria-hidden="true"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(244,236,223,0.08),transparent_36%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.045),transparent_40%)]" />
       <AnimatePresence mode="wait" initial={false} custom={direction}>
         <motion.div
           key={product.id}
@@ -249,10 +249,10 @@ function ProductText({ product, activeIndex, total, reduceMotion, onQuickView })
                 desc: product.description,
                 price: product.price,
                 abv: product.abv,
-                colorGradient: "from-[#0a1f22] to-[#0d2b30]",
+                colorGradient: "from-[#030303] to-[#080808]",
               })
             }
-            className="mt-5 rounded-lg bg-cream px-7 py-3.5 font-sans text-[10px] font-extrabold uppercase tracking-widest text-maroon shadow-lg shadow-black/20 transition-colors hover:bg-coral-orange hover:text-white focus:outline-none focus:ring-2 focus:ring-coral-orange focus:ring-offset-2 focus:ring-offset-[#0a1f22] active:scale-[0.98]"
+            className="mt-5 rounded-lg bg-cream px-7 py-3.5 font-sans text-[10px] font-extrabold uppercase tracking-widest text-maroon shadow-lg shadow-black/20 transition-colors hover:bg-coral-orange hover:text-white focus:outline-none focus:ring-2 focus:ring-coral-orange focus:ring-offset-2 focus:ring-offset-[#030303] active:scale-[0.98]"
           >
             View Profile Specs
           </button>
@@ -374,7 +374,7 @@ export default function SpiritCarousel({ onQuickView }) {
           Spirits as Delicious as They Are Delightful
         </h2>
         <p className="mx-auto mt-4 max-w-2xl font-sans text-sm leading-relaxed text-cream/70">
-          We manufacture premium proprietary products across 4 categories. Browse our premium distillation range and add brands to your inquiry portfolio.
+          We manufacture proprietary products across four categories. Browse the distillation range and continue to product details when a label fits your portfolio.
         </p>
       </div>
 

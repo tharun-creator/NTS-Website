@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ntsdistillers.com/sitemap.xml
