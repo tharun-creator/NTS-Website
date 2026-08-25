@@ -4,69 +4,43 @@ import { motion, useReducedMotion } from 'framer-motion'
 const portfolioModels = [
   {
     tag: 'WHISKY',
-    name: 'Old Town',
-    desc: 'Indian blended malt with smoke, dry fruit, and a long warm finish.',
-    image: '/bottle-2/bottle (2).png',
-  },
-  {
-    tag: 'BRANDY',
-    name: 'Wanted 999',
-    desc: 'VSOP brandy with grape, vanilla, and fruit-forward depth.',
-    image: '/bottle-2/bottle (3).png',
-  },
-  {
-    tag: 'RUM',
-    name: 'East Coast XXX',
-    desc: 'Coastal rum shaped by spice, cocoa, and a rounded finish.',
-    image: '/bottle-2/bottle (1).png',
-  },
-  {
-    tag: 'MALT',
-    name: 'East Coast Malt',
-    desc: 'Honey, apple, and vanilla notes shaped for elegant everyday pours.',
-    image: '/bottle-2/bottle.png',
-  },
-  {
-    tag: 'BRANDY',
-    name: 'Reserve Grape',
-    desc: 'A smooth grape brandy profile with honeyed depth and quiet warmth.',
-    image: '/1/Liquor_bottle_on_white_background_202607250547 (4).png',
+    brandName: 'OLD TOWN',
+    productText: 'Indian Blended Malt Whisky',
+    name: 'OLD TOWN Indian Blended Malt Whisky',
+    desc: 'Indian blended malt whisky in the NTS owned semi-premium portfolio.',
+    image: '/portfolio-images/old-town.png',
   },
   {
     tag: 'WHISKY',
-    name: 'Heritage Blend',
-    desc: 'Mature wood notes, sweet spice, and a composed premium finish.',
-    image: '/1/Liquor_bottle_on_white_background_202607250547 (5).png',
-  },
-  {
-    tag: 'GIN',
-    name: 'Coastal Dry',
-    desc: 'Botanical clarity and mineral freshness built for modern bar menus.',
-    image: '/1/Liquor_bottle_on_white_background_202607250547 (6).png',
+    brandName: 'EAST COAST',
+    productText: 'Premium Malt Whisky',
+    name: 'EAST COAST Premium Malt Whisky',
+    desc: 'Premium malt whisky expression in the East Coast range.',
+    image: '/portfolio-images/east-coast-premium-malt-whisky.png',
   },
   {
     tag: 'RUM',
-    name: 'Night Coast',
-    desc: 'Dark cocktails, cocoa warmth, and spice-led character for late hours.',
-    image: '/1/Liquor_bottle_on_white_background_202607250547 (7).png',
+    brandName: 'EAST COAST',
+    productText: 'xxx Rum',
+    name: 'EAST COAST xxx Rum',
+    desc: 'Bold rum expression with a clear East Coast identity.',
+    image: '/portfolio-images/east-coast-xxx-rum.png',
   },
   {
     tag: 'BRANDY',
-    name: 'VSOP Gold',
-    desc: 'Creamy vanilla and ripe fruit notes arranged with lasting elegance.',
-    image: '/1/Liquor_bottle_on_white_background_202607250548 (1).png',
+    brandName: 'EAST COAST',
+    productText: 'Indian Blended Brandy',
+    name: 'EAST COAST Indian Blended Brandy',
+    desc: 'Indian blended brandy expression in the East Coast range.',
+    image: '/portfolio-images/east-coast-indian-blended-brandy.png',
   },
   {
-    tag: 'WHISKY',
-    name: 'Quiet Barrel',
-    desc: 'Balanced malt, gentle smoke, and a refined signature aftertaste.',
-    image: '/1/Liquor_bottle_on_white_background_202607250548 (2).png',
-  },
-  {
-    tag: 'VODKA',
-    name: 'Clear House',
-    desc: 'Neutral precision, polished mouthfeel, and dependable mixability.',
-    image: '/1/Liquor_bottle_on_white_background_202607250548 (3).png',
+    tag: 'BRANDY',
+    brandName: 'WANTED 999',
+    productText: 'Vsop Brandy',
+    name: 'WANTED 999 Vsop Brandy',
+    desc: 'VSOP brandy with strong shelf recognition.',
+    image: '/portfolio-images/wanted.png',
   },
 ]
 
@@ -162,7 +136,7 @@ export default function Portfolio() {
           Proprietary labels with a house standard.
         </h2>
         <p className="mt-4 max-w-xl text-sm leading-relaxed text-cream/68 font-sans">
-          A focused look at NTS-owned spirits, from flagship malt whisky to brandy, rum, and vodka expressions.
+          A focused look at NTS-owned spirits, from flagship malt whisky to brandy and rum expressions.
         </p>
       </motion.div>
 
@@ -223,7 +197,8 @@ export default function Portfolio() {
                   />
                 </div>
                 <div className="pt-6 text-left">
-                  <h3 className="text-2xl font-serif font-bold uppercase tracking-normal text-maroon">{model.name}</h3>
+                  <h3 className="text-2xl font-serif font-bold uppercase tracking-normal text-maroon">{model.brandName || model.name}</h3>
+                  {model.productText && <p className="mt-1 text-sm font-sans font-black leading-tight text-maroon">{model.productText}</p>}
                   <p className="mt-3 max-w-sm text-sm font-sans leading-[1.7] text-maroon/72">{model.desc}</p>
                 </div>
               </motion.article>

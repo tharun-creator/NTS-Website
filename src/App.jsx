@@ -82,12 +82,12 @@ function HomePage() {
     setPageSeo({
       title: 'NTS Distillers | Goa Spirits Manufacturer & Contract Bottling Partner',
       description:
-        'Explore NTS Blenders and Distillers: Goa-based contract bottling, blending, distillery capacity, and proprietary whisky, brandy, rum, and vodka labels.',
+        'Explore NTS Blenders and Distillers: Goa-based contract bottling, blending, distillery capacity, and proprietary whisky, brandy, and rum labels.',
       path: '/',
       schema: createWebPageSchema({
         title: 'NTS Distillers | Goa Spirits Manufacturer & Contract Bottling Partner',
         description:
-          'Explore NTS Blenders and Distillers: Goa-based contract bottling, blending, distillery capacity, and proprietary whisky, brandy, rum, and vodka labels.',
+          'Explore NTS Blenders and Distillers: Goa-based contract bottling, blending, distillery capacity, and proprietary whisky, brandy, and rum labels.',
         path: '/',
       }),
     })
@@ -271,8 +271,8 @@ function HomePage() {
 
                   <div className="flex items-end justify-between">
                     <span className="flavor-name">
-                      {prod.name.split(' ')[0]}<br />
-                      {prod.name.split(' ').slice(1, 3).join(' ')}
+                      <strong>{prod.brandName || prod.name}</strong>
+                      {prod.productText && <small>{prod.productText}</small>}
                     </span>
                   </div>
                 </button>

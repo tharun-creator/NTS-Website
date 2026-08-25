@@ -106,9 +106,9 @@ export default function OldTownHero({ onOpenMenu, isMenuOpen }) {
             <div className="absolute inset-0 rounded-full bg-white/5 blur-[75px] pointer-events-none" />
 
             <img
-              src="/bottle-2/bottle (2).png"
+              src="/portfolio-images/old-town.png"
               alt="Old Town Indian Blended Malt Whisky"
-              className="h-[78vh] sm:h-[90vh] lg:h-[102vh] xl:h-[112vh] max-h-[1050px] w-auto scale-115 sm:scale-125 lg:scale-135 object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.98)] transition-transform duration-500 hover:scale-[1.4] cursor-pointer"
+              className="h-[72vh] sm:h-[82vh] lg:h-[90vh] xl:h-[96vh] max-h-[920px] w-auto object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.98)] transition-transform duration-500 hover:scale-105 cursor-pointer"
             />
 
             {/* Realistic Floor Shadow */}

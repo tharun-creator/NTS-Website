@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 
-const newsletterBottleA = '/bottle-2/bottle (2).png'
+const newsletterBottleA = '/portfolio-images/old-town.png'
 const newsletterBottleB = '/bottle-2/bottle (1).png'
-const newsletterBottleC = '/bottle-2/bottle (3).png'
+const newsletterBottleC = '/portfolio-images/wanted.png'
 const newsletterBottleD = '/bottle-2/bottle.png'
 const newsletterBottleE = '/bottle-2/east-coast-premium-malt-whisky.png'
 const newsletterBottleF = '/1/Liquor_bottle_on_white_background_202607250547 (1).png'

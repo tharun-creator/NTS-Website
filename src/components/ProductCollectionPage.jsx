@@ -23,8 +23,8 @@ function ProductCard({ item, index }) {
         <img src={item.image} alt={`${item.name} bottle`} loading={index < 6 ? 'eager' : 'lazy'} />
       </div>
       <div className="collection-product-card__copy">
-        <h2>{item.name}</h2>
-        <p>{item.detail}</p>
+        <h2>{item.brandName || item.name}</h2>
+        <p>{item.productText || item.detail}</p>
         <a href={`/products/${item.slug}`}>
           Learn More
           <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -41,14 +41,14 @@ export default function ProductCollectionPage() {
     setPageSeo({
       title: 'Product Collection | NTS Distillers',
       description:
-        'Browse the NTS Distillers whisky, brandy, rum, vodka, and flavored vodka portfolio with product profiles and contact links.',
+        'Browse the NTS Distillers whisky, brandy, and rum portfolio with product profiles and contact links.',
       path: '/products',
       image: `${SITE_URL}${productCollectionHeroImage}`,
       imageAlt: 'NTS Distillers product collection bottles',
       schema: createWebPageSchema({
         title: 'Product Collection | NTS Distillers',
         description:
-          'Browse the NTS Distillers whisky, brandy, rum, vodka, and flavored vodka portfolio with product profiles and contact links.',
+          'Browse the NTS Distillers whisky, brandy, and rum portfolio with product profiles and contact links.',
         path: '/products',
         image: `${SITE_URL}${productCollectionHeroImage}`,
       }),
@@ -99,7 +99,7 @@ export default function ProductCollectionPage() {
 
           <div className="collection-product-grid">
             {filteredProducts.map((item, index) => (
-              <ProductCard key={item.name} item={item} index={index} />
+              <ProductCard key={item.slug} item={item} index={index} />
             ))}
           </div>
         </section>

@@ -69,20 +69,17 @@ export default function OldTownDistillery() {
             className="relative flex items-center justify-center"
           >
             <img
-              src="/bottle-2/bottle (2).png"
+              src="/portfolio-images/old-town.png"
               alt="Old Town Indian Blended Malt Whisky - Goa Distillery"
               loading="lazy"
               decoding="async"
-              className="oldtown-bottle h-[80vh] sm:h-[92vh] lg:h-[105vh] xl:h-[115vh] max-h-[1100px] w-auto scale-115 sm:scale-125 lg:scale-135 object-contain drop-shadow-[0_35px_65px_rgba(0,0,0,0.95)] transition-transform duration-500 hover:scale-[1.4] cursor-pointer"
+              className="oldtown-bottle h-[82vh] sm:h-[92vh] lg:h-[102vh] xl:h-[108vh] max-h-[1040px] w-auto scale-105 object-contain drop-shadow-[0_35px_65px_rgba(0,0,0,0.95)] transition-transform duration-500 hover:scale-110 cursor-pointer"
             />
             {/* Realistic Floor Shadow */}
             <div className="oldtown-floor-shadow absolute -bottom-8 left-1/2 -translate-x-1/2 w-72 sm:w-96 h-9 rounded-full bg-black/95 blur-lg pointer-events-none" />
           </motion.div>
         </div>
 
-        <div className="oldtown-mobile-caption" aria-hidden="true">
-          Crafted with mastery
-        </div>
       </div>
 
       {/* Bottom spacer for clean margin */}

@@ -20,7 +20,7 @@ const PRODUCTS = [
     style: "Rare & Rich",
     objPath: "/models/wanted/wanted.obj",
     mtlPath: "/models/wanted/wanted.mtl",
-    fallbackImage: "/bottle-2/bottle (3).png",
+    fallbackImage: "/portfolio-images/wanted.png",
     modelPose: {
       axisRotation: [0, 0, -Math.PI / 2],
       stageRotation: [0.16, -0.42, 0.62],

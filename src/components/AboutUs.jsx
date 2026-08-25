@@ -54,7 +54,7 @@ export default function AboutUs() {
                 NTS began in 1980 in Pondicherry as <strong>NTS Wines</strong> under <strong>Mr. N.T. Sambath</strong>. The company grew through decades of IMFL and beer distribution work across established beverage portfolios and regional trade channels.
               </p>
               <p>
-                Today the business is anchored by a manufacturing unit at <strong>Canacona Industrial Estate, Goa</strong>, with owned semi-premium labels including Old Town, East Coast, Wanted 999, Zipper, and Canacona expressions.
+                Today the business is anchored by a manufacturing unit at <strong>Canacona Industrial Estate, Goa</strong>, with owned semi-premium labels including Old Town, East Coast, and Wanted 999 expressions.
               </p>
             </div>
           </motion.div>

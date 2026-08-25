@@ -1,6 +1,6 @@
 export const SITE_URL = 'https://ntsdistillers.com'
 export const SITE_NAME = 'NTS Distillers'
-export const DEFAULT_OG_IMAGE = `${SITE_URL}/banner/five-bottles-liquor-table-hero.jpeg`
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/banner/five-bottles-liquor-table-hero-logo-seals.png`
 export const DEFAULT_OG_IMAGE_ALT = 'NTS Distillers spirits portfolio bottles'
 
 const defaultDescription =

@@ -17,7 +17,7 @@ const expansionData = {
       { year: '1980', text: 'NTS Wines begins in Pondicherry under Mr. N.T. Sambath.' },
       { year: 'UB Group', text: 'Distribution expands through CDL and Carew Phipson portfolios including Vin Grape, Top Rum, Carew’s Fine Brandy, Red Riband Vodka, Booth’s Gin, Kalyani Beer, UB Export Lager, Bullet Strong, and Kingfisher.' },
       { year: 'McDowell’s', text: 'The portfolio grows with Traveller Brandy and Whisky, Old Cask Rum, Blue Riband Gin, Duet, Tango, Golden Amber Brandy, and Men’s Choice Whisky.' },
-      { year: 'Goa', text: 'NTS establishes its Canacona facility and launches owned semi-premium brands across whisky, brandy, rum, and vodka.' },
+      { year: 'Goa', text: 'NTS establishes its Canacona facility and launches owned semi-premium brands across whisky, brandy, and rum.' },
       { year: '2022', text: 'Public company listings show NTS Blenders and Distillers Private Limited incorporated on 10 October 2022 and active with ROC Pondicherry.' },
     ],
   },
@@ -67,7 +67,7 @@ const expansionData = {
     body:
       'The FAQ page focuses on manufacturing, facility location, owned brands, and how to start a practical discussion with NTS.',
     timeline: [
-      { year: 'Brands', text: 'The current NTS portfolio includes Old Town, East Coast, Wanted 999, Zipper, and Canacona product families.' },
+      { year: 'Brands', text: 'The current NTS portfolio includes Old Town, East Coast, and Wanted 999 product families.' },
       { year: 'Facility', text: 'The Goa plant is in Canacona Industrial Estate with NH 66 connectivity through the state highway.' },
       { year: 'Capacity', text: 'Current production capacity is listed at 75,000 cases per month.' },
       { year: 'Contact', text: 'Contact details are available for both management and plant-level discussions.' },
@@ -229,7 +229,7 @@ const pages = {
     metaTitle: 'FAQ | NTS Distillers',
     metaDescription: 'Frequently asked questions about NTS Distillers products, manufacturing, distribution, and partnership inquiries.',
     sections: [
-      { heading: 'Does NTS manufacture its own brands?', body: 'Yes. The NTS portfolio includes Old Town, East Coast, Wanted 999, Zipper, and Canacona labels across whisky, brandy, rum, and vodka categories.' },
+      { heading: 'Does NTS manufacture its own brands?', body: 'Yes. The NTS portfolio includes Old Town, East Coast, and Wanted 999 labels across whisky, brandy, and rum categories.' },
       { heading: 'Does NTS support contract bottling?', body: 'Yes. The contact flow is intended for manufacturing tie-ups, private label discussions, distribution, and trade collaboration.' },
       { heading: 'Where is the facility located?', body: 'The Goa unit is located in Canacona Industrial Estate with road connectivity for production and distribution movement.' },
       { heading: 'How do I request product or trade details?', body: `Use the contact page or email ${companyFacts.email}. For plant-specific queries, use ${companyFacts.plantEmail}.` },
@@ -453,7 +453,7 @@ export function NotFoundPage() {
     metaTitle: 'Page Not Found | NTS Distillers',
     metaDescription: 'The requested NTS Distillers page could not be found.',
     sections: [
-      { heading: 'Try products', body: 'Browse the current NTS house portfolio across whisky, brandy, rum, and vodka.' },
+      { heading: 'Try products', body: 'Browse the current NTS house portfolio across whisky, brandy, and rum.' },
       { heading: 'Need help?', body: `Contact ${companyFacts.email} or call ${companyFacts.phone} for trade and website assistance.` },
     ],
     actions: [

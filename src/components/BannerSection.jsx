@@ -1,6 +1,6 @@
 import React from 'react'
 
-const heroImage = '/banner/five-bottles-liquor-table-hero.jpeg'
+const heroImage = '/banner/five-bottles-liquor-table-hero-logo-seals.png'
 
 export default function BannerSection() {
   return (
@@ -19,8 +19,8 @@ export default function BannerSection() {
         />
       </div>
 
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.38)_34%,rgba(0,0,0,0.08)_62%,rgba(0,0,0,0)_100%)] sm:bg-[linear-gradient(90deg,rgba(0,0,0,0.62)_0%,rgba(0,0,0,0.24)_36%,rgba(0,0,0,0)_68%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0)_38%,rgba(255,255,255,0.12)_100%)]" />
+      <div className="hero-side-shade pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.38)_34%,rgba(0,0,0,0.08)_62%,rgba(0,0,0,0)_100%)] sm:bg-[linear-gradient(90deg,rgba(0,0,0,0.62)_0%,rgba(0,0,0,0.24)_36%,rgba(0,0,0,0)_68%)]" />
+      <div className="hero-vertical-shade pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0)_38%,rgba(255,255,255,0.12)_100%)]" />
 
       <div className="relative z-10 flex h-full items-start px-4 pt-10 sm:px-8 sm:pt-14 lg:px-12 lg:pt-16">
         <div className="max-w-[920px]">
@@ -31,8 +31,18 @@ export default function BannerSection() {
             id="home-hero-title"
             className="mt-4 max-w-[10.8ch] font-serif text-[clamp(3.4rem,10.2vw,10.8rem)] font-black uppercase leading-[0.82] tracking-normal text-white drop-shadow-[0_18px_46px_rgba(0,0,0,0.72)]"
           >
-            NTS Blenders, Built to Pour
+            <span className="hero-title-line">NTS</span>
+            <span className="hero-title-line hero-title-line--blenders">Blenders,</span>
+            <span className="hero-title-line hero-title-line--pour">Built to Pour</span>
           </h1>
+          <p className="hero-intro">
+            NTS Blenders and Distillers brings Goa production discipline, contract bottling capacity,
+            and label-forward whisky, brandy, rum, and vodka brands into one portfolio.
+          </p>
+          <div className="hero-actions" aria-label="Hero actions">
+            <a href="#flavors" className="hero-action hero-action--primary">View Brands</a>
+            <a href="/distillery" className="hero-action hero-action--secondary">See Facility</a>
+          </div>
         </div>
       </div>
     </section>
