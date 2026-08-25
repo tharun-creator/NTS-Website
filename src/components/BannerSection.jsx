@@ -41,7 +41,6 @@ export default function BannerSection() {
           </p>
           <div className="hero-actions" aria-label="Hero actions">
             <a href="#flavors" className="hero-action hero-action--primary">View Brands</a>
-            <a href="/distillery" className="hero-action hero-action--secondary">See Facility</a>
           </div>
         </div>
       </div>
