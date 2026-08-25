@@ -154,16 +154,17 @@ body.age-gate-open {
     color: #FFFFFF;
   }
   
-  h1, h2, .hero-title, .display-heading, .display {
+  h1, h2, h3, h4, h5, h6, .hero-title, .display-heading, .section-heading, .card-title, .display {
     font-family: var(--font-jd-display);
     font-weight: 950;
     font-synthesis-weight: none;
-    letter-spacing: .005em;
-    line-height: .9;
+    letter-spacing: 0;
+    line-height: .98;
     text-transform: uppercase;
+    text-wrap: balance;
   }
 
-  h3, .section-subheading, .card-title {
+  .section-subheading {
     font-family: var(--font-jd-display);
     font-weight: 950;
     letter-spacing: .01em;
@@ -172,6 +173,7 @@ body.age-gate-open {
   body, p, .body-text {
     font-family: var(--font-jd-text);
     font-weight: 600;
+    text-wrap: pretty;
   }
 
   nav, button, .btn, .ui-label {
@@ -184,7 +186,7 @@ body.age-gate-open {
 .skip-link { position: fixed; left: 16px; top: -80px; z-index: 200; background: #E9542E; color: #FFFFFF; padding: 12px 18px; }
 .skip-link:focus { top: 16px; }
 .eyebrow { margin: 0 0 16px; font: 600 12px/1.3 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; }
-.display { margin: 0; font-family: var(--font-display); font-weight: 900; letter-spacing: -.01em; line-height: .94; text-transform: uppercase; color: #FFFFFF; text-wrap: balance; overflow-wrap: anywhere; }
+.display { margin: 0; font-family: var(--font-display); font-weight: 900; letter-spacing: 0; line-height: .98; text-transform: uppercase; color: #FFFFFF; text-wrap: balance; overflow-wrap: normal; word-break: normal; }
 
 .nav-logo-seal {
   width: clamp(44px, 4.4vw, 56px);
@@ -363,7 +365,7 @@ img.nav-logo-seal {
 .reveal-word.muted { color: var(--accent); }
 
 .flavors { position: relative; height: 340vh; background: #030303; }
-.flavor-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; display: grid; align-content: center; padding: 110px 0 48px; background: #030303; }
+.flavor-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; display: grid; align-content: center; padding: 110px 0 48px; background: radial-gradient(circle at 50% 27%, rgba(233, 84, 46, .18), rgba(3, 3, 3, 0) 34%), #030303; }
 .section-head { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 16px; width: min(100% - 40px, 1400px); margin: 0 auto 28px; }
 .section-head h2 { font-size: clamp(48px, 7vw, 106px); color: #FFFFFF; text-align: center; }
 .section-head p { max-width: 54ch; margin: 0 auto 8px; color: rgba(255,255,255,0.7); text-align: center; }
@@ -377,23 +379,32 @@ img.nav-logo-seal {
 }
 .flavors-section-head h2,
 .flavors-section-head p { margin-left: 0; margin-right: 0; text-align: left; }
-.flavors-section-copy { width: min(100%, 760px); }
+.flavors-section-copy { position: relative; width: min(100%, 760px); padding-bottom: 18px; }
+.flavors-section-copy::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: min(280px, 72vw);
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, #E9542E 18%, #ff6a3d 52%, transparent);
+  box-shadow: 0 0 18px rgba(233, 84, 46, .68);
+}
 .flavor-track { display: flex; gap: 24px; width: max-content; padding: 0 max(20px, calc((100vw - 1400px)/2)); will-change: transform; }
-.flavor-card { position: relative; flex: 0 0 min(44vw, 560px); height: min(62vh, 620px); min-width: 360px; overflow: hidden; border: 1px solid rgba(255,255,255,0.12); border-radius: 28px; color: #FFFFFF; box-shadow: 0 22px 55px rgba(0,0,0,0.7); transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease); cursor: pointer; will-change: transform; }
+.flavor-card { --portfolio-bottle-height: clamp(420px, 53vh, 500px); --portfolio-bottle-scale: 1.3; position: relative; flex: 0 0 min(44vw, 560px); height: min(62vh, 620px); min-width: 360px; overflow: hidden; border: 1px solid rgba(255,255,255,0.12); border-bottom-color: transparent; border-radius: 28px; color: #FFFFFF; box-shadow: 0 22px 55px rgba(0,0,0,0.7); transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease); cursor: pointer; will-change: transform; }
 .flavor-card:hover { transform: translateY(-8px); box-shadow: 0 32px 70px rgba(0,0,0,0.85); border-color: rgba(233,84,46,0.5); }
-.flavor-card .bottle-wrapper { position: absolute; left: 52%; top: 47%; width: 100%; height: 82%; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; pointer-events: none; transition: transform .45s var(--ease); }
-.flavor-card .bottle-img { max-height: 100%; max-width: 100%; width: auto; height: auto; object-fit: contain; transform: rotate(25deg) scale(1.48); transform-origin: 50% 58%; filter: drop-shadow(-20px 30px 48px rgba(0,0,0,0.8)); transition: transform .45s var(--ease), filter .45s var(--ease); }
+.flavor-card .bottle-wrapper { position: absolute; left: 50%; top: 39%; width: min(108%, 560px); height: var(--portfolio-bottle-height); transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; pointer-events: none; transition: transform .45s var(--ease); }
+.flavor-card .bottle-img { display: block; width: auto; height: 100%; max-width: 100%; max-height: none; object-fit: contain; transform: rotate(25deg) scale(var(--portfolio-bottle-scale)); transform-origin: 50% 58%; filter: drop-shadow(-20px 30px 48px rgba(0,0,0,0.8)); transition: transform .45s var(--ease), filter .45s var(--ease); }
 .flavor-card:hover .bottle-wrapper { transform: translate(-50%, -50%) scale(1.015); }
-.flavor-card:hover .bottle-img { transform: rotate(19deg) scale(1.5) translateY(4px); filter: drop-shadow(-22px 34px 56px rgba(0,0,0,0.95)) drop-shadow(0 0 26px rgba(233,84,46,0.32)); }
-.flavor-card.pb .bottle-wrapper { top: 45%; height: 82%; }
+.flavor-card:hover .bottle-img { transform: rotate(19deg) scale(calc(var(--portfolio-bottle-scale) * 1.03)) translateY(4px); filter: drop-shadow(-22px 34px 56px rgba(0,0,0,0.95)) drop-shadow(0 0 26px rgba(233,84,46,0.32)); }
+.flavor-card.pb .bottle-wrapper { top: 39%; height: var(--portfolio-bottle-height); }
 .flavor-card.pb .bottle-img {
-  max-height: 112%;
-  max-width: 112%;
-  transform: rotate(25deg) scale(1.02);
+  transform: rotate(25deg) scale(var(--portfolio-bottle-scale));
   filter: drop-shadow(-20px 30px 48px rgba(0,0,0,0.8));
 }
 .flavor-card.pb:hover .bottle-img {
-  transform: rotate(19deg) scale(1.06) translateY(4px);
+  transform: rotate(19deg) scale(calc(var(--portfolio-bottle-scale) * 1.03)) translateY(4px);
 }
 .flavor-name { position: absolute; left: 28px; bottom: 26px; z-index: 10; max-width: calc(100% - 56px); margin: 0; font: 900 clamp(30px, 3.8vw, 54px)/.9 var(--font-display); letter-spacing: -.02em; text-transform: uppercase; text-shadow: 0 4px 18px rgba(0,0,0,0.8); color: #FFFFFF; }
 .flavor-note { position: absolute; right: 24px; top: 22px; z-index: 10; font: 600 11px/1.3 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: #FFFFFF; }
@@ -625,8 +636,10 @@ img.nav-logo-seal {
   .flavors-section-head { align-items: flex-start; width: min(100% - 40px, 1400px); margin-left: auto; margin-right: auto; text-align: left; }
   .flavors-section-head h2,
   .flavors-section-head p { text-align: left; }
+  .flavors-section-copy::after { width: min(220px, 62vw); }
   .flavor-track { width: auto; overflow-x: auto; transform: none !important; padding: 0 20px 24px; scroll-snap-type: x mandatory; scrollbar-width: thin; }
-  .flavor-card { flex-basis: 78vw; min-width: 78vw; height: 560px; scroll-snap-align: center; }
+  .flavor-card { --portfolio-bottle-height: 430px; flex-basis: 78vw; min-width: 78vw; height: 560px; scroll-snap-align: center; }
+  .flavor-card .bottle-wrapper { top: 38%; width: 112%; }
   .flavor-card .can { height: 320px; width: 132px; }
   .lifestyle { padding: 92px 0 80px; }
   .lifestyle-grid { grid-template-columns: 1fr; }
@@ -650,7 +663,8 @@ img.nav-logo-seal {
   .container, .section-head { width: min(100% - 28px, 1400px); }
   .hero-copy { width: 92vw; }
   .hero-banner { font-size: 25px; }
-  .flavor-card { flex-basis: 84vw; min-width: 84vw; height: 520px; border-radius: 22px; }
+  .flavor-card { --portfolio-bottle-height: 390px; flex-basis: 84vw; min-width: 84vw; height: 520px; border-radius: 22px; }
+  .flavor-card .bottle-wrapper { top: 38%; width: 116%; }
   .lifestyle h2 { font-size: clamp(52px, 16vw, 76px); }
   .still-life, .still-life img { min-height: 420px; }
   .nutrition { grid-template-columns: 1fr; }
@@ -843,8 +857,7 @@ body {
 
 .premium-product-card {
   isolation: isolate;
-  outline: 1px solid color-mix(in oklch, var(--surface) 20%, transparent);
-  outline-offset: -1px;
+  outline: 0;
 }
 
 .premium-product-card::before {
@@ -1500,10 +1513,10 @@ body.age-gate-open { overflow: hidden !important; }
   display: grid;
   grid-template-rows: clamp(500px, 46vw, 700px) minmax(154px, auto);
   align-items: end;
-  --bottle-height: 108%;
-  --bottle-width: 104%;
-  --bottle-scale: 1.08;
-  --bottle-y: 0;
+  --bottle-height: 100%;
+  --bottle-width: 112%;
+  --bottle-scale: var(--collection-bottle-scale, 1);
+  --bottle-y: var(--collection-bottle-y, 0px);
 }
 
 .collection-product-card__image {
@@ -1539,16 +1552,17 @@ body.age-gate-open { overflow: hidden !important; }
   height: var(--bottle-height);
   max-width: var(--bottle-width);
   object-fit: contain;
+  object-position: center bottom;
   transform: translateY(var(--bottle-y)) scale(var(--bottle-scale));
   transform-origin: 50% 100%;
   filter: drop-shadow(0 32px 38px rgba(0,0,0,.72));
 }
 
 .collection-product-card--square {
-  --bottle-height: 146%;
-  --bottle-width: 128%;
-  --bottle-scale: 1.34;
-  --bottle-y: clamp(185px, 14vw, 270px);
+  --bottle-height: 100%;
+  --bottle-width: 112%;
+  --bottle-scale: var(--collection-bottle-scale, 1);
+  --bottle-y: var(--collection-bottle-y, 0px);
 }
 
 .collection-product-card__copy {

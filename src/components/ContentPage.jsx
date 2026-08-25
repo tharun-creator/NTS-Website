@@ -4,7 +4,7 @@ import AgeGate from './AgeGate'
 import FooterRedesign from './FooterRedesign'
 import SiteHeader from './SiteHeader'
 import { companyFacts, facilityStats, machineryList, productCollectionItems } from '../data/siteData'
-import { setPageSeo, SITE_URL } from '../lib/seo'
+import { createProductSchema, createWebPageSchema, setPageSeo, SITE_URL } from '../lib/seo'
 
 const expansionData = {
   about: {
@@ -278,6 +278,12 @@ function PageLayout({ page, fallback }) {
       description: content.metaDescription,
       path: content.path,
       image: content.image?.startsWith('/') ? `${SITE_URL}${content.image}` : undefined,
+      schema: createWebPageSchema({
+        title: content.metaTitle,
+        description: content.metaDescription,
+        path: content.path,
+        image: content.image?.startsWith('/') ? `${SITE_URL}${content.image}` : undefined,
+      }),
     })
   }, [content])
 
@@ -368,7 +374,9 @@ export function ProductDetailPage({ slug }) {
         description: `${product.profile} Specification and pack details are available through the NTS team.`,
         path: `/products/${product.slug}`,
         image: product.image?.startsWith('/') ? `${SITE_URL}${product.image}` : undefined,
+        imageAlt: `${product.name} bottle by NTS Distillers`,
         type: 'product',
+        schema: createProductSchema(product),
       })
     }
   }, [product])

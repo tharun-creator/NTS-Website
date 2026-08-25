@@ -14,7 +14,7 @@ import AnnouncementMarquee from './components/layout/AnnouncementMarquee'
 import ProductModal from './components/product/ProductModal'
 import { ContentPage, NotFoundPage, ProductDetailPage } from './components/ContentPage'
 import { featuredProducts } from './data/siteData'
-import { setPageSeo } from './lib/seo'
+import { createWebPageSchema, setPageSeo } from './lib/seo'
 
 const ProductCollectionPage = lazy(() => import('./components/ProductCollectionPage'))
 const LegalPage = lazy(() => import('./components/LegalPage'))
@@ -84,6 +84,12 @@ function HomePage() {
       description:
         'Explore NTS Blenders and Distillers: Goa-based contract bottling, blending, distillery capacity, and proprietary whisky, brandy, rum, and vodka labels.',
       path: '/',
+      schema: createWebPageSchema({
+        title: 'NTS Distillers | Goa Spirits Manufacturer & Contract Bottling Partner',
+        description:
+          'Explore NTS Blenders and Distillers: Goa-based contract bottling, blending, distillery capacity, and proprietary whisky, brandy, rum, and vodka labels.',
+        path: '/',
+      }),
     })
   }, [])
 
@@ -255,6 +261,7 @@ function HomePage() {
                   onClick={() => setSelectedProduct(prod)}
                   aria-label={`View ${prod.name} product details`}
                   data-od-id={`flavor-card-${prod.id}`}
+                  style={{ '--portfolio-bottle-scale': prod.portfolioScale || 1.3 }}
                 >
                   {prod.image && (
                     <div className="bottle-wrapper" aria-hidden="true">

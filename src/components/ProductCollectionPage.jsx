@@ -4,7 +4,7 @@ import AgeGate from './AgeGate'
 import FooterRedesign from './FooterRedesign'
 import SiteHeader from './SiteHeader'
 import { productCategoryFilters, productCollectionHeroImage, productCollectionItems } from '../data/siteData'
-import { setPageSeo, SITE_URL } from '../lib/seo'
+import { createWebPageSchema, setPageSeo, SITE_URL } from '../lib/seo'
 
 function ProductPageHeader() {
   return <SiteHeader current="/products" />
@@ -12,7 +12,13 @@ function ProductPageHeader() {
 
 function ProductCard({ item, index }) {
   return (
-    <article className={`collection-product-card ${item.fit ? `collection-product-card--${item.fit}` : ''}`}>
+    <article
+      className={`collection-product-card ${item.fit ? `collection-product-card--${item.fit}` : ''}`}
+      style={{
+        '--collection-bottle-scale': item.collectionScale || 1,
+        '--collection-bottle-y': item.collectionY || '0px',
+      }}
+    >
       <div className="collection-product-card__image">
         <img src={item.image} alt={`${item.name} bottle`} loading={index < 6 ? 'eager' : 'lazy'} />
       </div>
@@ -38,6 +44,14 @@ export default function ProductCollectionPage() {
         'Browse the NTS Distillers whisky, brandy, rum, vodka, and flavored vodka portfolio with product profiles and contact links.',
       path: '/products',
       image: `${SITE_URL}${productCollectionHeroImage}`,
+      imageAlt: 'NTS Distillers product collection bottles',
+      schema: createWebPageSchema({
+        title: 'Product Collection | NTS Distillers',
+        description:
+          'Browse the NTS Distillers whisky, brandy, rum, vodka, and flavored vodka portfolio with product profiles and contact links.',
+        path: '/products',
+        image: `${SITE_URL}${productCollectionHeroImage}`,
+      }),
     })
   }, [])
 

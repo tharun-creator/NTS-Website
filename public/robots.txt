@@ -1,4 +1,30 @@
 User-agent: *
 Allow: /
+Allow: /banner/
+Allow: /bottle-2/
+Allow: /images/
+Allow: /logo.png
+Allow: /favicon.ico
+Allow: /site.webmanifest
 
 Sitemap: https://ntsdistillers.com/sitemap.xml
+Host: https://ntsdistillers.com
+
+# AI and answer-engine discovery
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /

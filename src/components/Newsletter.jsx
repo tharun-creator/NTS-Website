@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { CheckCircle2, Mail, ArrowRight } from 'lucide-react'
 
 const newsletterBottleA = '/bottle-2/bottle (2).png'
 const newsletterBottleB = '/bottle-2/bottle (1).png'
@@ -27,23 +26,23 @@ function useIsMobile() {
 export default function Newsletter() {
   const bottleEase = [0.22, 1, 0.36, 1]
   const isMobile = useIsMobile()
-
   const [email, setEmail] = useState('')
-  const [isSubscribed, setIsSubscribed] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
   const [error, setError] = useState('')
 
-  const handleSubscribe = (e) => {
-    e.preventDefault()
+  const handleChatRequest = (event) => {
+    event.preventDefault()
     const value = email.trim()
     const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
 
     if (!isValidEmail) {
       setError('Enter a valid email address.')
+      setIsSubmitted(false)
       return
     }
 
     setError('')
-    setIsSubscribed(true)
+    setIsSubmitted(true)
   }
 
   const leftBottles = [
@@ -182,16 +181,12 @@ export default function Newsletter() {
 
           {/* Bold Serif Headline */}
           <h2 className="mx-auto mt-6 max-w-[850px] font-serif text-[clamp(2.1rem,11vw,4.4rem)] font-black uppercase leading-[1.02] tracking-tight text-white sm:leading-[1.04]">
-            LABEL LAUNCHES, CAPACITY UPDATES, AND PARTNERSHIP OPENINGS.
+            TRADE-READY SPIRITS, BOTTLING CAPACITY, AND PARTNERSHIP OPPORTUNITIES.
           </h2>
 
-          {/* Subtitle */}
-          <p className="mx-auto mt-5 max-w-[34rem] font-sans text-sm sm:text-base leading-relaxed text-white/75 font-medium">
-            Occasional updates for distributors, private-label partners, and trade collaborators.
-          </p>
         </motion.div>
 
-        {/* Subscription Bar */}
+        {/* Contact Prompt */}
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -199,47 +194,44 @@ export default function Newsletter() {
           viewport={{ once: true, amount: 0.2 }}
           className="mt-10"
         >
-          {isSubscribed ? (
-            <div className="mx-auto flex max-w-md items-center justify-center gap-3 rounded-full border border-emerald-500/30 bg-emerald-950/80 px-6 py-4 text-emerald-300 shadow-2xl backdrop-blur-md" aria-live="polite">
-              <CheckCircle2 className="h-6 w-6 text-emerald-400 shrink-0" />
-              <span className="font-sans text-sm font-semibold">
-                Thank you! You've been added to Partner Notes.
-              </span>
+          <form onSubmit={handleChatRequest} className="mx-auto w-full max-w-xl" noValidate>
+            <div className="relative flex flex-col items-center gap-2 rounded-3xl border border-white/20 bg-white/[0.06] p-2 shadow-[0_20px_60px_rgba(0,0,0,0.72)] backdrop-blur-md transition-all focus-within:border-[#E9542E] focus-within:ring-2 focus-within:ring-[#E9542E]/30 sm:flex-row sm:rounded-full sm:pl-7">
+              <label htmlFor="partner-chat-email" className="sr-only">
+                Email address
+              </label>
+              <input
+                id="partner-chat-email"
+                type="email"
+                required
+                aria-describedby={error ? 'partner-chat-error' : isSubmitted ? 'partner-chat-success' : undefined}
+                aria-invalid={error ? 'true' : undefined}
+                value={email}
+                onChange={(event) => {
+                  setEmail(event.target.value)
+                  if (error) setError('')
+                  if (isSubmitted) setIsSubmitted(false)
+                }}
+                placeholder="Enter your email address"
+                className="w-full bg-transparent px-3 py-3 font-sans text-sm text-white outline-none placeholder:text-white/60 sm:py-2 sm:text-base"
+              />
+              <button
+                type="submit"
+                className="min-h-12 w-full shrink-0 rounded-full bg-[#050505] px-8 py-3.5 font-mono text-xs font-bold uppercase tracking-[0.18em] text-white shadow-lg transition-all duration-300 hover:bg-[#E9542E] hover:shadow-2xl active:scale-95 sm:w-auto"
+              >
+                Start chat
+              </button>
             </div>
-          ) : (
-            <form onSubmit={handleSubscribe} className="mx-auto w-full max-w-xl" noValidate>
-              <div className="relative flex flex-col sm:flex-row items-center gap-2 sm:gap-3 rounded-3xl sm:rounded-full border border-white/20 bg-white/[0.06] p-2 sm:p-2 sm:pl-7 shadow-[0_20px_60px_rgba(0,0,0,0.85)] transition-all focus-within:border-[#E9542E] focus-within:ring-2 focus-within:ring-[#E9542E]/30">
-                <label htmlFor="partner-notes-email" className="sr-only">
-                  Email address for Partner Notes
-                </label>
-                <input
-                  id="partner-notes-email"
-                  type="email"
-                  required
-                  aria-describedby={error ? 'partner-notes-error' : undefined}
-                  aria-invalid={error ? 'true' : undefined}
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value)
-                    if (error) setError('')
-                  }}
-                  placeholder="Enter your email"
-                  className="w-full bg-transparent px-3 py-3 sm:py-2 font-sans text-sm sm:text-base text-white placeholder:text-white/65 outline-none"
-                />
-                <button
-                  type="submit"
-                  className="min-h-12 w-full sm:w-auto shrink-0 rounded-full bg-[#050505] hover:bg-[#E9542E] px-8 py-3.5 font-mono text-xs font-bold uppercase tracking-[0.2em] text-white shadow-lg transition-all duration-300 hover:shadow-2xl active:scale-95"
-                >
-                  SUBSCRIBE
-                </button>
-              </div>
-              {error && (
-                <p id="partner-notes-error" className="mt-3 text-left font-sans text-sm font-semibold text-[#ff8f73]" role="alert">
-                  {error}
-                </p>
-              )}
-            </form>
-          )}
+            {error && (
+              <p id="partner-chat-error" className="mt-3 text-left font-sans text-sm font-semibold text-[#ff8f73]" role="alert">
+                {error}
+              </p>
+            )}
+            {isSubmitted && (
+              <p id="partner-chat-success" className="mt-3 text-center font-sans text-sm font-semibold text-white/70" aria-live="polite">
+                Thanks. We have your email and can follow up on the right trade conversation.
+              </p>
+            )}
+          </form>
         </motion.div>
       </div>
     </section>

@@ -33,23 +33,6 @@ export default function BannerSection() {
           >
             NTS Blenders, Built to Pour
           </h1>
-          <p className="mt-5 max-w-xl font-sans text-sm font-bold leading-6 text-white/78 sm:text-base">
-            NTS Blenders and Distillers brings Goa production discipline, contract bottling capacity, and label-forward whisky, brandy, rum, and vodka brands into one portfolio.
-          </p>
-          <div className="mt-7 flex flex-wrap items-center gap-3">
-            <a
-              href="/products"
-              className="inline-flex min-h-12 items-center justify-center bg-[#E9542E] px-6 font-mono text-[11px] font-black uppercase tracking-[0.2em] text-white transition-colors hover:bg-white hover:text-[#030303]"
-            >
-              View Brands
-            </a>
-            <a
-              href="/distillery"
-              className="inline-flex min-h-12 items-center justify-center border border-white/55 px-6 font-mono text-[11px] font-black uppercase tracking-[0.2em] text-white transition-colors hover:border-white hover:bg-white hover:text-[#030303]"
-            >
-              See Facility
-            </a>
-          </div>
         </div>
       </div>
     </section>

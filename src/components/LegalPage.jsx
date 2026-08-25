@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { X } from 'lucide-react'
 import AgeGate from './AgeGate'
 import FooterRedesign from './FooterRedesign'
-import { setPageSeo } from '../lib/seo'
+import { createWebPageSchema, setPageSeo } from '../lib/seo'
 
 const legalPages = {
   terms: {
@@ -145,6 +145,11 @@ export default function LegalPage({ page = 'terms' }) {
       title: `${content.eyebrow} | NTS Distillers`,
       description: content.intro,
       path: page === 'privacy' ? '/privacy' : '/terms',
+      schema: createWebPageSchema({
+        title: `${content.eyebrow} | NTS Distillers`,
+        description: content.intro,
+        path: page === 'privacy' ? '/privacy' : '/terms',
+      }),
     })
   }, [content])
 

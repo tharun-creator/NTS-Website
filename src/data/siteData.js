@@ -18,6 +18,7 @@ export const featuredProducts = [
     cardClass: 'berry',
     note: 'Flagship Spirit 01',
     image: '/bottle-2/bottle (2).png',
+    portfolioScale: 1.32,
     description: 'Old Town Indian Blended Malt Whisky leads the NTS semi-premium portfolio with a label-forward malt blended whisky presence.',
   },
   {
@@ -30,6 +31,7 @@ export const featuredProducts = [
     cardClass: 'berry',
     note: 'Flagship Spirit 02',
     image: '/bottle-2/bottle (3).png',
+    portfolioScale: 1.5,
     description: 'Wanted 999 VSOP Brandy is part of the NTS house portfolio, built around a rich VSOP brandy profile and strong shelf recognition.',
   },
   {
@@ -42,6 +44,7 @@ export const featuredProducts = [
     cardClass: 'vanilla',
     note: 'Flagship Spirit 03',
     image: '/bottle-2/bottle.png',
+    portfolioScale: 1.28,
     description: 'East Coast Indian Blended Grape Brandy carries the East Coast range with a smooth grape brandy identity.',
   },
   {
@@ -54,6 +57,7 @@ export const featuredProducts = [
     cardClass: 'cookie',
     note: 'Flagship Spirit 04',
     image: '/bottle-2/bottle (1).png',
+    portfolioScale: 1.3,
     description: 'East Coast XXX Rum brings a dark rum expression to the NTS portfolio with classic, bold label character.',
   },
   {
@@ -66,6 +70,7 @@ export const featuredProducts = [
     cardClass: 'pb',
     note: 'Flagship Spirit 05',
     image: '/bottle-2/east-coast-premium-malt-whisky.png',
+    portfolioScale: 0.94,
     description: 'East Coast Sugar New Rum is presented on this site as part of the current NTS product portfolio.',
   },
 ]
@@ -83,6 +88,8 @@ export const productCollectionItems = [
     tastingNotes: 'A flagship malt blended whisky expression in the NTS semi-premium portfolio.',
     profile: 'Old Town Indian Blended Malt Whisky is positioned as a flagship whisky label within the NTS house portfolio.',
     image: '/bottle-2/bottle (2).png',
+    collectionScale: 1.118,
+    collectionY: '14.89%',
   },
   {
     slug: 'wanted-999-vsop-brandy',
@@ -94,6 +101,8 @@ export const productCollectionItems = [
     tastingNotes: 'A rich VSOP brandy expression with strong shelf presence.',
     profile: 'Wanted 999 VSOP Brandy is part of the NTS owned brand portfolio, shaped for trade conversations and visible retail presentation.',
     image: '/bottle-2/bottle (3).png',
+    collectionScale: 1.18,
+    collectionY: '16%',
   },
   {
     slug: 'east-coast-indian-grape-brandy',
@@ -105,6 +114,8 @@ export const productCollectionItems = [
     tastingNotes: 'A smooth grape brandy expression within the East Coast range.',
     profile: 'East Coast Indian Grape Brandy is part of the East Coast brand family and supports the NTS brandy portfolio.',
     image: '/bottle-2/bottle.png',
+    collectionScale: 1.072,
+    collectionY: '11.29%',
   },
   {
     slug: 'east-coast-xxx-rum',
@@ -116,6 +127,8 @@ export const productCollectionItems = [
     tastingNotes: 'A dark rum expression with a bold East Coast identity.',
     profile: 'A dark rum expression with traditional XXX character, built for strong shelf recognition and classic serve formats.',
     image: '/bottle-2/bottle (1).png',
+    collectionScale: 1.081,
+    collectionY: '15.54%',
   },
   {
     slug: 'east-coast-sugar-new-rum',
@@ -127,6 +140,8 @@ export const productCollectionItems = [
     tastingNotes: 'Presented on this website as part of the East Coast rum range.',
     profile: 'East Coast Sugar New Rum is presented as part of the current NTS house portfolio and grouped under the rum category for trade details.',
     image: '/bottle-2/east-coast-premium-malt-whisky.png',
+    collectionScale: 0.775,
+    collectionY: '-3.92%',
   },
   {
     slug: 'zipper-green-apple-vodka',
@@ -139,6 +154,8 @@ export const productCollectionItems = [
     profile: 'Zipper Green Apple Vodka is part of the Zipper flavored vodka range.',
     image: '/1/Liquor_bottle_on_white_background_202607250547 (4).png',
     fit: 'square',
+    collectionScale: 1.72,
+    collectionY: '18%',
   },
   {
     slug: 'canacona-blast-berry-vodka',
@@ -151,6 +168,8 @@ export const productCollectionItems = [
     profile: 'Canacona Blast Berry Vodka is presented on this website as part of the current NTS vodka portfolio.',
     image: '/1/Liquor_bottle_on_white_background_202607250547 (5).png',
     fit: 'square',
+    collectionScale: 1.54,
+    collectionY: '10%',
   },
   {
     slug: 'canacona-zimmy-pop-kiwi-vodka',
@@ -163,6 +182,8 @@ export const productCollectionItems = [
     profile: 'Canacona Zimmy Pop Kiwi Vodka is presented on this website as part of the current NTS vodka portfolio.',
     image: '/1/Liquor_bottle_on_white_background_202607250548 (1).png',
     fit: 'square',
+    collectionScale: 1.6,
+    collectionY: '10%',
   },
   {
     slug: 'canacona-tangy-twist-orange-vodka',
@@ -175,6 +196,8 @@ export const productCollectionItems = [
     profile: 'Canacona Tangy Twist Orange Vodka is presented on this website as part of the current NTS vodka portfolio.',
     image: '/1/Liquor_bottle_on_white_background_202607250548 (2).png',
     fit: 'square',
+    collectionScale: 1.54,
+    collectionY: '10%',
   },
   {
     slug: 'capacano-key-lime-kiss-vodka',
@@ -187,6 +210,8 @@ export const productCollectionItems = [
     profile: 'Capacano Key Lime Kiss Vodka is presented on this website as part of the current NTS vodka portfolio.',
     image: '/1/Liquor_bottle_on_white_background_202607250548 (3).png',
     fit: 'square',
+    collectionScale: 1.26,
+    collectionY: '4%',
   },
   {
     slug: 'zipper-orange-vodka',
@@ -199,6 +224,8 @@ export const productCollectionItems = [
     profile: 'Zipper Orange Vodka is part of the Zipper flavored vodka range.',
     image: '/1/Liquor_bottle_on_white_background_202607250547.png',
     fit: 'square',
+    collectionScale: 1.46,
+    collectionY: '14%',
   },
   {
     slug: 'zipper-lemon-lime-vodka',
@@ -211,6 +238,8 @@ export const productCollectionItems = [
     profile: 'Zipper Lemon Lime Vodka is part of the Zipper flavored vodka range.',
     image: '/1/Liquor_bottle_on_white_background_202607250547 (1).png',
     fit: 'square',
+    collectionScale: 1.32,
+    collectionY: '8%',
   },
   {
     slug: 'zipper-lychee-vodka',
@@ -223,6 +252,8 @@ export const productCollectionItems = [
     profile: 'Zipper Lychee Vodka is presented on this website as part of the current NTS vodka portfolio.',
     image: '/1/Liquor_bottle_on_white_background_202607250547 (2).png',
     fit: 'square',
+    collectionScale: 1.34,
+    collectionY: '10%',
   },
   {
     slug: 'zipper-guava-vodka',
@@ -235,6 +266,8 @@ export const productCollectionItems = [
     profile: 'Zipper Guava Vodka is part of the Zipper flavored vodka range.',
     image: '/1/Liquor_bottle_on_white_background_202607250547 (3).png',
     fit: 'square',
+    collectionScale: 1.28,
+    collectionY: '4%',
   },
 ]
 
