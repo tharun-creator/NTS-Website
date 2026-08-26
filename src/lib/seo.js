@@ -4,7 +4,7 @@ export const DEFAULT_OG_IMAGE = `${SITE_URL}/banner/five-bottles-liquor-table-he
 export const DEFAULT_OG_IMAGE_ALT = 'NTS Distillers spirits portfolio bottles'
 
 const defaultDescription =
-  'NTS Blenders and Distillers Pvt. Ltd. is a Goa-based spirits manufacturer offering contract bottling, blending, and a proprietary IMFL portfolio.'
+  'NTS Blenders and Distillers Pvt. Ltd. is a Goa-based spirits manufacturer offering contract bottling and a proprietary IMFL portfolio.'
 
 const organizationSchema = {
   '@context': 'https://schema.org',
@@ -16,7 +16,7 @@ const organizationSchema = {
   logo: `${SITE_URL}/logo.png`,
   image: DEFAULT_OG_IMAGE,
   foundingDate: '1980',
-  slogan: 'Goa spirits manufacturing, bottling, blending, and distribution support.',
+  slogan: 'Goa spirits manufacturing, bottling, and distribution support.',
   founder: {
     '@type': 'Person',
     name: 'Mr. N.T. Sambath',
@@ -51,8 +51,6 @@ const organizationSchema = {
     'Contract bottling',
     'Spirits manufacturing',
     'IMFL brands',
-    'Blending',
-    'ENA storage',
     'Whisky',
     'Brandy',
     'Rum',

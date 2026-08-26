@@ -5,8 +5,8 @@ import { companyFacts, facilityStats, machineryList } from '../data/siteData'
 const operatingSteps = [
   {
     label: '01',
-    title: 'Blend',
-    body: 'Blending capacity is listed at 1,40,000 litres, with future expansion planned to 5,40,000 litres.',
+    title: 'Prepare',
+    body: 'The Canacona facility is organized for disciplined production flow, quality checks, and practical batch control.',
   },
   {
     label: '02',
@@ -16,7 +16,7 @@ const operatingSteps = [
   {
     label: '03',
     title: 'Dispatch',
-    body: 'The Canacona unit is supported by ENA storage, bonded warehousing, and highway access through Goa.',
+    body: 'The Canacona unit is supported by bonded warehousing and highway access through Goa.',
   },
 ]
 

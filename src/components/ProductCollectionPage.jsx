@@ -11,9 +11,11 @@ function ProductPageHeader() {
 }
 
 function ProductCard({ item, index }) {
+  const isComingSoon = item.comingSoon
+
   return (
     <article
-      className={`collection-product-card ${item.fit ? `collection-product-card--${item.fit}` : ''}`}
+      className={`collection-product-card ${item.fit ? `collection-product-card--${item.fit}` : ''} ${isComingSoon ? 'collection-product-card--coming-soon' : ''}`}
       style={{
         '--collection-bottle-scale': item.collectionScale || 1,
         '--collection-bottle-y': item.collectionY || '0px',
@@ -23,15 +25,45 @@ function ProductCard({ item, index }) {
         <img src={item.image} alt={`${item.name} bottle`} loading={index < 6 ? 'eager' : 'lazy'} />
       </div>
       <div className="collection-product-card__copy">
+        {isComingSoon && (
+          <span className="collection-product-card__status">
+            <span>Coming Soon</span>
+          </span>
+        )}
         <h2>{item.brandName || item.name}</h2>
         <p>{item.productText || item.detail}</p>
-        <a href={`/products/${item.slug}`}>
-          Learn More
-          <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-        </a>
+        {isComingSoon ? (
+          <span className="collection-product-card__coming-cta" aria-label={`${item.name} coming soon`}>
+            Coming Soon
+          </span>
+        ) : (
+          <a href={`/products/${item.slug}`}>
+            Learn More
+            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </a>
+        )}
       </div>
     </article>
   )
+}
+
+function ComingSoonMarquee() {
+  const line = 'COMING SOON • NEW RELEASES • NTS DISTILLERS •'
+
+  return (
+    <section className="collection-coming-marquee" aria-label="Coming soon releases">
+      <div className="collection-coming-marquee__track" aria-hidden="true">
+        {Array.from({ length: 8 }).map((_, index) => (
+          <span key={index}>{line}</span>
+        ))}
+      </div>
+      <span className="sr-only">Coming soon, new releases, NTS Distillers.</span>
+    </section>
+  )
+}
+
+function getProductGridClass(products) {
+  return `collection-product-grid collection-product-grid--balanced collection-product-grid--remainder-${products.length % 3}`
 }
 
 export default function ProductCollectionPage() {
@@ -55,10 +87,13 @@ export default function ProductCollectionPage() {
     })
   }, [])
 
-  const filteredProducts = useMemo(() => {
-    if (activeCategory === 'All') return productCollectionItems
-    return productCollectionItems.filter((item) => item.category === activeCategory)
-  }, [activeCategory])
+  const availableProducts = useMemo(() => productCollectionItems.filter((item) => !item.comingSoon), [])
+  const comingSoonProducts = useMemo(() => productCollectionItems.filter((item) => item.comingSoon), [])
+
+  const filteredAvailableProducts = useMemo(() => {
+    if (activeCategory === 'All') return availableProducts
+    return availableProducts.filter((item) => item.category === activeCategory)
+  }, [activeCategory, availableProducts])
 
   return (
     <div className="product-collection-page">
@@ -97,17 +132,41 @@ export default function ProductCollectionPage() {
             </div>
           </div>
 
-          <div className="collection-product-grid">
-            {filteredProducts.map((item, index) => (
-              <ProductCard key={item.slug} item={item} index={index} />
-            ))}
-          </div>
+          {filteredAvailableProducts.length > 0 ? (
+            <div className={getProductGridClass(filteredAvailableProducts)} aria-label="Available products">
+              {filteredAvailableProducts.map((item, index) => (
+                <ProductCard key={item.slug} item={item} index={index} />
+              ))}
+            </div>
+          ) : (
+            <div className="collection-empty-state">
+              <p>No available {activeCategory.toLowerCase()} labels in the current collection.</p>
+            </div>
+          )}
         </section>
+
+        <ComingSoonMarquee />
+
+        {comingSoonProducts.length > 0 && (
+          <section className="collection-upcoming-section" aria-labelledby="coming-soon-title">
+            <div className="collection-upcoming-section__intro">
+              <p>Coming Soon</p>
+              <span aria-hidden="true" />
+              <h2 id="coming-soon-title">The Next Releases From NTS.</h2>
+            </div>
+
+            <div className={getProductGridClass(comingSoonProducts)} aria-label="Coming soon products">
+              {comingSoonProducts.map((item, index) => (
+                <ProductCard key={item.slug} item={item} index={availableProducts.length + index} />
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className="collection-visit-section">
           <div className="collection-visit-section__copy">
             <p>Goa distillery</p>
-            <h2>Built for blending, bottling, and export scale.</h2>
+            <h2>Built for bottling, warehousing, and export scale.</h2>
             <a href="/distillery">View Facility</a>
           </div>
         </section>

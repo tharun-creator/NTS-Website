@@ -1,7 +1,7 @@
 {
   "name": "NTS Distillers",
   "short_name": "NTS",
-  "description": "Goa-based spirits manufacturing, contract bottling, blending, and proprietary IMFL brands from NTS Blenders and Distillers.",
+  "description": "Goa-based spirits manufacturing, contract bottling, and proprietary IMFL brands from NTS Blenders and Distillers.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

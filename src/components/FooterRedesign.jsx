@@ -36,8 +36,8 @@ export default function FooterRedesign() {
               </h3>
               <ul className="space-y-2.5 font-sans text-xs font-bold text-white/58 sm:text-sm">
                 <li><a href="/contact" className="transition-colors hover:text-[#E9542E]">Contract Bottling</a></li>
-                <li><a href="/distillery" className="transition-colors hover:text-[#E9542E]">Precision Blending</a></li>
-                <li><a href="/distillery" className="transition-colors hover:text-[#E9542E]">Bulk Neutral Spirits (ENA)</a></li>
+                <li><a href="/distillery" className="transition-colors hover:text-[#E9542E]">Production Support</a></li>
+                <li><a href="/distillery" className="transition-colors hover:text-[#E9542E]">Bonded Warehousing</a></li>
                 <li><a href="/contact" className="transition-colors hover:text-[#E9542E]">Private Label Distillation</a></li>
               </ul>
             </div>

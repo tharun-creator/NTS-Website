@@ -82,12 +82,12 @@ function HomePage() {
     setPageSeo({
       title: 'NTS Distillers | Goa Spirits Manufacturer & Contract Bottling Partner',
       description:
-        'Explore NTS Blenders and Distillers: Goa-based contract bottling, blending, distillery capacity, and proprietary whisky, brandy, and rum labels.',
+        'Explore NTS Blenders and Distillers: Goa-based contract bottling, Goa production, and proprietary whisky, brandy, rum, and vodka labels.',
       path: '/',
       schema: createWebPageSchema({
         title: 'NTS Distillers | Goa Spirits Manufacturer & Contract Bottling Partner',
         description:
-          'Explore NTS Blenders and Distillers: Goa-based contract bottling, blending, distillery capacity, and proprietary whisky, brandy, and rum labels.',
+          'Explore NTS Blenders and Distillers: Goa-based contract bottling, Goa production, and proprietary whisky, brandy, rum, and vodka labels.',
         path: '/',
       }),
     })
@@ -314,13 +314,13 @@ function HomePage() {
                     NTS operates from a three-acre unit in Canacona Industrial Estate, Goa, with green surroundings and road access through a state highway connected to NH 66.
                   </p>
                   <p>
-                    The facility is planned around disciplined throughput: 1,40,000 litres of blending capacity, 1,20,000 litres of ENA storage, 75,000 cases of monthly production capacity, and a bonded warehouse built for 25,000 cases.
+                    The facility is planned around disciplined throughput: 75,000 cases of monthly production capacity and a bonded warehouse built for 25,000 cases.
                   </p>
                   <p>
                     Rotary washers, 8-head vacuum fillers, ROPP and Guala cap systems, inspection units, labelling, printing, conveyors, rejection tanks, packing support, and an R&D lab keep the line practical, traceable, and quality-focused.
                   </p>
                   <p className="border-l-2 border-[#E9542E] pl-3 text-[#050505] font-semibold text-[11.5px] sm:text-xs">
-                    The next phase raises the ceiling further: 5,40,000 litres of blending capacity, 3,00,000 litres of ENA storage, and 2,50,000 cases of monthly production capacity.
+                    The next phase raises the ceiling further toward 2,50,000 cases of monthly production capacity.
                   </p>
                 </div>
 

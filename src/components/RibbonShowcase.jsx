@@ -23,7 +23,7 @@ const RIBBONS_DATA = [
   },
   {
     id: 'bottling',
-    title: 'Contract Bottling & Blending',
+    title: 'Contract Bottling & Production',
     bgClass: 'bg-[#111111] text-[#FFFFFF]',
     hoverBg: 'hover:bg-[#050505]',
     rot: '-1deg',

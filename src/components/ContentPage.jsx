@@ -125,7 +125,7 @@ const pages = {
       {
         heading: 'Now manufacturing from Goa',
         body:
-          'Today the operation is anchored by a Canacona Industrial Estate unit in Goa, built around controlled blending, bottling, storage, and partner-ready production scale.',
+          'Today the operation is anchored by a Canacona Industrial Estate unit in Goa, built around controlled bottling, warehousing, and partner-ready production scale.',
       },
       {
         heading: 'Registered company record',
@@ -167,20 +167,20 @@ const pages = {
     eyebrow: 'Goa Distillery',
     title: 'A Canacona facility built for precision at scale.',
     intro:
-      'NTS operates from a three-acre unit in Canacona Industrial Estate, Goa, with green surroundings, road access through NH 66 connectivity, and infrastructure for blending, bottling, ENA storage, and bonded warehousing.',
+      'NTS operates from a three-acre unit in Canacona Industrial Estate, Goa, with green surroundings, road access through NH 66 connectivity, and infrastructure for bottling, quality checks, and bonded warehousing.',
     image: '/images/Canacona_vodka_bottles_orange_ba…_202607231523.jpeg',
     metaTitle: 'Goa Distillery Facility | NTS Blenders and Distillers',
-    metaDescription: 'Explore the NTS Goa facility in Canacona with blending capacity, ENA storage, bottling capacity, bonded warehousing, and production machinery.',
+    metaDescription: 'Explore the NTS Goa facility in Canacona with bottling capacity, bonded warehousing, quality checks, and production machinery.',
     sections: [
       {
         heading: 'Current capacity',
         body:
-          'The current setup supports 1,40,000 litres of blending capacity, 1,20,000 litres of ENA storage, 75,000 cases of monthly production capacity, and a 25,000-case bonded warehouse.',
+          'The current setup supports 75,000 cases of monthly production capacity and a 25,000-case bonded warehouse.',
       },
       {
         heading: 'Expansion plan',
         body:
-          'The planned expansion increases the facility to 5,40,000 litres of blending capacity, 3,00,000 litres of ENA storage, 2,50,000 cases of monthly production capacity, and 60,000 cases of warehouse capacity.',
+          'The planned expansion increases monthly production capacity to 2,50,000 cases and warehouse capacity to 60,000 cases.',
       },
       {
         heading: 'Machinery base',

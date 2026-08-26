@@ -1,6 +1,6 @@
 export const announcementItems = [
   'GOA MANUFACTURING FACILITY',
-  'CONTRACT BOTTLING & BLENDING',
+  'CONTRACT BOTTLING & PRODUCTION',
   '15+ PROPRIETARY IMFL BRANDS',
   'NTS BLENDERS AND DISTILLERS PVT. LTD.',
 ]
@@ -175,6 +175,7 @@ export const productCollectionItems = [
     tastingNotes: 'A crisp green apple vodka expression within the Zipper flavored range.',
     profile: 'ZIPPER Green Apple Vodka is part of the NTS flavored vodka portfolio with a bright fruit-led profile.',
     image: '/product-showcase/zipper-green-apple-vodka.png',
+    comingSoon: true,
     fit: 'square',
     collectionScale: 1,
     collectionY: '0%',
@@ -191,6 +192,7 @@ export const productCollectionItems = [
     tastingNotes: 'A berry-led vodka expression shown in the current NTS portfolio.',
     profile: 'CANACONA Blast Berry Vodka is part of the NTS product section with clear bottle artwork and product naming.',
     image: '/product-showcase/canacona-blast-berry-vodka.png',
+    comingSoon: true,
     fit: 'square',
     collectionScale: 1,
     collectionY: '0%',
@@ -207,6 +209,7 @@ export const productCollectionItems = [
     tastingNotes: 'A kiwi-led vodka expression shown in the current NTS portfolio.',
     profile: 'CANACONA Zimmy Pop Kiwi Vodka is part of the NTS product section with clear bottle artwork and product naming.',
     image: '/product-showcase/canacona-zimmy-pop-kiwi-vodka.png',
+    comingSoon: true,
     fit: 'square',
     collectionScale: 1,
     collectionY: '0%',
@@ -223,6 +226,7 @@ export const productCollectionItems = [
     tastingNotes: 'An orange-led vodka expression shown in the current NTS portfolio.',
     profile: 'CANACONA Tangy Twist Orange Vodka is part of the NTS product section with clear bottle artwork and product naming.',
     image: '/product-showcase/canacona-tangy-twist-orange-vodka.png',
+    comingSoon: true,
     fit: 'square',
     collectionScale: 1,
     collectionY: '0%',
@@ -239,6 +243,7 @@ export const productCollectionItems = [
     tastingNotes: 'A bright orange vodka expression within the Zipper flavored range.',
     profile: 'ZIPPER Orange Vodka is part of the NTS flavored vodka portfolio with citrus-led shelf appeal.',
     image: '/product-showcase/zipper-orange-vodka.png',
+    comingSoon: true,
     fit: 'square',
     collectionScale: 1,
     collectionY: '0%',
@@ -255,6 +260,7 @@ export const productCollectionItems = [
     tastingNotes: 'A lemon-lime vodka expression within the Zipper flavored range.',
     profile: 'ZIPPER Lemon Lime Vodka is part of the NTS flavored vodka portfolio for citrus-forward serve formats.',
     image: '/product-showcase/zipper-lemon-lime-vodka.png',
+    comingSoon: true,
     fit: 'square',
     collectionScale: 1,
     collectionY: '0%',
@@ -271,6 +277,7 @@ export const productCollectionItems = [
     tastingNotes: 'A lychee vodka expression within the Zipper flavored range.',
     profile: 'ZIPPER Lychee Vodka is part of the NTS flavored vodka portfolio with a soft fruit profile.',
     image: '/product-showcase/zipper-lychee-vodka.png',
+    comingSoon: true,
     fit: 'square',
     collectionScale: 1,
     collectionY: '0%',
@@ -300,7 +307,7 @@ export const facilityStats = [
   { label: 'Goa property', value: '3 acres' },
   { label: 'Monthly production', value: '75,000 cases' },
   { label: 'Bonded warehouse', value: '25,000 cases' },
-  { label: 'Future production plan', value: '2,50,000 cases/month' },
+  { label: 'Future monthly production plan', value: '2,50,000 cases' },
 ]
 
 export const machineryList = [
