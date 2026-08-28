@@ -4,10 +4,19 @@ import AgeGate from './AgeGate'
 import FooterRedesign from './FooterRedesign'
 import SiteHeader from './SiteHeader'
 import { productCategoryFilters, productCollectionHeroImage, productCollectionItems } from '../data/siteData'
-import { createWebPageSchema, setPageSeo, SITE_URL } from '../lib/seo'
+import { setPageSeo } from '../lib/seo'
+import { getSeoRoute } from '../data/seoRoutes'
 
 function ProductPageHeader() {
   return <SiteHeader current="/products" />
+}
+
+function ComingSoonCard({ item }) {
+  return (
+    <div className="collection-product-card__coming-card" aria-label={`${item.name} coming soon`}>
+      Coming Soon
+    </div>
+  )
 }
 
 function ProductCard({ item, index }) {
@@ -25,17 +34,10 @@ function ProductCard({ item, index }) {
         <img src={item.image} alt={`${item.name} bottle`} loading={index < 6 ? 'eager' : 'lazy'} />
       </div>
       <div className="collection-product-card__copy">
-        {isComingSoon && (
-          <span className="collection-product-card__status">
-            <span>Coming Soon</span>
-          </span>
-        )}
         <h2>{item.brandName || item.name}</h2>
         <p>{item.productText || item.detail}</p>
         {isComingSoon ? (
-          <span className="collection-product-card__coming-cta" aria-label={`${item.name} coming soon`}>
-            Coming Soon
-          </span>
+          <ComingSoonCard item={item} />
         ) : (
           <a href={`/products/${item.slug}`}>
             Learn More
@@ -70,21 +72,7 @@ export default function ProductCollectionPage() {
   const [activeCategory, setActiveCategory] = useState('All')
 
   useEffect(() => {
-    setPageSeo({
-      title: 'Product Collection | NTS Distillers',
-      description:
-        'Browse the NTS Distillers whisky, brandy, and rum portfolio with product profiles and contact links.',
-      path: '/products',
-      image: `${SITE_URL}${productCollectionHeroImage}`,
-      imageAlt: 'NTS Distillers product collection bottles',
-      schema: createWebPageSchema({
-        title: 'Product Collection | NTS Distillers',
-        description:
-          'Browse the NTS Distillers whisky, brandy, and rum portfolio with product profiles and contact links.',
-        path: '/products',
-        image: `${SITE_URL}${productCollectionHeroImage}`,
-      }),
-    })
+    setPageSeo(getSeoRoute('/products'))
   }, [])
 
   const availableProducts = useMemo(() => productCollectionItems.filter((item) => !item.comingSoon), [])
@@ -155,7 +143,13 @@ export default function ProductCollectionPage() {
               <h2 id="coming-soon-title">The Next Releases From NTS.</h2>
             </div>
 
-            <div className={getProductGridClass(comingSoonProducts)} aria-label="Coming soon products">
+            <figure className="collection-upcoming-section__mobile-art">
+              <img src="/images/canacona-vodka-mobile.png" alt="Canacona vodka collection" loading="lazy" />
+            </figure>
+
+            <p className="collection-upcoming-section__mobile-status">Coming Soon</p>
+
+            <div className="collection-product-grid collection-product-grid--upcoming" aria-label="Coming soon products">
               {comingSoonProducts.map((item, index) => (
                 <ProductCard key={item.slug} item={item} index={availableProducts.length + index} />
               ))}

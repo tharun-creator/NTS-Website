@@ -14,7 +14,8 @@ import AnnouncementMarquee from './components/layout/AnnouncementMarquee'
 import ProductModal from './components/product/ProductModal'
 import { ContentPage, NotFoundPage, ProductDetailPage } from './components/ContentPage'
 import { featuredProducts } from './data/siteData'
-import { createWebPageSchema, setPageSeo } from './lib/seo'
+import { setPageSeo } from './lib/seo'
+import { getSeoRoute } from './data/seoRoutes'
 
 const ProductCollectionPage = lazy(() => import('./components/ProductCollectionPage'))
 const LegalPage = lazy(() => import('./components/LegalPage'))
@@ -79,18 +80,7 @@ function HomePage() {
   }
 
   useEffect(() => {
-    setPageSeo({
-      title: 'NTS Distillers | Goa Spirits Manufacturer & Contract Bottling Partner',
-      description:
-        'Explore NTS Blenders and Distillers: Goa-based contract bottling, Goa production, and proprietary whisky, brandy, rum, and vodka labels.',
-      path: '/',
-      schema: createWebPageSchema({
-        title: 'NTS Distillers | Goa Spirits Manufacturer & Contract Bottling Partner',
-        description:
-          'Explore NTS Blenders and Distillers: Goa-based contract bottling, Goa production, and proprietary whisky, brandy, rum, and vodka labels.',
-        path: '/',
-      }),
-    })
+    setPageSeo(getSeoRoute('/'))
   }, [])
 
   useEffect(() => {
@@ -287,8 +277,11 @@ function HomePage() {
         {/* Section 5: Goa Distillery Facility & Manufacturing Scale */}
         <section
           id="legacy"
-          className="relative flex min-h-[720px] items-center overflow-hidden bg-cover bg-[position:left_center] bg-no-repeat py-16 sm:py-24 lg:min-h-[780px]"
-          style={{ backgroundImage: "url('/images/Canacona_vodka_bottles_orange_ba…_202607231523.jpeg')" }}
+          className="legacy-facility-section relative flex min-h-[720px] items-center overflow-hidden bg-cover bg-[position:left_center] bg-no-repeat py-16 sm:py-24 lg:min-h-[780px]"
+          style={{
+            '--legacy-facility-bg-desktop': "url('/images/Canacona_vodka_bottles_orange_ba…_202607231523.jpeg')",
+            '--legacy-facility-bg-mobile': "url('/images/canacona-vodka-mobile.png')",
+          }}
           data-od-id="distillery-facility-section"
         >
           <div className="absolute inset-0 bg-black/5 pointer-events-none" />
@@ -299,7 +292,7 @@ function HomePage() {
               <div className="hidden min-h-[500px] lg:block lg:col-span-7 xl:col-span-7 2xl:col-span-7" />
 
               {/* Right Column: Goa Facility Card */}
-              <div className="reveal premium-panel space-y-4 rounded-[2.5rem] bg-white p-7 text-[#050505] shadow-2xl sm:p-9 lg:col-span-5 xl:col-span-5 2xl:col-span-5 lg:p-10">
+              <div className="legacy-facility-card reveal premium-panel space-y-4 rounded-[2.5rem] bg-white p-7 text-[#050505] shadow-2xl sm:p-9 lg:col-span-5 xl:col-span-5 2xl:col-span-5 lg:p-10">
                 <div className="space-y-1">
                   <span className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-[#E9542E]">
                     CANACONA, GOA • MANUFACTURING FACILITY
