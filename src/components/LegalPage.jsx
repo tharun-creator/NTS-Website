@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { X } from 'lucide-react'
 import AgeGate from './AgeGate'
 import FooterRedesign from './FooterRedesign'
-import { createWebPageSchema, setPageSeo } from '../lib/seo'
+import { setPageSeo } from '../lib/seo'
+import { getSeoRoute } from '../data/seoRoutes'
 
 const legalPages = {
   terms: {
@@ -141,16 +142,9 @@ export default function LegalPage({ page = 'terms' }) {
   const content = legalPages[page] || legalPages.terms
 
   useEffect(() => {
-    setPageSeo({
-      title: `${content.eyebrow} | NTS Distillers`,
-      description: content.intro,
-      path: page === 'privacy' ? '/privacy' : '/terms',
-      schema: createWebPageSchema({
-        title: `${content.eyebrow} | NTS Distillers`,
-        description: content.intro,
-        path: page === 'privacy' ? '/privacy' : '/terms',
-      }),
-    })
+    const path = page === 'privacy' ? '/privacy' : '/terms'
+
+    setPageSeo(getSeoRoute(path))
   }, [content])
 
   return (

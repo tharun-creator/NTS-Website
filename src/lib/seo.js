@@ -16,6 +16,11 @@ const organizationSchema = {
   logo: `${SITE_URL}/logo.png`,
   image: DEFAULT_OG_IMAGE,
   foundingDate: '1980',
+  identifier: {
+    '@type': 'PropertyValue',
+    propertyID: 'CIN',
+    value: 'U15100PY2022PTC008944',
+  },
   slogan: 'Goa spirits manufacturing, bottling, and distribution support.',
   founder: {
     '@type': 'Person',
@@ -40,7 +45,28 @@ const organizationSchema = {
   ],
   email: ['md@ntsdistillers.com', 'plant@ntsdistillers.com', 'sales@ntsdistillers.com'],
   telephone: ['+91-8925523801', '+91-8925523802'],
-  sameAs: ['https://www.instagram.com/ntsdistillers/'],
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      telephone: '+91-8925523801',
+      email: 'md@ntsdistillers.com',
+      contactType: 'business partnerships and trade enquiries',
+      areaServed: 'IN',
+      availableLanguage: ['en'],
+    },
+    {
+      '@type': 'ContactPoint',
+      telephone: '+91-8925523802',
+      email: 'plant@ntsdistillers.com',
+      contactType: 'manufacturing and plant enquiries',
+      areaServed: 'IN',
+      availableLanguage: ['en'],
+    },
+  ],
+  sameAs: [
+    'https://www.instagram.com/ntsdistillers/',
+    'https://in.linkedin.com/in/nts-blenders-and-distillers-pvt-ltd-94aa65353',
+  ],
   areaServed: ['Goa', 'Puducherry', 'India'],
   geo: {
     '@type': 'GeoCoordinates',
@@ -118,25 +144,42 @@ function removeScript(id) {
   if (tag) tag.remove()
 }
 
-export function setPageSeo({
+export function createSeoHead({
   title = SITE_NAME,
   description = defaultDescription,
   path = '/',
   image = DEFAULT_OG_IMAGE,
   imageAlt = DEFAULT_OG_IMAGE_ALT,
   type = 'website',
+  robots = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
   schema,
 } = {}) {
-  if (typeof document === 'undefined') return
 
   const canonicalPath = path.startsWith('/') ? path : `/${path}`
   const canonicalUrl = `${SITE_URL}${canonicalPath}`
   const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`
 
+  return {
+    canonicalUrl,
+    description,
+    fullTitle,
+    image,
+    imageAlt,
+    robots,
+    schema: [organizationSchema, websiteSchema, ...(schema || [])],
+    type,
+  }
+}
+
+export function setPageSeo(route = {}) {
+  if (typeof document === 'undefined') return
+
+  const { canonicalUrl, description, fullTitle, image, imageAlt, robots, schema, type } = createSeoHead(route)
+
   document.title = fullTitle
   upsertLink('canonical', canonicalUrl)
   upsertMeta('meta[name="description"]', { name: 'description', content: description })
-  upsertMeta('meta[name="robots"]', { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' })
+  upsertMeta('meta[name="robots"]', { name: 'robots', content: robots })
   upsertMeta('meta[name="author"]', { name: 'author', content: 'NTS Blenders and Distillers Pvt. Ltd.' })
   upsertMeta('meta[name="publisher"]', { name: 'publisher', content: 'NTS Blenders and Distillers Pvt. Ltd.' })
   upsertMeta('meta[name="geo.region"]', { name: 'geo.region', content: 'IN-GA' })
@@ -169,13 +212,8 @@ export function setPageSeo({
   upsertMeta('meta[name="twitter:description"]', { name: 'twitter:description', content: description })
   upsertMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: image })
   upsertMeta('meta[name="twitter:image:alt"]', { name: 'twitter:image:alt', content: imageAlt })
-  upsertScript('site-structured-data', [organizationSchema, websiteSchema])
-
-  if (schema) {
-    upsertScript('page-structured-data', schema)
-  } else {
-    removeScript('page-structured-data')
-  }
+  upsertScript('site-structured-data', schema)
+  removeScript('page-structured-data')
 }
 
 export function createWebPageSchema({ title, description, path, image = DEFAULT_OG_IMAGE }) {
@@ -199,6 +237,50 @@ export function createWebPageSchema({ title, description, path, image = DEFAULT_
   }
 }
 
+export function createBreadcrumbSchema(items) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: `${SITE_URL}${item.path}`,
+    })),
+  }
+}
+
+export function createProductListSchema(products) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    '@id': `${SITE_URL}/products#itemlist`,
+    name: 'NTS Distillers product collection',
+    itemListElement: products.map((product, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: `${SITE_URL}/products/${product.slug}`,
+      name: product.name,
+    })),
+  }
+}
+
+export function createFaqPageSchema(sections) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': `${SITE_URL}/faq#faqpage`,
+    mainEntity: sections.map((section) => ({
+      '@type': 'Question',
+      name: section.heading,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: section.body,
+      },
+    })),
+  }
+}
+
 export function createProductSchema(product) {
   return {
     '@context': 'https://schema.org',
@@ -210,7 +292,7 @@ export function createProductSchema(product) {
     image: product.image?.startsWith('/') ? `${SITE_URL}${product.image}` : product.image,
     brand: {
       '@type': 'Brand',
-      name: product.name.split(' ')[0],
+      name: product.brandName || product.name,
     },
     manufacturer: {
       '@id': `${SITE_URL}/#organization`,

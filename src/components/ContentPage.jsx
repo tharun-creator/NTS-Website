@@ -4,7 +4,8 @@ import AgeGate from './AgeGate'
 import FooterRedesign from './FooterRedesign'
 import SiteHeader from './SiteHeader'
 import { companyFacts, facilityStats, machineryList, productCollectionItems } from '../data/siteData'
-import { createProductSchema, createWebPageSchema, setPageSeo, SITE_URL } from '../lib/seo'
+import { setPageSeo } from '../lib/seo'
+import { getProductSeoRoute, getSeoRoute } from '../data/seoRoutes'
 
 const expansionData = {
   about: {
@@ -273,19 +274,13 @@ function PageLayout({ page, fallback }) {
   const expansion = expansionData[page]
 
   useEffect(() => {
-    setPageSeo({
+    setPageSeo(getSeoRoute(content.path) || {
       title: content.metaTitle,
       description: content.metaDescription,
       path: content.path,
-      image: content.image?.startsWith('/') ? `${SITE_URL}${content.image}` : undefined,
-      schema: createWebPageSchema({
-        title: content.metaTitle,
-        description: content.metaDescription,
-        path: content.path,
-        image: content.image?.startsWith('/') ? `${SITE_URL}${content.image}` : undefined,
-      }),
+      robots: 'noindex, follow',
     })
-  }, [content])
+  }, [content, page])
 
   return (
     <div className="content-page">
@@ -369,15 +364,7 @@ export function ProductDetailPage({ slug }) {
 
   useEffect(() => {
     if (product) {
-      setPageSeo({
-        title: `${product.name} | NTS Distillers`,
-        description: `${product.profile} Specification and pack details are available through the NTS team.`,
-        path: `/products/${product.slug}`,
-        image: product.image?.startsWith('/') ? `${SITE_URL}${product.image}` : undefined,
-        imageAlt: `${product.name} bottle by NTS Distillers`,
-        type: 'product',
-        schema: createProductSchema(product),
-      })
+      setPageSeo(getProductSeoRoute(product.slug))
     }
   }, [product])
 

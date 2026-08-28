@@ -3,14 +3,19 @@ Allow: /
 Allow: /banner/
 Allow: /bottle-2/
 Allow: /images/
+Allow: /portfolio-images/
+Allow: /product-showcase/
 Allow: /logo.png
 Allow: /favicon.ico
 Allow: /site.webmanifest
+Disallow: /404.html
 
 Sitemap: https://ntsdistillers.com/sitemap.xml
-Host: https://ntsdistillers.com
 
-# AI and answer-engine discovery
+# AI and answer-engine discovery crawlers
+User-agent: OAI-SearchBot
+Allow: /
+
 User-agent: GPTBot
 Allow: /
 

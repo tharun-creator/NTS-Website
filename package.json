@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/generate-seo-pages.mjs",
+    "validate:seo": "node scripts/validate-seo.mjs",
     "preview": "vite preview",
     "start": "vite preview"
   },
