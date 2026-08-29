@@ -89,13 +89,18 @@ const sitemap = createSitemap()
 
 for (const route of seoRoutes) {
   const target = route.path === '/' ? path.join(dist, 'index.html') : path.join(dist, route.path.slice(1), 'index.html')
+  const cleanUrlTarget = route.path === '/' ? null : path.join(dist, `${route.path.slice(1)}.html`)
   const html = baseHtml.replace(/<head>[\s\S]*?<\/head>/, createHead(route))
 
   await mkdir(path.dirname(target), { recursive: true })
   await writeFile(target, html)
+
+  if (cleanUrlTarget) {
+    await mkdir(path.dirname(cleanUrlTarget), { recursive: true })
+    await writeFile(cleanUrlTarget, html)
+  }
 }
 
-await writeFile(path.join(publicDirectory, 'sitemap.xml'), sitemap)
 await writeFile(path.join(dist, 'sitemap.xml'), sitemap)
 await cp(path.join(publicDirectory, 'llms.txt'), path.join(dist, 'llms.txt'))
 

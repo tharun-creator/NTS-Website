@@ -135,7 +135,7 @@ function HomePage() {
       <a className="skip-link" href="#main">Skip to content</a>
 
       {/* Top Announcement Marquee Ticker & Navbar Header */}
-      <div className="sticky top-0 z-50 shadow-md">
+      <div className="home-header-shell sticky top-0 z-50 shadow-md">
         <AnnouncementMarquee />
         
         {/* Full-width Navbar Header */}
@@ -150,6 +150,12 @@ function HomePage() {
                 NTS DISTILLERS
               </span>
             </a>
+
+            <nav className="home-reference-nav" aria-label="Hero quick links">
+              <a href="/distillery">Goa manufacturing facility</a>
+              <a href="/contact">Contract bottling</a>
+              <a href="/products">Private label spirits</a>
+            </nav>
 
             {/* Desktop Navigation Links */}
             <nav className="hidden items-center gap-5 xl:flex 2xl:gap-8" aria-label="Main Navigation">

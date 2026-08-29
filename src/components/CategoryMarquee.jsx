@@ -17,7 +17,7 @@ export default function CategoryMarquee() {
   const tickerItems = [...categoryItems, ...categoryItems, ...categoryItems, ...categoryItems]
 
   return (
-    <div className="w-full overflow-hidden bg-coral-orange py-3 text-white">
+    <div className="home-category-marquee w-full overflow-hidden bg-coral-orange py-3 text-white">
       <div className="inline-flex min-w-max animate-marquee items-center whitespace-nowrap hover:[animation-play-state:paused] motion-reduce:animate-none">
         {tickerItems.map((item, index) => (
           <span

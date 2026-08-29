@@ -16,10 +16,12 @@ assert.match(robots, new RegExp(`Sitemap: ${escapeRegExp(SITE_URL)}/sitemap\\.xm
 
 for (const route of seoRoutes) {
   const file = route.path === '/' ? path.join(dist, 'index.html') : path.join(dist, route.path.slice(1), 'index.html')
+  const cleanUrlFile = route.path === '/' ? null : path.join(dist, `${route.path.slice(1)}.html`)
   const html = await readFile(file, 'utf8')
   const canonical = `${SITE_URL}${route.path}`
 
   await access(file)
+  if (cleanUrlFile) await access(cleanUrlFile)
   assert.match(html, new RegExp(`<link rel="canonical" href="${escapeRegExp(canonical)}"`))
   assert.match(html, /<meta name="description" content="[^"]+"/)
   assert.match(html, /<meta property="og:title" content="[^"]+"/)

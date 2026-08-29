@@ -3,9 +3,13 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build && node scripts/generate-seo-pages.mjs",
+    "build:vercel": "npm run build && npm run validate:seo",
     "validate:seo": "node scripts/validate-seo.mjs",
     "preview": "vite preview",
     "start": "vite preview"

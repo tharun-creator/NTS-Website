@@ -12,7 +12,7 @@ export default function BannerSection() {
     >
       <div className="absolute inset-0" data-parallax-speed="-0.08" data-parallax-scale="1.04">
         <picture className="block h-full w-full">
-          <source media="(max-width: 760px)" srcSet="/banner/five-bottles-liquor-table-hero-mobile-baseline.png" />
+          <source media="(max-width: 1100px)" srcSet="/banner/five-bottles-liquor-table-hero-mobile-clean.png" />
           <img
             src={heroImage}
             alt="NTS Distillers bottle lineup on a table"
@@ -24,10 +24,11 @@ export default function BannerSection() {
 
       <div className="hero-vertical-shade pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0)_38%,rgba(255,255,255,0.12)_100%)]" />
 
-      <div className="relative z-10 flex h-full items-center px-4 py-10 sm:px-8 sm:py-14 lg:px-12 lg:py-16">
-        <div className="max-w-[860px]">
-          <p className="font-mono text-[10px] font-black uppercase tracking-[0.28em] text-[#E9542E] sm:text-xs">
-            Goa manufacturing / proprietary IMFL brands
+      <div className="home-hero-content relative z-10 flex h-full items-center px-4 py-10 sm:px-8 sm:py-14 lg:px-12 lg:py-16">
+        <div className="home-hero-copy max-w-[860px]">
+          <p className="home-hero-kicker font-mono text-[10px] font-black uppercase tracking-[0.28em] text-[#E9542E] sm:text-xs">
+            <span>Goa manufacturing / proprietary</span>
+            <span>IMFL brands</span>
           </p>
           <h1
             id="home-hero-title"
@@ -38,8 +39,8 @@ export default function BannerSection() {
             <span className="hero-title-line hero-title-line--pour">Built to Pour</span>
           </h1>
           <p className="hero-intro">
-            NTS Blenders and Distillers brings Goa production discipline, contract bottling capacity,
-            and label-forward whisky, brandy, rum, and vodka brands into one portfolio.
+            <span>Goa production and contract bottling.</span>
+            <span>Whisky, brandy, rum and vodka labels.</span>
           </p>
         </div>
       </div>
