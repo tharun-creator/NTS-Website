@@ -23,6 +23,8 @@ for (const route of seoRoutes) {
   await access(file)
   if (cleanUrlFile) await access(cleanUrlFile)
   assert.match(html, new RegExp(`<link rel="canonical" href="${escapeRegExp(canonical)}"`))
+  assert.match(html, /<script[^>]+type="module"[^>]+src="\/assets\//)
+  assert.match(html, /<link[^>]+rel="stylesheet"[^>]+href="\/assets\//)
   assert.match(html, /<meta name="description" content="[^"]+"/)
   assert.match(html, /<meta property="og:title" content="[^"]+"/)
   assert.match(html, /<meta name="twitter:card" content="summary_large_image"/)

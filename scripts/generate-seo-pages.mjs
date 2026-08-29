@@ -29,7 +29,14 @@ function jsonForHtml(value) {
   return JSON.stringify(value).replaceAll('<', '\\u003c')
 }
 
-function createHead(route) {
+function extractBuiltAssetTags(html) {
+  const head = html.match(/<head>([\s\S]*?)<\/head>/)?.[1] ?? ''
+  return [...head.matchAll(/^\s*<(?:script|link)\b(?=[^>]*(?:\/assets\/|type="module"))[\s\S]*?(?:<\/script>|\/?>)\s*$/gm)]
+    .map(([tag]) => tag.trim())
+    .join('\n    ')
+}
+
+function createHead(route, builtAssetTags) {
   const { canonicalUrl, description, fullTitle, image, imageAlt, robots, schema, type } = createSeoHead(route)
   const imageType = image.endsWith('.png') ? 'image/png' : 'image/jpeg'
 
@@ -73,6 +80,7 @@ function createHead(route) {
     <meta name="twitter:image" content="${escapeHtml(image)}" />
     <meta name="twitter:image:alt" content="${escapeHtml(imageAlt)}" />
     <script id="site-structured-data" type="application/ld+json">${jsonForHtml(schema)}</script>
+    ${builtAssetTags}
   </head>`
 }
 
@@ -86,11 +94,12 @@ function createSitemap() {
 
 const baseHtml = await readFile(path.join(dist, 'index.html'), 'utf8')
 const sitemap = createSitemap()
+const builtAssetTags = extractBuiltAssetTags(baseHtml)
 
 for (const route of seoRoutes) {
   const target = route.path === '/' ? path.join(dist, 'index.html') : path.join(dist, route.path.slice(1), 'index.html')
   const cleanUrlTarget = route.path === '/' ? null : path.join(dist, `${route.path.slice(1)}.html`)
-  const html = baseHtml.replace(/<head>[\s\S]*?<\/head>/, createHead(route))
+  const html = baseHtml.replace(/<head>[\s\S]*?<\/head>/, createHead(route, builtAssetTags))
 
   await mkdir(path.dirname(target), { recursive: true })
   await writeFile(target, html)
