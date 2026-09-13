@@ -16,7 +16,7 @@ export default function OldTownHero({ onOpenMenu, isMenuOpen }) {
           {/* Left Navigation Links */}
           <nav className="hidden lg:flex items-center gap-10 text-[11px] font-extrabold uppercase tracking-[0.25em] text-white/80" aria-label="Left Header Navigation">
             <a href="#flavors" className="transition-colors hover:text-white">OUR SPIRITS</a>
-            <a href="#lifestyle" className="transition-colors hover:text-white">DISTILLERY</a>
+            <a href="#legacy" className="transition-colors hover:text-white">DISTILLERY</a>
             <a href="#about-us" className="transition-colors hover:text-white">ABOUT US</a>
           </nav>
 
@@ -136,7 +136,7 @@ export default function OldTownHero({ onOpenMenu, isMenuOpen }) {
 
           {/* Right Indicator / Scroll Prompt */}
           <a
-            href="#lifestyle"
+            href="#legacy"
             className="hidden sm:flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] text-white/60 hover:text-white transition-colors"
           >
             <span>DISCOVER DISTILLERY</span>

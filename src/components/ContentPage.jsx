@@ -3,7 +3,7 @@ import { ArrowUpRight, Mail, Phone, ShieldCheck } from 'lucide-react'
 import AgeGate from './AgeGate'
 import FooterRedesign from './FooterRedesign'
 import SiteHeader from './SiteHeader'
-import { companyFacts, facilityStats, machineryList, productCollectionItems } from '../data/siteData'
+import { companyFacts, facilityStats, productCollectionItems } from '../data/siteData'
 import { setPageSeo } from '../lib/seo'
 import { getProductSeoRoute, getSeoRoute } from '../data/seoRoutes'
 
@@ -16,8 +16,8 @@ const expansionData = {
       'NTS grew from a Pondicherry trade operation into a Goa manufacturing house, moving through IMFL, beer, imported labels, owned economy brands, and a sharper semi-premium portfolio.',
     timeline: [
       { year: '1980', text: 'NTS Wines begins in Pondicherry under Mr. N.T. Sambath.' },
-      { year: 'UB Group', text: 'Distribution expands through CDL and Carew Phipson portfolios including Vin Grape, Top Rum, Carew’s Fine Brandy, Red Riband Vodka, Booth’s Gin, Kalyani Beer, UB Export Lager, Bullet Strong, and Kingfisher.' },
-      { year: 'McDowell’s', text: 'The portfolio grows with Traveller Brandy and Whisky, Old Cask Rum, Blue Riband Gin, Duet, Tango, Golden Amber Brandy, and Men’s Choice Whisky.' },
+      { year: 'UB Group', text: 'Distribution expands through the CDL and Carew Phipson portfolios, covering rum, gin, vodka, beer, and brandy labels.' },
+      { year: 'McDowell’s', text: 'The portfolio grows with Traveller and Old Cask labels spanning brandy, whisky, gin, and rum.' },
       { year: 'Goa', text: 'NTS establishes its Canacona facility and launches owned semi-premium brands across whisky, brandy, and rum.' },
       { year: '2022', text: 'Public company listings show NTS Blenders and Distillers Private Limited incorporated on 10 October 2022 and active with ROC Pondicherry.' },
     ],
@@ -46,19 +46,6 @@ const expansionData = {
       { year: 'Old Cask', text: 'Supported Old Cask Rum through focused market coverage and disciplined partner coordination.' },
       { year: 'Haywards', text: 'Developed beer distribution strength across long-running regional trade channels.' },
       { year: '1997', text: 'Handled high-volume seasonal distribution programs with coordinated logistics and field execution.' },
-    ],
-  },
-  contact: {
-    image: '/images/WhatsApp_Image_2026-07-23_at_12.21.16_202607231440.jpeg',
-    label: 'Direct contact',
-    title: 'The right route depends on the conversation.',
-    body:
-      'Use the managing director email for partnership and brand conversations. Use the plant email for manufacturing and facility-related questions.',
-    timeline: [
-      { year: 'MD', text: companyFacts.email },
-      { year: 'Plant', text: companyFacts.plantEmail },
-      { year: 'ROC', text: companyFacts.publicEmail },
-      { year: 'Phone 1', text: companyFacts.phone },
     ],
   },
   faq: {
@@ -106,9 +93,9 @@ const pages = {
   about: {
     path: '/about',
     eyebrow: 'About NTS',
-    title: 'Four decades of spirits, distribution, and manufacturing discipline.',
+    title: 'Four decades in spirits.',
     intro:
-      'NTS began as NTS Wines in Pondicherry in 1980 under the leadership of Mr. N.T. Sambath. Public company listings show NTS Blenders and Distillers Private Limited as an active company incorporated on 10 October 2022 with ROC Pondicherry.',
+      'From Pondicherry in 1980 to a Goa manufacturing base today, built on four decades of beverage trade experience.',
     image: '/images/WhatsApp_Image_2026-07-23_at_12.21.05_202607231329.jpeg',
     metaTitle: 'About NTS Distillers | NTS Blenders and Distillers',
     metaDescription: 'Learn about NTS Blenders and Distillers, founded in 1980 in Pondicherry with a Goa manufacturing facility and decades of Indian spirits distribution experience.',
@@ -144,9 +131,9 @@ const pages = {
   contact: {
     path: '/contact',
     eyebrow: 'Contact',
-    title: 'Start a manufacturing, distribution, or product conversation.',
+    title: 'Let’s start a conversation.',
     intro:
-      'Reach the NTS team for contract bottling, distribution partnerships, product information, trade discussions, and facility-led manufacturing opportunities.',
+      'Reach the NTS team for bottling, distribution, and product inquiries.',
     image: '/images/WhatsApp_Image_2026-07-23_at_12.21.16_202607231440.jpeg',
     metaTitle: 'Contact NTS Distillers | Trade and Manufacturing Inquiries',
     metaDescription: 'Contact NTS Blenders and Distillers for distribution, contract bottling, manufacturing, and product portfolio inquiries.',
@@ -166,9 +153,9 @@ const pages = {
   distillery: {
     path: '/distillery',
     eyebrow: 'Goa Distillery',
-    title: 'A Canacona facility built for precision at scale.',
+    title: 'Built for precision at scale.',
     intro:
-      'NTS operates from a three-acre unit in Canacona Industrial Estate, Goa, with green surroundings, road access through NH 66 connectivity, and infrastructure for bottling, quality checks, and bonded warehousing.',
+      'A three-acre facility in Canacona, Goa, built for bottling, quality checks, and bonded warehousing.',
     image: '/images/Canacona_vodka_bottles_orange_ba…_202607231523.jpeg',
     metaTitle: 'Goa Distillery Facility | NTS Blenders and Distillers',
     metaDescription: 'Explore the NTS Goa facility in Canacona with bottling capacity, bonded warehousing, quality checks, and production machinery.',
@@ -185,7 +172,7 @@ const pages = {
       },
       {
         heading: 'Machinery base',
-        body: machineryList.join('. ') + '.',
+        body: 'The line covers rotary washing, 8-head vacuum filling, ROPP and Guala cap sealing, inspection, labelling, printing, conveying, and packing.',
       },
     ],
     stats: facilityStats,
@@ -193,9 +180,9 @@ const pages = {
   responsible: {
     path: '/responsible-drinking',
     eyebrow: 'Responsible Drinking',
-    title: 'Enjoy spirits legally, moderately, and responsibly.',
+    title: 'Please drink responsibly.',
     intro:
-      'NTS Blenders and Distillers supports responsible alcohol consumption. This website and its product information are intended only for visitors of legal drinking age.',
+      'This website and its product information are intended only for visitors of legal drinking age.',
     image: '/images/Canacona_vodka_bottles_orange_ba…_202607231523.jpeg',
     metaTitle: 'Responsible Drinking | NTS Distillers',
     metaDescription: 'Responsible drinking guidance and alcohol-age reminder from NTS Blenders and Distillers.',
@@ -208,9 +195,9 @@ const pages = {
   cookies: {
     path: '/cookie-policy',
     eyebrow: 'Cookie Policy',
-    title: 'How this website uses browser storage.',
+    title: 'Our cookie policy.',
     intro:
-      'The NTS website uses basic browser storage for age-gate confirmation and may use similar technologies to improve usability and performance.',
+      'How the NTS website uses browser storage for age verification and performance.',
     image: '/images/bottle-sides.jpeg',
     metaTitle: 'Cookie Policy | NTS Distillers',
     metaDescription: 'Cookie and browser storage policy for the NTS Distillers website.',
@@ -223,9 +210,9 @@ const pages = {
   faq: {
     path: '/faq',
     eyebrow: 'FAQ',
-    title: 'Answers for partners, buyers, and trade teams.',
+    title: 'Quick answers for trade teams.',
     intro:
-      'A quick guide to the most common questions around the NTS portfolio, manufacturing facility, distribution conversations, and contact flow.',
+      'Common questions on our portfolio, facility, and how to start a conversation.',
     image: '/images/WhatsApp_Image_2026-07-23_at_12.21.13_202607231334.jpeg',
     metaTitle: 'FAQ | NTS Distillers',
     metaDescription: 'Frequently asked questions about NTS Distillers products, manufacturing, distribution, and partnership inquiries.',
@@ -239,9 +226,9 @@ const pages = {
   achievements: {
     path: '/achievements',
     eyebrow: 'Achievements',
-    title: 'Distribution milestones and operating discipline.',
+    title: 'Milestones that built our name.',
     intro:
-      'NTS highlights a long operating history shaped by distribution relationships, market-building programs, and disciplined beverage trade execution.',
+      'A long operating history shaped by distribution relationships and disciplined trade execution.',
     image: '/banner/ChatGPT Image Aug 17, 2026, 12_50_01 PM.png',
     metaTitle: 'Achievements | NTS Distillers',
     metaDescription: 'Distribution achievements and operating milestones from NTS Distillers.',
@@ -283,7 +270,7 @@ function PageLayout({ page, fallback }) {
   }, [content, page])
 
   return (
-    <div className="content-page">
+    <div className={`content-page ${page ? `content-page--${page}` : 'content-page--fallback'}`}>
       <AgeGate />
       <SiteHeader current={content.path} />
       <main id="main">

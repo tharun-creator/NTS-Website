@@ -19,7 +19,7 @@ const RIBBONS_DATA = [
     hoverBg: 'hover:bg-white',
     rot: '1deg',
     icon: Factory,
-    link: '#lifestyle',
+    link: '#legacy',
   },
   {
     id: 'bottling',

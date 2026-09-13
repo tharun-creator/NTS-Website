@@ -82,6 +82,27 @@
   font-display: swap;
 }
 
+/* Bold rounded retro display face, stylistically closest to the requested "Rockabilly" font
+   (that font's license blocks commercial use, so Luckiest Guy is substituted — it's OFL-licensed
+   and free for commercial web use). */
+@font-face {
+  font-family: "Luckiest Guy";
+  src: url("/fonts/LuckiestGuy-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Bold engraved slab serif — heritage whiskey-label feel, closer to Jack Daniel's branding
+   than the rounded Luckiest Guy above. OFL-licensed, free for commercial web use. */
+@font-face {
+  font-family: "Bevan";
+  src: url("/fonts/Bevan-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   :root {
     --bg: #030303;
@@ -109,6 +130,8 @@
     --font-pixel-circle: "Geist Pixel Circle", "Geist Mono", monospace;
     --font-pixel-triangle: "Geist Pixel Triangle", "Geist Mono", monospace;
     --font-pixel-line: "Geist Pixel Line", "Geist Mono", monospace;
+    --font-rockabilly: "Luckiest Guy", "NTS JD Display", "Geist Sans", system-ui, sans-serif;
+    --font-heritage: "Bevan", "NTS JD Display", "Geist Sans", system-ui, serif;
     --ease: cubic-bezier(.16,1,.3,1);
 
     --bg-deep: #030303;
@@ -445,148 +468,6 @@ img.nav-logo-seal {
 .stat { padding: 0 24px; border-right: 1px solid color-mix(in oklch, var(--surface) 24%, transparent); }
 .stat:last-child { border: 0; }
 
-.oldtown-mobile-kicker,
-.oldtown-mobile-caption {
-  display: none;
-}
-
-@media (max-width: 640px) {
-  .oldtown-section {
-    min-height: 100svh;
-    padding: 18px 0 32px;
-    background:
-      linear-gradient(180deg, #070707 0%, #000 46%, #030303 100%);
-  }
-
-  .oldtown-section::before {
-    content: "OLD TOWN";
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    z-index: 0;
-    transform: translateY(-50%) rotate(-90deg);
-    transform-origin: center;
-    font-family: var(--font-brand);
-    font-size: clamp(56px, 18vw, 88px);
-    font-weight: 950;
-    line-height: .85;
-    letter-spacing: .02em;
-    color: rgba(255,255,255,.055);
-    white-space: nowrap;
-    pointer-events: none;
-  }
-
-  .oldtown-stage {
-    min-height: calc(100svh - 50px);
-    align-items: center;
-    padding: 70px 16px 82px;
-  }
-
-  .oldtown-stage::before,
-  .oldtown-stage::after {
-    content: "";
-    position: absolute;
-    left: 18px;
-    right: 18px;
-    z-index: 1;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(233,84,46,.72), transparent);
-    pointer-events: none;
-  }
-
-  .oldtown-stage::before { top: 48px; }
-  .oldtown-stage::after { bottom: 58px; }
-
-  .oldtown-mobile-kicker {
-    position: absolute;
-    top: 18px;
-    left: 18px;
-    right: 18px;
-    z-index: 35;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    font-family: var(--font-nav);
-    text-transform: uppercase;
-  }
-
-  .oldtown-mobile-kicker span {
-    color: #E9542E;
-    font-size: 11px;
-    font-weight: 900;
-    letter-spacing: .24em;
-  }
-
-  .oldtown-mobile-kicker strong {
-    max-width: 16ch;
-    text-align: right;
-    color: rgba(255,255,255,.72);
-    font-size: 10px;
-    font-weight: 850;
-    letter-spacing: .16em;
-    line-height: 1.2;
-  }
-
-  .oldtown-word-row {
-    padding-inline: 0 !important;
-    margin-top: 0 !important;
-  }
-
-  .oldtown-word-row--crafted {
-    justify-content: flex-start;
-    transform: translateY(-92px);
-  }
-
-  .oldtown-word-row--with {
-    justify-content: center;
-    transform: translateY(-22px);
-  }
-
-  .oldtown-word-row--mastery {
-    justify-content: flex-end;
-    transform: translateY(48px);
-  }
-
-  .oldtown-word {
-    font-size: clamp(58px, 18vw, 86px) !important;
-    line-height: .82 !important;
-    color: rgba(255,255,255,.82) !important;
-    text-shadow: 0 10px 28px rgba(0,0,0,.94);
-  }
-
-  .oldtown-bottle {
-    height: min(68svh, 540px) !important;
-    max-height: 540px;
-    transform: translateY(-2px) scale(1) !important;
-    filter: drop-shadow(0 30px 58px rgba(0,0,0,.96));
-  }
-
-  .oldtown-floor-shadow {
-    bottom: -18px;
-    width: min(72vw, 260px);
-    height: 18px;
-    background: rgba(255,255,255,.13);
-    filter: blur(18px);
-  }
-
-  .oldtown-mobile-caption {
-    position: absolute;
-    left: 18px;
-    right: 18px;
-    bottom: 18px;
-    z-index: 35;
-    display: block;
-    font-family: var(--font-display);
-    font-size: clamp(25px, 8vw, 40px);
-    font-weight: 950;
-    line-height: .92;
-    text-align: center;
-    text-transform: uppercase;
-    color: #fff;
-    text-shadow: 0 10px 28px rgba(0,0,0,.95);
-  }
-}
 .stat dt { font: 600 11px/1.4 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: color-mix(in oklch, var(--surface) 70%, transparent); }
 .stat dd { margin: 6px 0 0; font: 900 clamp(20px, 1.8vw, 32px)/1 var(--font-display); letter-spacing: -.01em; text-transform: uppercase; }
 
@@ -1521,9 +1402,9 @@ body.age-gate-open { overflow: hidden !important; }
 .collection-hero__copy {
   position: relative;
   z-index: 2;
-  width: min(100% - 32px, 1280px);
+  width: min(100% - 40px, 1220px);
   margin: 0 auto;
-  padding: clamp(72px, 8vw, 104px) 0 clamp(54px, 6vw, 80px);
+  padding: clamp(72px, 8vw, 112px) 0 clamp(60px, 8vw, 108px);
 }
 
 .collection-hero__copy p,
@@ -1540,12 +1421,12 @@ body.age-gate-open { overflow: hidden !important; }
 }
 
 .collection-hero__copy h1 {
-  max-width: min(100%, 980px);
+  max-width: min(100%, 1020px);
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(58px, 8.2vw, 116px);
+  font-size: clamp(52px, 8vw, 112px);
   font-weight: 900;
-  line-height: .9;
+  line-height: .91;
   text-transform: uppercase;
   text-wrap: balance;
   overflow-wrap: normal;
@@ -1903,6 +1784,21 @@ body.age-gate-open { overflow: hidden !important; }
   }
 }
 
+@keyframes spirit-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4%); }
+}
+
+.spirit-carousel-bottle {
+  animation: spirit-float 4.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spirit-carousel-bottle {
+    animation: none;
+  }
+}
+
 .collection-visit-section {
   position: relative;
   display: grid;
@@ -2121,12 +2017,12 @@ body.age-gate-open { overflow: hidden !important; }
 }
 
 .legal-page__hero h1 {
-  max-width: min(100%, 1240px);
+  max-width: min(100%, 1020px);
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(56px, 12vw, 142px);
+  font-size: clamp(52px, 8vw, 112px);
   font-weight: 900;
-  line-height: .93;
+  line-height: .91;
   text-transform: uppercase;
   text-wrap: balance;
   overflow-wrap: normal;
@@ -2335,9 +2231,9 @@ body.age-gate-open { overflow: hidden !important; }
 .content-page__hero-copy {
   position: relative;
   z-index: 2;
-  width: min(100% - 40px, 1280px);
+  width: min(100% - 40px, 1220px);
   margin: 0 auto;
-  padding-bottom: clamp(54px, 8vw, 96px);
+  padding-bottom: clamp(60px, 8vw, 108px);
 }
 
 .content-page__hero-copy p,
@@ -2353,12 +2249,12 @@ body.age-gate-open { overflow: hidden !important; }
 
 .content-page__hero-copy h1,
 .product-detail-hero__copy h1 {
-  max-width: min(100%, 1240px);
+  max-width: min(100%, 1020px);
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(54px, 10vw, 134px);
+  font-size: clamp(52px, 8vw, 112px);
   font-weight: 900;
-  line-height: .93;
+  line-height: .91;
   text-transform: uppercase;
   text-wrap: balance;
   overflow-wrap: normal;
@@ -2369,8 +2265,8 @@ body.age-gate-open { overflow: hidden !important; }
 .content-page__hero-copy span,
 .product-detail-hero__copy > span {
   display: block;
-  max-width: 760px;
-  margin-top: 24px;
+  max-width: 680px;
+  margin-top: clamp(18px, 2.4vw, 28px);
   font-family: var(--font-body);
   font-size: clamp(16px, 1.8vw, 23px);
   font-weight: 600;
@@ -2909,7 +2805,8 @@ body.age-gate-open { overflow: hidden !important; }
   .product-detail-hero__copy h1,
   .collection-hero__copy h1,
   .legal-page__hero h1 {
-    max-width: min(100%, 980px);
+    max-width: min(100%, 860px);
+    font-size: clamp(48px, 8.8vw, 82px);
     line-height: .94;
   }
 
@@ -3009,7 +2906,8 @@ body.age-gate-open { overflow: hidden !important; }
 
   .collection-hero__copy h1 {
     max-width: 100%;
-    font-size: clamp(48px, 15vw, 78px);
+    font-size: clamp(40px, 11.2vw, 64px);
+    line-height: .97;
     overflow-wrap: normal;
   }
 
@@ -3089,7 +2987,7 @@ body.age-gate-open { overflow: hidden !important; }
   }
 
   .content-page__stats {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .content-page__stats article,
@@ -3115,7 +3013,7 @@ body.age-gate-open { overflow: hidden !important; }
   .content-page__panel,
   .content-page__expansion,
   .product-detail-hero {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .content-page__hero-copy h1,
@@ -3123,8 +3021,8 @@ body.age-gate-open { overflow: hidden !important; }
   .collection-hero__copy h1,
   .legal-page__hero h1 {
     max-width: 100%;
-    font-size: clamp(48px, 14vw, 76px);
-    line-height: .96;
+    font-size: clamp(40px, 11.2vw, 64px);
+    line-height: .97;
   }
 
   .content-page__expansion-copy h2,
@@ -3147,11 +3045,31 @@ body.age-gate-open { overflow: hidden !important; }
 
   .content-page__timeline,
   .product-related__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .content-page__expansion--about .content-page__timeline {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .content-page__timeline article {
-    min-height: 132px;
+    min-height: auto;
+    padding: clamp(22px, 7vw, 32px) 0;
+  }
+
+  .content-page__expansion--about .content-page__timeline article {
+    min-height: auto;
+    padding: clamp(24px, 7vw, 34px) 0;
+  }
+
+  .content-page__expansion--about .content-page__timeline strong {
+    font-size: clamp(34px, 12vw, 48px);
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .content-page__expansion--about .content-page__timeline span {
+    max-width: 42rem;
   }
 
   .product-detail-hero__image {
@@ -3488,7 +3406,6 @@ a {
 
 @media (min-width: 1600px) {
   .site-nav > div,
-  .oldtown-stage,
   .collection-product-grid,
   .collection-grid-section__intro,
   .collection-upcoming-section__intro,
@@ -3632,19 +3549,6 @@ a {
 }
 
 @media (max-width: 1024px) {
-  .oldtown-section {
-    min-height: max(760px, 100svh);
-  }
-
-  .oldtown-bottle {
-    height: clamp(620px, 82svh, 860px) !important;
-    max-width: min(72vw, 520px);
-  }
-
-  .oldtown-word {
-    font-size: clamp(4rem, 15vw, 9rem) !important;
-  }
-
   .collection-product-card {
     grid-template-rows: clamp(470px, 64vw, 660px) minmax(150px, auto);
   }
@@ -3929,14 +3833,6 @@ a {
     min-height: 460px;
   }
 
-  .oldtown-section {
-    min-height: 680px;
-  }
-
-  .oldtown-bottle {
-    height: min(560px, 82svh) !important;
-  }
-
   .flavor-sticky {
     min-height: 560px;
     padding-top: 56px;
@@ -3950,60 +3846,6 @@ a {
   .flavor-card {
     --portfolio-bottle-height: clamp(280px, 56vh, 360px);
     min-height: 350px;
-  }
-}
-
-@media (max-width: 640px) {
-  .oldtown-mobile-kicker,
-  .oldtown-mobile-caption {
-    display: none !important;
-  }
-
-  .oldtown-section {
-    min-height: 100svh;
-    padding-block: 0;
-  }
-
-  .oldtown-stage {
-    min-height: 100svh;
-    padding: 22px 8px 34px;
-  }
-
-  .oldtown-stage::before,
-  .oldtown-stage::after {
-    display: none;
-  }
-
-  .oldtown-word-row--crafted {
-    justify-content: flex-start;
-    transform: translateY(-88px);
-  }
-
-  .oldtown-word-row--with {
-    justify-content: center;
-    transform: translateY(0);
-  }
-
-  .oldtown-word-row--mastery {
-    justify-content: flex-end;
-    transform: translateY(86px);
-  }
-
-  .oldtown-word {
-    font-size: clamp(74px, 21vw, 104px) !important;
-    line-height: .78 !important;
-    color: rgba(255,255,255,.84) !important;
-  }
-
-  .oldtown-bottle {
-    height: min(78svh, 640px) !important;
-    max-width: min(90vw, 430px);
-    max-height: 640px;
-    transform: translateY(4px) scale(1) !important;
-  }
-
-  .oldtown-floor-shadow {
-    bottom: -20px;
   }
 }
 
@@ -4058,5 +3900,84 @@ a {
 
   .collection-upcoming-section .collection-product-grid.collection-product-grid--upcoming {
     display: none;
+  }
+}
+
+/* Spirit carousel bottle stage — ported from the alcshowcase reference: a GSAP-driven wheel of
+   bottles (hero / next / prev / hidden) composed from CSS custom properties, plus a pointer-tilt
+   layer and a tone-driven atmosphere gradient that crossfades between products. */
+.spirit-stage {
+  --parallax-x: 0px;
+  --parallax-y: 0px;
+  --glow-x: 50%;
+  --glow-y: 46%;
+  isolation: isolate;
+}
+
+.spirit-stage-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 62% 76% at var(--glow-x) var(--glow-y), color-mix(in srgb, var(--tone-3) 43%, transparent), transparent 70%),
+    radial-gradient(ellipse 55% 74% at 5% 100%, color-mix(in srgb, var(--tone-2) 58%, transparent), transparent 75%),
+    radial-gradient(ellipse 48% 62% at 104% -5%, color-mix(in srgb, var(--tone-2) 32%, transparent), transparent 76%),
+    linear-gradient(128deg, color-mix(in srgb, var(--tone-1) 94%, #050608), var(--tone-2) 55%, color-mix(in srgb, var(--tone-1) 62%, #09090c));
+}
+
+.spirit-stage-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 45;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 34%, rgba(0, 0, 0, .31) 100%),
+    linear-gradient(90deg, rgba(0, 0, 0, .22), transparent 27%, transparent 73%, rgba(0, 0, 0, .2));
+}
+
+.spirit-bottle {
+  --base-x: 0vw;
+  --base-y: 0vh;
+  --base-scale: 1;
+  --base-rotation: 0deg;
+  --parallax-x: 0px;
+  --parallax-y: 0px;
+  --parallax-rx: 0deg;
+  --parallax-ry: 0deg;
+  position: absolute;
+  left: 50%;
+  top: 49%;
+  height: min(62vh, 700px);
+  width: min(30vw, 360px);
+  object-fit: contain;
+  object-position: center;
+  transform:
+    translate3d(
+      calc(-50% + var(--base-x) + var(--parallax-x)),
+      calc(-50% + var(--base-y) + var(--parallax-y)),
+      0
+    )
+    scale(var(--base-scale))
+    rotate(var(--base-rotation))
+    rotateX(var(--parallax-rx))
+    rotateY(var(--parallax-ry));
+  transform-origin: 50% 54%;
+  transform-style: preserve-3d;
+  will-change: transform, filter, opacity;
+  user-select: none;
+  pointer-events: none;
+  opacity: 0;
+  filter: drop-shadow(0 28px 22px rgba(0, 0, 0, .36));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spirit-bottle { transition: none; }
+}
+
+@media (max-width: 760px) {
+  .spirit-bottle {
+    top: 47%;
+    height: min(50vh, 480px);
+    width: min(56vw, 280px);
   }
 }

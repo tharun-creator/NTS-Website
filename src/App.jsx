@@ -1,8 +1,7 @@
-import React, { Suspense, lazy, useEffect, useRef, useState } from 'react'
+import React, { Suspense, lazy, useEffect, useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 import AgeGate from './components/AgeGate'
-import OldTownDistillery from './components/OldTownDistillery'
 import Newsletter from './components/Newsletter'
 import CategoryMarquee from './components/CategoryMarquee'
 import FooterRedesign from './components/FooterRedesign'
@@ -12,8 +11,8 @@ import HomeProofSection from './components/HomeProofSection'
 import BannerSection from './components/BannerSection'
 import AnnouncementMarquee from './components/layout/AnnouncementMarquee'
 import ProductModal from './components/product/ProductModal'
+import SpiritCarousel from './components/SpiritCarousel'
 import { ContentPage, NotFoundPage, ProductDetailPage } from './components/ContentPage'
-import { featuredProducts } from './data/siteData'
 import { setPageSeo } from './lib/seo'
 import { getSeoRoute } from './data/seoRoutes'
 
@@ -67,9 +66,6 @@ function HomePage() {
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-  const flavorTrackRef = useRef(null)
-  const flavorSectionRef = useRef(null)
-
   // Menu toggle helper
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev)
@@ -87,30 +83,6 @@ function HomePage() {
     document.body.classList.toggle('menu-open', isMenuOpen)
     return () => document.body.classList.remove('menu-open')
   }, [isMenuOpen])
-
-  // Sticky horizontal carousel progress
-  useEffect(() => {
-    const handleScroll = () => {
-      if (flavorSectionRef.current && flavorTrackRef.current && window.innerWidth > 820) {
-        const section = flavorSectionRef.current
-        const track = flavorTrackRef.current
-        const rect = section.getBoundingClientRect()
-        const distance = section.offsetHeight - window.innerHeight
-        const progress = Math.max(0, Math.min(1, -rect.top / distance))
-        const maxX = Math.max(0, track.scrollWidth - window.innerWidth + 40)
-        track.style.transform = `translate3d(${-progress * maxX}px, 0, 0)`
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    window.addEventListener('resize', handleScroll)
-    handleScroll()
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', handleScroll)
-    }
-  }, [])
 
   // Reveal observer
   useEffect(() => {
@@ -231,51 +203,8 @@ function HomePage() {
         {/* Category Orange Marquee Ticker */}
         <CategoryMarquee />
 
-        {/* Section 2: DISTILLERY & PRODUCTION - Jack Daniel's Style Old Town Feature */}
-        <OldTownDistillery />
-
-        {/* Section 3: Spirits Lineup Showcase (Enhanced Interactive Grid & Horizontal Scroll) */}
-        <section className="flavors" id="flavors" ref={flavorSectionRef} data-od-id="flavor-showcase">
-          <div className="flavor-sticky">
-            <div className="section-head flavors-section-head">
-              <div className="flavors-section-copy">
-                <p className="eyebrow text-[#E9542E] mb-2">Proprietary Distillation</p>
-                <h2 className="display" data-od-id="flavors-heading">Pick your spirit</h2>
-                <p className="text-sm opacity-80 text-white/70 mt-3 max-w-xl">
-                  Scroll horizontally or click any card for portfolio notes and product details.
-                </p>
-
-              </div>
-            </div>
-
-            <div className="flavor-track" ref={flavorTrackRef} tabIndex={0} aria-label="Spirits carousel" data-od-id="flavor-carousel">
-              {featuredProducts.map((prod) => (
-                <button
-                  type="button"
-                  key={prod.id}
-                  className={`flavor-card premium-product-card group ${prod.cardClass}`}
-                  onClick={() => setSelectedProduct(prod)}
-                  aria-label={`View ${prod.name} product details`}
-                  data-od-id={`flavor-card-${prod.id}`}
-                  style={{ '--portfolio-bottle-scale': prod.portfolioScale || 1.3 }}
-                >
-                  {prod.image && (
-                    <div className="bottle-wrapper" aria-hidden="true">
-                      <img src={prod.image} alt={prod.name} className="bottle-img drop-shadow-[0_15px_30px_rgba(0,0,0,0.4)]" />
-                    </div>
-                  )}
-
-                  <div className="flex items-end justify-between">
-                    <span className="flavor-name">
-                      <strong>{prod.brandName || prod.name}</strong>
-                      {prod.productText && <small>{prod.productText}</small>}
-                    </span>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* Section 3: Spirits Lineup Showcase (Character-carousel style spirit picker) */}
+        <SpiritCarousel onSelectProduct={setSelectedProduct} />
 
         {/* Section 4: Unified About Us (Our Story + 40-Year Timeline) */}
         <AboutUs />
