@@ -3,10 +3,6 @@ import { motion } from 'framer-motion'
 
 const newsletterBottleA = '/portfolio-images/old-town.png'
 const newsletterBottleB = '/bottle-2/bottle (1).png'
-const newsletterBottleC = '/portfolio-images/wanted.png'
-const newsletterBottleD = '/bottle-2/bottle.png'
-const newsletterBottleE = '/bottle-2/east-coast-premium-malt-whisky.png'
-const newsletterBottleF = '/1/Liquor_bottle_on_white_background_202607250547 (1).png'
 
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false)
@@ -45,10 +41,12 @@ export default function Newsletter() {
     setIsSubmitted(true)
   }
 
+  // One anchor bottle per side, pushed toward the edge so it clears the
+  // headline's max-width column instead of crowding behind the letters.
   const leftBottles = [
     {
       image: newsletterBottleA,
-      className: 'hidden sm:block sm:left-[28px] sm:bottom-[22px] sm:w-[220px] md:left-[46px] md:bottom-[28px] md:w-[285px] lg:left-[76px] lg:bottom-[34px] lg:w-[350px] xl:left-[96px] xl:bottom-[38px] xl:w-[390px]',
+      className: 'hidden sm:block sm:left-[4px] sm:bottom-[22px] sm:w-[190px] md:left-[8px] md:bottom-[28px] md:w-[240px] lg:left-[16px] lg:bottom-[34px] lg:w-[290px] xl:left-[32px] xl:bottom-[38px] xl:w-[330px]',
       rotation: -8,
       x: isMobile ? -40 : -70,
       scale: 0.85,
@@ -59,38 +57,12 @@ export default function Newsletter() {
       z: 'z-[5]',
       blur: '',
     },
-    {
-      image: newsletterBottleC,
-      className: 'hidden md:block md:left-[220px] md:top-[96px] md:w-[145px] lg:left-[292px] lg:top-[92px] lg:w-[178px] xl:left-[344px] xl:top-[86px] xl:w-[210px]',
-      rotation: -5,
-      x: isMobile ? -30 : -45,
-      scale: 0.88,
-      opacity: 0.82,
-      delay: 0.12,
-      float: [-5, 0, -5],
-      duration: 10,
-      z: 'z-[4]',
-      blur: '',
-    },
-    {
-      image: newsletterBottleE,
-      className: 'hidden lg:block lg:left-[398px] lg:top-[108px] lg:w-[150px] xl:left-[510px] xl:top-[104px] xl:w-[180px]',
-      rotation: 3,
-      x: -24,
-      scale: 0.9,
-      opacity: 0.64,
-      delay: 0.24,
-      float: [-4, 0, -4],
-      duration: 11,
-      z: 'z-[3]',
-      blur: '',
-    },
   ]
 
   const rightBottles = [
     {
       image: newsletterBottleB,
-      className: 'hidden sm:block sm:right-[28px] sm:bottom-[22px] sm:w-[220px] md:right-[46px] md:bottom-[28px] md:w-[285px] lg:right-[76px] lg:bottom-[34px] lg:w-[350px] xl:right-[96px] xl:bottom-[38px] xl:w-[390px]',
+      className: 'hidden sm:block sm:right-[4px] sm:bottom-[22px] sm:w-[190px] md:right-[8px] md:bottom-[28px] md:w-[240px] lg:right-[16px] lg:bottom-[34px] lg:w-[290px] xl:right-[32px] xl:bottom-[38px] xl:w-[330px]',
       rotation: 8,
       x: isMobile ? 40 : 70,
       scale: 0.85,
@@ -99,32 +71,6 @@ export default function Newsletter() {
       float: [0, -6, 0],
       duration: 9.5,
       z: 'z-[5]',
-      blur: '',
-    },
-    {
-      image: newsletterBottleD,
-      className: 'hidden md:block md:right-[220px] md:top-[96px] md:w-[145px] lg:right-[292px] lg:top-[92px] lg:w-[178px] xl:right-[344px] xl:top-[86px] xl:w-[210px]',
-      rotation: 5,
-      x: isMobile ? 30 : 45,
-      scale: 0.88,
-      opacity: 0.82,
-      delay: 0.24,
-      float: [0, -5, 0],
-      duration: 10.5,
-      z: 'z-[4]',
-      blur: '',
-    },
-    {
-      image: newsletterBottleF,
-      className: 'hidden lg:block lg:right-[398px] lg:top-[108px] lg:w-[150px] xl:right-[510px] xl:top-[104px] xl:w-[180px]',
-      rotation: -3,
-      x: 20,
-      scale: 0.9,
-      opacity: 0.64,
-      delay: 0.36,
-      float: [0, -4, 0],
-      duration: 12,
-      z: 'z-[3]',
       blur: '',
     },
   ]

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const heroImage = '/banner/five-bottles-liquor-table-hero-desktop-clean.png'
+const heroImage = '/banner/east-coast-bottle-lineup-hero-desktop.png'
 
 export default function BannerSection() {
   return (
@@ -12,7 +12,7 @@ export default function BannerSection() {
     >
       <div className="absolute inset-0" data-parallax-speed="-0.08" data-parallax-scale="1.04">
         <picture className="block h-full w-full">
-          <source media="(max-width: 1100px)" srcSet="/banner/five-bottles-liquor-table-hero-mobile-clean.png" />
+          <source media="(max-width: 1100px)" srcSet="/banner/east-coast-bottle-lineup-hero-mobile.png" />
           <img
             src={heroImage}
             alt="NTS Distillers bottle lineup on a table"

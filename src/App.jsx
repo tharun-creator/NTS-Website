@@ -204,7 +204,7 @@ function HomePage() {
         <CategoryMarquee />
 
         {/* Section 3: Spirits Lineup Showcase (Character-carousel style spirit picker) */}
-        <SpiritCarousel onSelectProduct={setSelectedProduct} />
+        <SpiritCarousel />
 
         {/* Section 4: Unified About Us (Our Story + 40-Year Timeline) */}
         <AboutUs />

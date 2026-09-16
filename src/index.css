@@ -3903,15 +3903,34 @@ a {
   }
 }
 
-/* Spirit carousel bottle stage — ported from the alcshowcase reference: a GSAP-driven wheel of
-   bottles (hero / next / prev / hidden) composed from CSS custom properties, plus a pointer-tilt
-   layer and a tone-driven atmosphere gradient that crossfades between products. */
+/* Spirit carousel — ported from github.com/Aaron-Samuel05/alcshowcase: a
+   five-slot bottle wheel (hero + peeking next/prev + hidden), a
+   pointer-follow 3D tilt on the headline/hero bottle, and an "explore
+   bottle" detail view that grows the hero bottle and slides tasting/origin
+   copy in beside it. GSAP drives the --base- and --parallax- custom
+   properties per bottle node (see SpiritCarousel.jsx); this file only
+   composes those into transforms.
+   Tone custom properties are registered so the atmosphere gradient can
+   crossfade with a plain CSS transition instead of a JS tween. */
+@property --tone-1 { syntax: '<color>'; inherits: true; initial-value: #0b0b0d; }
+@property --tone-2 { syntax: '<color>'; inherits: true; initial-value: #17181c; }
+@property --tone-3 { syntax: '<color>'; inherits: true; initial-value: #242018; }
+@property --accent { syntax: '<color>'; inherits: true; initial-value: #e9a355; }
+@property --glow-x { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
+@property --glow-y { syntax: '<percentage>'; inherits: true; initial-value: 46%; }
+
 .spirit-stage {
-  --parallax-x: 0px;
-  --parallax-y: 0px;
-  --glow-x: 50%;
-  --glow-y: 46%;
   isolation: isolate;
+  perspective: 1400px;
+  transition: --tone-1 0.7s ease, --tone-2 0.7s ease, --tone-3 0.7s ease, --accent 0.7s ease;
+  /* Swipe-to-change reads horizontal drags itself (see onStageDragStart/End
+     in SpiritCarousel.jsx) — pan-y leaves vertical page scroll to the
+     browser instead of it fighting the drag gesture. */
+  touch-action: pan-y;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spirit-stage { transition: none; }
 }
 
 .spirit-stage-bg {
@@ -3935,7 +3954,67 @@ a {
     linear-gradient(90deg, rgba(0, 0, 0, .22), transparent 27%, transparent 73%, rgba(0, 0, 0, .2));
 }
 
-.spirit-bottle {
+/* Headline sits in its own band above the bottle, and tilts on its own
+   --parallax-* vars (set directly on this element by GSAP, not inherited
+   from a parent) — a flat translate only, a 3D rotate on flat text reads
+   oddly. Previously vertically centred so the bottle sat squarely over the
+   middle of the wordmark — read as a layout bug rather than intentional
+   layered depth, so it's pinned to the top instead, at every width. */
+.spirit-headline-layer {
+  --parallax-x: 0px;
+  --parallax-y: 0px;
+  --parallax-rx: 0deg;
+  --parallax-ry: 0deg;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: clamp(48px, 8vh, 88px);
+  padding-inline: 16px;
+  pointer-events: none;
+  transform: translate3d(var(--parallax-x), var(--parallax-y), 0) rotateX(var(--parallax-rx)) rotateY(var(--parallax-ry));
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+.spirit-headline-text {
+  font-size: clamp(44px, 10vw, 168px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .spirit-eyebrow {
+    display: none;
+  }
+
+  .spirit-headline-layer {
+    padding-top: clamp(64px, 10vh, 100px);
+  }
+
+  .spirit-headline-text {
+    font-size: clamp(30px, 10.5vw, 52px);
+    line-height: 1.08;
+    white-space: normal;
+    max-width: 88vw;
+  }
+}
+
+/* One hero bottle, sized to dominate the frame the way a spirits brand's
+   own product photography does, anchored to a ground line (top: 93%,
+   transform-origin at the foot) so it never floats mid-air as it scales
+   for the "explore bottle" detail view. --parallax-* stays at 0 on touch
+   devices (nothing sets it without pointermove), so the tilt is simply
+   inert there — no separate touch override needed. Height capped at 66vh
+   (was 88vh) so it leaves real clearance above for the headline band —
+   at 88vh the bottle started within ~40px of the stage top regardless of
+   viewport height, so the headline always collided with it no matter
+   where it was positioned. */
+.spirit-bottle-img {
   --base-x: 0vw;
   --base-y: 0vh;
   --base-scale: 1;
@@ -3946,38 +4025,491 @@ a {
   --parallax-ry: 0deg;
   position: absolute;
   left: 50%;
-  top: 49%;
-  height: min(62vh, 700px);
-  width: min(30vw, 360px);
+  top: 93%;
+  height: clamp(420px, 66vh, 820px);
+  width: auto;
+  max-width: min(58vw, 540px);
   object-fit: contain;
-  object-position: center;
+  object-position: bottom center;
   transform:
     translate3d(
       calc(-50% + var(--base-x) + var(--parallax-x)),
-      calc(-50% + var(--base-y) + var(--parallax-y)),
+      calc(-100% + var(--base-y) + var(--parallax-y)),
       0
     )
     scale(var(--base-scale))
     rotate(var(--base-rotation))
     rotateX(var(--parallax-rx))
     rotateY(var(--parallax-ry));
-  transform-origin: 50% 54%;
+  transform-origin: 50% 100%;
   transform-style: preserve-3d;
   will-change: transform, filter, opacity;
   user-select: none;
   pointer-events: none;
   opacity: 0;
-  filter: drop-shadow(0 28px 22px rgba(0, 0, 0, .36));
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .spirit-bottle { transition: none; }
+/* Warm pool of light the bottle stands in — a still, blurred glow rather
+   than a hard graphic shape, so it reads as lighting, not decoration. */
+.spirit-bottle-spotlight {
+  position: absolute;
+  left: 50%;
+  top: 91%;
+  width: min(52vw, 620px);
+  height: min(34vw, 380px);
+  transform: translate(-50%, -50%);
+  /* Mixes white into the core rather than just tinting the same warm hue as
+     the backdrop — a same-hue glow barely reads as light against a warm
+     background; the white core is what makes it look lit, not painted. */
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, white 45%, var(--accent) 55%) 0%,
+    color-mix(in srgb, var(--accent) 65%, transparent) 48%,
+    transparent 78%
+  );
+  filter: blur(30px);
+  opacity: 0.7;
+  z-index: 1;
+  pointer-events: none;
+  transition: background 0.7s ease, opacity 0.4s ease;
+}
+
+@media (max-width: 640px) {
+  .spirit-bottle-img {
+    top: 82%;
+    height: clamp(340px, 64vh, 620px);
+    max-width: min(76vw, 360px);
+  }
+  .spirit-bottle-spotlight {
+    top: 80%;
+    width: min(78vw, 420px);
+    height: min(46vw, 260px);
+  }
+}
+
+/* Bottom row: spirit info + nav on one side, view details on the other,
+   as a single flex row so both ends always share the same baseline. */
+.spirit-bottom-row {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 60;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(16px, 3vw, 32px);
+  flex-wrap: wrap;
+  padding: 0 clamp(16px, 4vw, 40px) clamp(24px, 4vh, 40px);
+}
+
+/* Explore-bottle detail view: an inline expansion over the same stage,
+   not a popup — the hero bottle above grows into it (driven by GSAP), this
+   panel just supplies the tasting note and style/origin facts beside it. */
+.spirit-detail-view {
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  opacity: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 48% 72% at 68% 48%, color-mix(in srgb, var(--tone-3) 30%, transparent), transparent 72%),
+    linear-gradient(128deg, color-mix(in srgb, var(--tone-1) 97%, #050608), var(--tone-2) 62%, color-mix(in srgb, var(--tone-1) 70%, #09090c));
+}
+
+.spirit-detail-view::-webkit-scrollbar {
+  display: none;
+}
+
+.spirit-detail-view[aria-hidden="false"] {
+  pointer-events: auto;
+}
+
+.spirit-detail-copy {
+  --parallax-x: 0px;
+  --parallax-y: 0px;
+  --parallax-rx: 0deg;
+  --parallax-ry: 0deg;
+  position: absolute;
+  z-index: 82;
+  left: clamp(1.25rem, 6vw, 6rem);
+  right: clamp(1.25rem, 6vw, 6rem);
+  top: 50%;
+  width: min(38vw, 32rem);
+  transform: translate3d(var(--parallax-x), calc(-50% + var(--parallax-y)), 0) rotateX(var(--parallax-rx)) rotateY(var(--parallax-ry));
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  pointer-events: auto;
+}
+
+.spirit-detail-title {
+  margin: 0.9rem 0 1.1rem;
+  font-size: clamp(44px, 7vw, 108px);
+  font-weight: 900;
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+}
+
+.spirit-detail-description {
+  margin: 0;
+  max-width: 30rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: clamp(14px, 1.3vw, 17px);
+  line-height: 1.6;
+}
+
+.spirit-detail-facts {
+  display: flex;
+  gap: clamp(2rem, 5vw, 4rem);
+  margin: clamp(1.5rem, 3vw, 2.5rem) 0 0;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.spirit-detail-facts dt {
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.spirit-detail-facts dd {
+  margin: 0.4rem 0 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.spirit-detail-back {
+  position: absolute;
+  /* z-index alone can't lift this above the site's sticky nav (z-50, its
+     own stacking context outside this section's `isolation: isolate`) — it
+     just needs to sit below it instead. Fixed px, not vh-relative: the
+     nav's own height doesn't scale with viewport height. */
+  z-index: 90;
+  top: 140px;
+  left: clamp(1rem, 4vw, 2.5rem);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 0;
+  background: none;
+  padding: 0.4rem 0;
+  color: #fff;
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: auto;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.spirit-detail-back:hover {
+  color: var(--accent);
+  transform: translateX(-4px);
 }
 
 @media (max-width: 760px) {
-  .spirit-bottle {
-    top: 47%;
-    height: min(50vh, 480px);
-    width: min(56vw, 280px);
+  .spirit-detail-copy {
+    top: 62%;
+    width: auto;
+  }
+  .spirit-detail-title {
+    font-size: clamp(34px, 12vw, 64px);
+  }
+}
+
+/* Story/heritage/character deep-dive — sits below the initial detail-view
+   viewport (100svh padding-top) and scrolls into view inside
+   .spirit-detail-view. See SpiritCarousel.jsx onDetailScroll for the hero
+   bottle / facts-panel fade tied to scroll position. */
+.spirit-heritage-scroll {
+  position: relative;
+  z-index: 81;
+  padding-top: 100svh;
+}
+
+.spirit-heritage-section {
+  position: relative;
+  min-height: 88svh;
+  display: grid;
+  align-content: center;
+  padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 6vw, 5rem);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    radial-gradient(circle at 78% 36%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 34%),
+    linear-gradient(180deg, rgba(5, 7, 12, 0.05), rgba(3, 5, 9, 0.94) 32%);
+}
+
+.spirit-heritage-section--story,
+.spirit-heritage-section--heritage {
+  grid-template-columns: minmax(0, 0.95fr) minmax(300px, 1.05fr);
+  gap: clamp(2.5rem, 6vw, 6rem);
+  align-items: center;
+}
+
+.spirit-heritage-section--heritage {
+  grid-template-columns: minmax(300px, 1.05fr) minmax(0, 0.95fr);
+}
+
+.spirit-heritage-section--heritage .spirit-heritage-visual {
+  order: 1;
+}
+
+.spirit-heritage-section--heritage .spirit-heritage-copy {
+  order: 2;
+}
+
+.spirit-heritage-copy {
+  max-width: 560px;
+}
+
+.spirit-heritage-kicker {
+  margin: 0 0 1rem;
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.spirit-heritage-title {
+  margin: 0 0 1.1rem;
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  font-size: clamp(28px, 4.2vw, 48px);
+  color: #fff;
+}
+
+.spirit-heritage-lead {
+  margin: 0 0 1.2rem;
+  font-size: clamp(15px, 1.6vw, 19px);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.spirit-heritage-body {
+  margin: 0;
+  max-width: 34rem;
+  font-size: clamp(13px, 1.2vw, 15px);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.spirit-heritage-fact {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-top: 1.75rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.spirit-heritage-fact span {
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.spirit-heritage-fact strong {
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.spirit-heritage-visual {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  height: min(56svh, 560px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.34);
+}
+
+.spirit-heritage-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.spirit-heritage-visual figcaption {
+  position: absolute;
+  z-index: 2;
+  left: 1.1rem;
+  bottom: 1rem;
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.spirit-heritage-section--character {
+  min-height: 82svh;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+}
+
+.spirit-heritage-character-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(3, 5, 9, 0.86) 0%, rgba(3, 5, 9, 0.42) 48%, rgba(3, 5, 9, 0.12) 100%),
+    linear-gradient(180deg, rgba(3, 5, 9, 0.2), rgba(3, 5, 9, 0.68));
+}
+
+.spirit-heritage-character-content {
+  position: relative;
+  z-index: 2;
+}
+
+.spirit-heritage-character-row {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  align-items: end;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.spirit-heritage-character-row h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+  font-size: clamp(40px, 8vw, 96px);
+  color: #fff;
+}
+
+.spirit-heritage-character-row > div {
+  display: grid;
+  gap: 0.4rem;
+  padding-left: 1.25rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.spirit-heritage-character-row span {
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.spirit-heritage-character-row strong {
+  margin: 0 0 0.9rem;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.spirit-heritage-end {
+  min-height: 52svh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--accent) 8%, transparent), transparent 44%), rgba(3, 5, 9, 0.98);
+}
+
+.spirit-heritage-end p {
+  margin: 0 0 1rem;
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.spirit-heritage-end h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  font-size: clamp(30px, 6vw, 56px);
+  color: #fff;
+}
+
+.spirit-heritage-end-meta {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.spirit-heritage-hint {
+  position: absolute;
+  z-index: 83;
+  left: 50%;
+  bottom: 1.5rem;
+  transform: translateX(-50%);
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  pointer-events: none;
+  text-align: center;
+  transition: opacity 0.35s ease;
+  animation: spiritHeritageHintBounce 1.8s ease-in-out infinite;
+}
+
+.spirit-heritage-hint span {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 14px;
+}
+
+@keyframes spiritHeritageHintBounce {
+  0%, 100% { transform: translate(-50%, 0); opacity: 0.5; }
+  50% { transform: translate(-50%, 5px); opacity: 0.9; }
+}
+
+@media (max-width: 800px) {
+  .spirit-heritage-scroll {
+    padding-top: 62svh;
+  }
+  .spirit-heritage-section--story,
+  .spirit-heritage-section--heritage {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .spirit-heritage-section--heritage .spirit-heritage-visual,
+  .spirit-heritage-section--heritage .spirit-heritage-copy {
+    order: initial;
+  }
+  .spirit-heritage-visual {
+    height: 42svh;
+  }
+  .spirit-heritage-character-row {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .spirit-heritage-character-row > div {
+    padding-left: 1rem;
   }
 }

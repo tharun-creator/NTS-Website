@@ -31,3 +31,19 @@ vite-dev.*.log
 # temp screenshots
 spirit-*.png
 nts-portfolio-*.png
+Usersmohan*.png
+.gstack/
+
+# AI tool session/agent artifacts — not project code
+.claude/
+.codex/
+.codex-artifacts/
+.cursor/
+docs/superpowers/
+
+# scratch output and unused source image drops (root-level, not served by
+# the app — the actual product/banner images live under public/)
+/outputs/
+/banner/
+/images/
+/protfolio images/
