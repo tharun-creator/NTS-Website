@@ -105,24 +105,43 @@ const wrap = (n) => (n + COUNT) % COUNT
 const GRAIN_URL =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E\")"
 
-// Single hero bottle, no peeking neighbours — a clean product-shot
-// presentation (the kind a premium spirits brand uses for its own hero
-// shot) rather than a "wheel" with other bottles visible at the edges.
-const HERO_BASE = { x: '0vw', y: '0vh', scale: 1, rotation: 0 }
+// Diagonal cascade: every bottle sits on a slot relative to the active one
+// (-2..+2). Slots step up to the right, tilt further each step, and the
+// outer ones are cropped by the stage edge. x is in vw, y in vh (positive is
+// down), measured from the focused bottle's resting foot position.
 const HERO_DETAIL_SCALE = 1.3
-
-function setBottlePosition(node, position) {
-  if (!node) return
-  gsap.set(node, {
-    '--base-x': position.x,
-    '--base-y': position.y,
-    '--base-scale': position.scale,
-    '--base-rotation': `${position.rotation}deg`,
-    opacity: 1,
-    filter: 'drop-shadow(0 34px 40px rgba(0,0,0,.45))',
-    zIndex: 4,
-  })
+const SLOTS_DESKTOP = {
+  '-2': { x: -45, y: 6, scale: 0.5, rotation: -18, opacity: 0.35, z: 3 },
+  '-1': { x: -22, y: 3, scale: 0.74, rotation: -9, opacity: 0.9, z: 6 },
+  '0': { x: 4, y: 0, scale: 1, rotation: 0, opacity: 1, z: 10 },
+  '1': { x: 30, y: -5, scale: 0.74, rotation: 9, opacity: 0.9, z: 6 },
+  '2': { x: 49, y: -10, scale: 0.5, rotation: 18, opacity: 0.6, z: 3 },
 }
+const SLOTS_MOBILE = {
+  '-2': { x: -70, y: 8, scale: 0.5, rotation: -20, opacity: 0, z: 3 },
+  '-1': { x: -42, y: 5, scale: 0.7, rotation: -12, opacity: 0.85, z: 6 },
+  '0': { x: 0, y: 0, scale: 1, rotation: 0, opacity: 1, z: 10 },
+  '1': { x: 42, y: -5, scale: 0.7, rotation: 12, opacity: 0.85, z: 6 },
+  '2': { x: 70, y: -8, scale: 0.5, rotation: 20, opacity: 0, z: 3 },
+}
+
+const getSlots = () =>
+  typeof window !== 'undefined' && window.matchMedia('(max-width: 640px)').matches ? SLOTS_MOBILE : SLOTS_DESKTOP
+
+// Signed, wrapped offset of item `index` from the active item, in [-2, 2].
+const slotOf = (index, activeIndex) => {
+  const half = Math.floor(COUNT / 2)
+  return ((((index - activeIndex + half) % COUNT) + COUNT) % COUNT) - half
+}
+
+const slotVars = (slot) => ({
+  '--base-x': `${slot.x}vw`,
+  '--base-y': `${slot.y}vh`,
+  '--base-scale': slot.scale,
+  '--base-rotation': `${slot.rotation}deg`,
+  opacity: slot.opacity,
+  zIndex: slot.z,
+})
 
 /**
  * Bottle showcase ported from github.com/Aaron-Samuel05/alcshowcase: the
@@ -144,7 +163,9 @@ export default function SpiritCarousel() {
   const activeRef = useRef(0)
   const lockedRef = useRef(false)
   const stageRef = useRef(null)
-  const heroRef = useRef(null)
+  const bottleRefs = useRef([])
+  // The active bottle's element — the one the tilt, detail view and scroll fade act on.
+  const heroRef = { get current() { return bottleRefs.current[activeRef.current] || null } }
   const dragRef = useRef(null)
   const titleRef = useRef(null)
   const infoRef = useRef(null)
@@ -155,16 +176,31 @@ export default function SpiritCarousel() {
 
   const current = CAROUSEL_ITEMS[active]
 
-  // Mount: place the hero bottle at rest.
+  // Place every bottle on its slot; re-run on resize so crossing the mobile
+  // breakpoint swaps slot tables (skipped while the detail view is open).
+  const placeAll = (activeIndex) => {
+    const slots = getSlots()
+    bottleRefs.current.forEach((node, i) => {
+      if (node) gsap.set(node, { ...slotVars(slots[slotOf(i, activeIndex)]), '--parallax-x': '0px', '--parallax-y': '0px', '--parallax-rx': '0deg', '--parallax-ry': '0deg' })
+    })
+  }
+
   useLayoutEffect(() => {
-    setBottlePosition(heroRef.current, HERO_BASE)
-    gsap.set(heroRef.current, { '--parallax-x': '0px', '--parallax-y': '0px', '--parallax-rx': '0deg', '--parallax-ry': '0deg' })
+    placeAll(0)
     if (titleRef.current) gsap.set(titleRef.current, { opacity: 1, '--parallax-x': '0px', '--parallax-y': '0px', '--parallax-rx': '0deg', '--parallax-ry': '0deg' })
     if (detailCopyRef.current) gsap.set(detailCopyRef.current, { '--parallax-x': '0px', '--parallax-y': '0px', '--parallax-rx': '0deg', '--parallax-ry': '0deg' })
   }, [])
 
   useEffect(() => {
-    const preload = CAROUSEL_ITEMS.map(({ image }) => {
+    const onResize = () => {
+      if (!detailOpen && !lockedRef.current) placeAll(activeRef.current)
+    }
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  })
+
+  useEffect(() => {
+    const preload =CAROUSEL_ITEMS.map(({ image }) => {
       const img = new Image()
       img.src = image
       return img
@@ -202,9 +238,9 @@ export default function SpiritCarousel() {
     targets.forEach((node) => (immediate ? gsap.set(node, vars) : gsap.to(node, vars)))
   }
 
-  // Crossfades the one hero bottle in place — a small dip in scale/opacity
-  // toward the direction of travel, then the new bottle settles back to
-  // rest — rather than sliding other bottles through from off-stage.
+  // Moves every bottle one slot along the diagonal. The bottle that wraps
+  // from one end to the other fades out, jumps while invisible, and fades
+  // back in, so it never slides back across the frame.
   function changeProduct(direction) {
     if (lockedRef.current || detailOpen) return
     lockedRef.current = true
@@ -213,8 +249,8 @@ export default function SpiritCarousel() {
     const old = activeRef.current
     const next = wrap(old + direction)
     const nextItem = CAROUSEL_ITEMS[next]
-    const hero = heroRef.current
-    gsap.killTweensOf([titleRef.current, infoRef.current, actionRef.current, hero])
+    const slots = getSlots()
+    gsap.killTweensOf([titleRef.current, infoRef.current, actionRef.current, ...bottleRefs.current])
 
     const timeline = gsap.timeline({
       defaults: { ease: 'power3.inOut' },
@@ -238,17 +274,21 @@ export default function SpiritCarousel() {
       0
     )
 
-    if (hero) {
-      timeline
-        .to(hero, { '--base-x': `${direction > 0 ? -4 : 4}vw`, '--base-scale': 0.94, opacity: 0, duration: 0.34 }, 0)
-        .call(() => { hero.setAttribute('src', nextItem.image) }, [], 0.34)
-        .fromTo(
-          hero,
-          { '--base-x': `${direction > 0 ? 4 : -4}vw` },
-          { '--base-x': '0vw', '--base-scale': 1, opacity: 1, duration: 0.55, ease: 'power3.out' },
-          0.36
-        )
-    }
+    bottleRefs.current.forEach((node, i) => {
+      if (!node) return
+      const from = slotOf(i, old)
+      const to = slotOf(i, next)
+      const target = slotVars(slots[to])
+      if (Math.abs(to - from) > 1) {
+        timeline
+          .to(node, { opacity: 0, duration: 0.25, ease: 'power2.out' }, 0)
+          .set(node, { ...target, opacity: 0 }, 0.3)
+          .to(node, { opacity: slots[to].opacity, duration: 0.4, ease: 'power2.out' }, 0.36)
+      } else {
+        const { zIndex, ...tween } = target
+        timeline.set(node, { zIndex }, 0.3).to(node, { ...tween, duration: 0.8, ease: 'power3.inOut' }, 0)
+      }
+    })
 
     timeline
       .to([titleRef.current, infoRef.current, actionRef.current], { opacity: 0, y: -12, filter: 'blur(5px)', duration: 0.28, stagger: 0.025 }, 0)
@@ -417,6 +457,7 @@ export default function SpiritCarousel() {
           },
           0
         )
+        .to(bottleRefs.current.filter((node) => node && node !== hero), { opacity: 0, duration: 0.4, ease: 'power2.out' }, 0)
         .to(detailBackRef.current, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.34 }, 0.08)
         .to(detailCopyRef.current, { opacity: 1, filter: 'blur(0px)', duration: 0.55 }, 0.12)
     })
@@ -444,27 +485,21 @@ export default function SpiritCarousel() {
       onComplete: () => {
         setDetailOpen(false)
         gsap.set(detailViewRef.current, { opacity: 0 })
-        setBottlePosition(hero, HERO_BASE)
+        placeAll(activeRef.current)
         lockedRef.current = false
       },
     })
+    const slots = getSlots()
+    const restingSlot = slotVars(slots['0'])
     timeline
       .to(detailCopyRef.current, { opacity: 0, filter: 'blur(8px)', duration: 0.28 }, 0)
       .to(detailBackRef.current, { opacity: 0, y: -6, filter: 'blur(4px)', duration: 0.24 }, 0)
-      .to(
-        hero,
-        {
-          '--base-x': '0vw',
-          '--base-y': '0vh',
-          '--base-scale': HERO_BASE.scale,
-          '--base-rotation': '0deg',
-          opacity: 1,
-          filter: 'drop-shadow(0 34px 40px rgba(0,0,0,.45))',
-          zIndex: 4,
-          duration: 0.72,
-        },
-        0.02
-      )
+      .to(hero, { ...restingSlot, duration: 0.72 }, 0.02)
+    bottleRefs.current.forEach((node, i) => {
+      if (!node || node === hero) return
+      timeline.to(node, { opacity: slots[slotOf(i, activeRef.current)].opacity, duration: 0.5, ease: 'power2.out' }, 0.3)
+    })
+    timeline
       .to(detailViewRef.current, { opacity: 0, duration: 0.32 }, 0.42)
       .to(
         [titleRef.current, infoRef.current, actionRef.current],
@@ -513,18 +548,6 @@ export default function SpiritCarousel() {
 
         <div className="spirit-stage-vignette" />
 
-        {/* Section eyebrow — hidden below 640px (see index.css): on short
-            phones there isn't room for eyebrow + headline + bottle stacked
-            without something colliding, and this label is decorative. */}
-        <div
-          className="spirit-eyebrow absolute top-[136px] left-4 sm:left-8 z-[60] transition-opacity duration-300"
-          style={{ opacity: detailOpen ? 0 : 1, pointerEvents: detailOpen ? 'none' : 'auto' }}
-        >
-          <span className="font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-white/85">
-            Proprietary Distillation
-          </span>
-        </div>
-
         {/* Giant headline, tilts toward the cursor via its own --parallax-* vars.
             Opacity is GSAP-owned (see the mount effect and changeProduct/openDetail
             timelines) — not set here, so a React re-render can't fight GSAP's writes. */}
@@ -539,15 +562,18 @@ export default function SpiritCarousel() {
             hero bottle, in place of a wheel of other bottles at the edges. */}
         <div className="spirit-bottle-spotlight" aria-hidden="true" />
 
-        {/* Single hero bottle. src is swapped mid-crossfade by changeProduct
-            (see SpiritCarousel.jsx); the initial src just matches mount state. */}
-        <img
-          ref={heroRef}
-          src={current.image}
-          alt={current.name}
-          draggable={false}
-          className="spirit-bottle-img"
-        />
+        {/* Diagonal cascade: one image per spirit, positioned by slot
+            (see SLOTS_DESKTOP / SLOTS_MOBILE); GSAP owns their transforms. */}
+        {CAROUSEL_ITEMS.map((item, i) => (
+          <img
+            key={item.id}
+            ref={(node) => { bottleRefs.current[i] = node }}
+            src={item.image}
+            alt={item.name}
+            draggable={false}
+            className="spirit-bottle-img"
+          />
+        ))}
 
         {/* Bottom row: spirit info + nav on the left, explore on the right,
             both anchored to one flex row so they always share the same baseline.
