@@ -3181,9 +3181,7 @@ a {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(0,0,0,.58) 0%, rgba(0,0,0,.24) 32%, transparent 68%),
-    linear-gradient(180deg, rgba(0,0,0,.12) 0%, transparent 44%, rgba(0,0,0,.12) 100%);
+  background: transparent;
 }
 
 .home-hero-content {
@@ -3504,13 +3502,11 @@ a {
   }
 
   [data-od-id="hero-single-image"]::before {
-    background:
-      linear-gradient(90deg, rgba(0,0,0,.34) 0%, rgba(0,0,0,.12) 34%, transparent 72%),
-      linear-gradient(180deg, rgba(0,0,0,.06) 0%, transparent 52%, rgba(0,0,0,.08) 100%);
+    background: transparent;
   }
 
   [data-od-id="hero-single-image"] img {
-    object-position: center 25%;
+    object-position: center bottom;
   }
 
   .home-hero-content {
@@ -3686,7 +3682,7 @@ a {
   }
 
   [data-od-id="hero-single-image"] img {
-    object-position: center top;
+    object-position: center bottom;
   }
 
   .home-hero-content {
