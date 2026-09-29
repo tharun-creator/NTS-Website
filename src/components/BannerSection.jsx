@@ -26,7 +26,7 @@ export default function BannerSection() {
         </picture>
       </div>
 
-      <div className="hero-vertical-shade pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0)_38%,rgba(255,255,255,0.12)_100%)]" />
+      <div className="hero-vertical-shade pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0)_38%,rgba(255,255,255,0.12)_100%)]" />
 
       <div className="home-hero-content relative z-10 flex h-full items-center px-4 py-10 sm:px-8 sm:py-14 lg:px-12 lg:py-16">
         <div className="home-hero-copy max-w-[860px]">
