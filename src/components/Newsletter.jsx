@@ -1,28 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import Reveal from './motion/Reveal'
 
-const newsletterBottleA = '/portfolio-images/old-town.png'
-const newsletterBottleB = '/bottle-2/bottle (1).png'
-
-function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const query = window.matchMedia('(max-width: 767px)')
-    const update = () => setIsMobile(query.matches)
-
-    update()
-    query.addEventListener('change', update)
-    return () => query.removeEventListener('change', update)
-  }, [])
-
-  return isMobile
-}
-
 export default function Newsletter() {
   const bottleEase = [0.22, 1, 0.36, 1]
-  const isMobile = useIsMobile()
   const [email, setEmail] = useState('')
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [error, setError] = useState('')
@@ -42,44 +23,6 @@ export default function Newsletter() {
     setIsSubmitted(true)
   }
 
-  // One anchor bottle per side, pushed toward the edge so it clears the
-  // headline's max-width column instead of crowding behind the letters.
-  const leftBottles = [
-    {
-      image: newsletterBottleA,
-      className: 'hidden sm:block sm:left-[4px] sm:bottom-[22px] sm:w-[190px] md:left-[8px] md:bottom-[28px] md:w-[240px] lg:left-[16px] lg:bottom-[34px] lg:w-[290px] xl:left-[32px] xl:bottom-[38px] xl:w-[330px]',
-      rotation: -8,
-      x: isMobile ? -40 : -70,
-      scale: 0.85,
-      opacity: 0.98,
-      delay: 0,
-      float: [-6, 0, -6],
-      duration: 9,
-      z: 'z-[5]',
-      blur: '',
-    },
-  ]
-
-  const rightBottles = [
-    {
-      image: newsletterBottleB,
-      className: 'hidden sm:block sm:right-[4px] sm:bottom-[22px] sm:w-[190px] md:right-[8px] md:bottom-[28px] md:w-[240px] lg:right-[16px] lg:bottom-[34px] lg:w-[290px] xl:right-[32px] xl:bottom-[38px] xl:w-[330px]',
-      rotation: 8,
-      x: isMobile ? 40 : 70,
-      scale: 0.85,
-      opacity: 0.98,
-      delay: 0.12,
-      float: [0, -6, 0],
-      duration: 9.5,
-      z: 'z-[5]',
-      blur: '',
-    },
-  ]
-
-  const bottleShadow = isMobile
-    ? 'drop-shadow(0 14px 24px rgba(0,0,0,0.85))'
-    : 'drop-shadow(0 22px 46px rgba(0,0,0,0.95))'
-
   return (
     <section
       id="partner-notes"
@@ -88,28 +31,6 @@ export default function Newsletter() {
     >
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-[10vw] bg-gradient-to-r from-black/80 to-transparent" aria-hidden="true" />
       <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-[10vw] bg-gradient-to-l from-black/80 to-transparent" aria-hidden="true" />
-
-      {/* Floating Animated Bottles on Left & Right */}
-      {[...leftBottles, ...rightBottles].map((bottle, index) => (
-        <motion.div
-          key={`${bottle.className}-${index}`}
-          className={`pointer-events-none absolute ${bottle.z} ${bottle.className}`}
-          initial={{ opacity: 0, x: bottle.x, y: 24, rotate: bottle.rotation, scale: bottle.scale }}
-          whileInView={{ opacity: bottle.opacity, x: 0, y: 0, rotate: bottle.rotation, scale: 1 }}
-          transition={{ duration: 0.9, delay: bottle.delay, ease: bottleEase }}
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          <motion.img
-            src={bottle.image}
-            alt=""
-            aria-hidden="true"
-            className={`w-full select-none object-contain will-change-transform ${bottle.blur}`}
-            animate={{ y: bottle.float }}
-            transition={{ duration: bottle.duration, ease: 'easeInOut', repeat: Infinity, delay: 1.05 + bottle.delay }}
-            style={{ filter: bottleShadow }}
-          />
-        </motion.div>
-      ))}
 
       {/* Center Main Stage Content */}
       <div className="relative z-20 mx-auto w-full max-w-[900px] text-center">

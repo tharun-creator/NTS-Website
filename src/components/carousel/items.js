@@ -13,7 +13,7 @@ const ART = {
   'canacona-blast-berry-vodka': { size: 1000, ratio: r(1200, 1900) },
   'canacona-zimmy-pop-kiwi-vodka': { size: 1000, ratio: r(1200, 1900) },
   'canacona-tangy-twist-orange-vodka': { size: 1000, ratio: r(1200, 1900) },
-  'zipper-orange-vodka': { size: 900, ratio: r(925, 1152) },
+  'zipper-orange-vodka': { size: 1000, ratio: r(925, 1152) },
   'zipper-lemon-lime-vodka': { size: 1000, ratio: r(1200, 1900) },
   'zipper-lychee-vodka': { size: 1000, ratio: r(1200, 1900) },
 }
