@@ -865,7 +865,7 @@ body {
   .legacy-facility-card {
     width: min(100%, 520px);
     margin: 0 auto;
-    padding: clamp(16px, 4.6vw, 24px) !important;
+    padding: clamp(10px, 3vw, 14px) !important;
     border-radius: clamp(24px, 7vw, 36px) !important;
     background: linear-gradient(145deg, rgba(255,255,255,.76), rgba(255,255,255,.58)) !important;
     box-shadow:
@@ -889,7 +889,7 @@ body {
 
   .legacy-facility-card p {
     font-size: clamp(11px, 3.05vw, 12px);
-    line-height: 1.5;
+    line-height: 1.2;
     color: rgba(5,5,5,.82);
   }
 }

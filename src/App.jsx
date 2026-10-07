@@ -231,7 +231,7 @@ function HomePage() {
               <div className="hidden min-h-[500px] lg:block lg:col-span-7 xl:col-span-7 2xl:col-span-7" />
 
               {/* Right Column: Goa Facility Card */}
-              <ClipReveal className="legacy-facility-card premium-panel space-y-4 rounded-[2.5rem] bg-white p-7 text-[#050505] shadow-2xl sm:p-9 lg:col-span-5 xl:col-span-5 2xl:col-span-5 lg:p-10">
+              <ClipReveal className="legacy-facility-card premium-panel space-y-2 rounded-[2.5rem] bg-white p-7 text-[#050505] shadow-2xl sm:space-y-4 sm:p-9 lg:col-span-5 xl:col-span-5 2xl:col-span-5 lg:p-10">
                 <div className="space-y-1">
                   <span className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-[#E9542E]">
                     CANACONA, GOA • MANUFACTURING FACILITY
@@ -241,7 +241,7 @@ function HomePage() {
                   </Reveal>
                 </div>
 
-                <div className="space-y-2.5 font-sans text-xs sm:text-[12.5px] font-medium leading-relaxed text-[#050505]/85">
+                <div className="space-y-0.5 font-sans text-xs sm:space-y-2.5 sm:text-[12.5px] font-medium leading-relaxed text-[#050505]/85">
                   <Reveal as="p" delay={0.35}>
                     NTS operates from a three-acre unit in Canacona Industrial Estate, Goa, with green surroundings and road access through a state highway connected to NH 66.
                   </Reveal>
