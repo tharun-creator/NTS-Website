@@ -898,7 +898,25 @@ body {
   .legacy-facility-card {
     position: relative;
     top: clamp(-128px, -15svh, -96px);
+    padding: clamp(20px, 5.5vw, 24px) !important;
     background: linear-gradient(145deg, rgba(255,255,255,.92), rgba(255,255,255,.88)) !important;
+  }
+
+  .legacy-facility-card > * + * {
+    margin-top: 14px !important;
+  }
+
+  .legacy-facility-card > div:nth-child(2) > p {
+    line-height: 1.5;
+  }
+
+  .legacy-facility-card > div:nth-child(2) > p + p {
+    margin-top: 14px !important;
+  }
+
+  .legacy-facility-card > div:nth-child(2) > p:last-child {
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
 }
 
