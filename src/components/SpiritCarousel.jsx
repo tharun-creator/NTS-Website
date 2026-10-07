@@ -123,8 +123,11 @@ export default function SpiritCarousel() {
 
   function onPointerDown(event) {
     if (lockedRef.current || detailOpen) return
+    if (event.target.closest?.('button')) {
+      dragRef.current.active = false
+      return
+    }
     dragRef.current = { id: event.pointerId, x: event.clientX, y: event.clientY, active: true, moved: false }
-    event.currentTarget.setPointerCapture?.(event.pointerId)
   }
 
   function onPointerUp(event) {
@@ -135,6 +138,12 @@ export default function SpiritCarousel() {
     if (Math.abs(dx) > 12 || Math.abs(dy) > 12) gesture.moved = true
     if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.15) changeProduct(dx < 0 ? 1 : -1)
     window.setTimeout(() => { gesture.moved = false }, 80)
+  }
+
+  function onPointerCancel(event) {
+    if (dragRef.current.id === event.pointerId) {
+      dragRef.current = { id: null, x: 0, y: 0, active: false, moved: false }
+    }
   }
 
   function openDetail(force = false) {
@@ -175,8 +184,8 @@ export default function SpiritCarousel() {
           .nts-spirit-info{bottom:84px!important}
           .nts-spirit-controls{bottom:14px!important}
           .nts-spirit-action{right:14px!important;bottom:20px!important}
-          .nts-spirit-detail{padding:74px 18px 54px!important}
-          .nts-spirit-detail-info{padding-top:37vh!important}
+          .nts-spirit-detail{padding:64px 18px 32px!important}
+          .nts-spirit-detail-info{padding-top:34vh!important}
         }
         @media (max-width:700px){
           .nts-spirit-top-label{top:24px!important;left:16px!important}
@@ -194,16 +203,16 @@ export default function SpiritCarousel() {
           .nts-spirit-progress-line{width:32px!important}
           .nts-spirit-action{font-size:clamp(14px,4.2vw,16.5px)!important;letter-spacing:-.04em!important;gap:3px!important;max-width:none!important;white-space:nowrap!important;line-height:1!important}
           .nts-spirit-action svg{width:18px!important;height:18px!important;flex-shrink:0}
-          .nts-spirit-detail-close{top:16px!important;right:16px!important;width:42px!important;height:42px!important}
+          .nts-spirit-detail-close{position:sticky!important;top:128px!important;right:auto!important;margin:0 0 -42px auto!important;width:42px!important;height:42px!important}
           .nts-spirit-detail-info{margin-left:0!important;max-width:none!important;padding-bottom:0!important}
           .nts-spirit-detail-info h2{font-size:clamp(42px,15vw,62px)!important}
           .nts-spirit-detail-info>p{font-size:18px!important;line-height:1.15!important}
-          .nts-spirit-detail-stats{grid-template-columns:1fr!important;gap:0!important;margin:28px 0!important;padding:0!important}
-          .nts-spirit-detail-stats>div{padding:15px 0;border-bottom:1px solid rgba(255,255,255,.14)}
+          .nts-spirit-detail-stats{grid-template-columns:1fr!important;gap:0!important;margin:20px 0!important;padding:0!important}
+          .nts-spirit-detail-stats>div{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.14)}
           .nts-spirit-detail-stats>div:last-child{border-bottom:0}
           .nts-spirit-detail-section h3{font-size:clamp(28px,9vw,40px)!important;line-height:.94!important}
           .nts-spirit-detail-section p{font-size:14px!important;line-height:1.65!important}
-          .nts-spirit-detail-end{min-height:35vh!important;margin-top:42px!important}
+          .nts-spirit-detail-end{min-height:20vh!important;margin-top:28px!important}
         }
         @media (max-width:420px){
           .nts-spirit-info{left:14px!important;right:14px!important}
@@ -225,8 +234,9 @@ export default function SpiritCarousel() {
         className="nts-spirit-stage"
         onPointerMove={onPointerMove}
         onPointerLeave={() => resetParallax(true)}
-        onPointerDown={onPointerDown}
-        onPointerUp={onPointerUp}
+        onPointerDownCapture={onPointerDown}
+        onPointerUpCapture={onPointerUp}
+        onPointerCancelCapture={onPointerCancel}
         style={{
           position: 'relative',
           minHeight: 'calc(100vh - 110px)',
@@ -254,7 +264,8 @@ export default function SpiritCarousel() {
             onPointerDown={(event) => event.stopPropagation()}
             onClick={(event) => {
               event.stopPropagation()
-              openDetail(true)
+              if (detailOpen) closeDetail()
+              else if (!dragRef.current.moved) openDetail(true)
             }}
             style={{
               ...bottleStyle,

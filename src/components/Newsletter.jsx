@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
+import { CheckCircle2 } from 'lucide-react'
 import Reveal from './motion/Reveal'
 
 export default function Newsletter() {
@@ -48,7 +49,7 @@ export default function Newsletter() {
           </div>
 
           {/* Bold Serif Headline */}
-          <Reveal as="h2" className="mx-auto mt-6 max-w-[850px] font-serif text-[clamp(2.1rem,11vw,4.4rem)] font-black uppercase leading-[1.02] tracking-tight text-white sm:leading-[1.04]">
+          <Reveal as="h2" className="mx-auto mt-6 max-w-[850px] font-serif text-[clamp(2rem,10vw,4.4rem)] font-black uppercase leading-[1.02] tracking-tight text-white sm:text-[clamp(2.1rem,11vw,4.4rem)] sm:leading-[1.04]">
             TRADE-READY SPIRITS, BOTTLING CAPACITY, AND PARTNERSHIP OPPORTUNITIES.
           </Reveal>
 
@@ -95,9 +96,13 @@ export default function Newsletter() {
               </p>
             )}
             {isSubmitted && (
-              <p id="partner-chat-success" className="mt-3 text-center font-sans text-sm font-semibold text-white/70" aria-live="polite">
-                Thanks. We have your email and can follow up on the right trade conversation.
-              </p>
+              <div id="partner-chat-success" className="mt-4 flex items-start gap-3 rounded-xl border border-[#E9542E]/60 bg-[#E9542E]/10 px-5 py-4 text-left text-white shadow-[0_12px_36px_rgba(233,84,46,0.16)]" role="status" aria-live="polite">
+                <CheckCircle2 className="mt-0.5 shrink-0 text-[#E9542E]" size={22} aria-hidden="true" />
+                <div>
+                  <p className="font-sans text-base font-bold">Thank you for submitting your email!</p>
+                  <p className="mt-1 font-sans text-sm text-white/80">We'll contact you soon.</p>
+                </div>
+              </div>
             )}
           </form>
         </motion.div>
