@@ -1139,19 +1139,29 @@ body {
 
 .home-proof-section__machinery ul {
   display: grid;
-  gap: 16px;
+  gap: 0;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .home-proof-section__machinery li {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   border-bottom: 1px solid rgba(255,255,255,.14);
-  padding-bottom: 16px;
+  padding: 12px 4px;
   font-size: 15px;
-  font-weight: 650;
-  line-height: 1.55;
+  font-weight: 700;
+  line-height: 1.35;
   color: rgba(255,255,255,.72);
+}
+
+.home-proof-section__machinery-icon {
+  flex: 0 0 18px;
+  color: #E9542E;
+  stroke-width: 1.7;
 }
 
 .home-proof-section__machinery a {

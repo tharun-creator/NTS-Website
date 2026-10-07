@@ -307,11 +307,14 @@ export const facilityStats = [
 ]
 
 export const machineryList = [
-  'Rotary washing machines',
-  '8-head vacuum filling machines with auto-cut system',
-  'Manual and automatic ROPP cap sealing machines',
-  'Automatic Guala cap pressing machines',
-  'Inspection units, label machines, printers, belt conveyors, rejection tanks, and packing machine',
+  'Rotary Washing',
+  '8-Head Vacuum Filling',
+  'ROPP Cap Sealing',
+  'Guala Cap Pressing',
+  'Inspection & Labelling',
+  'Printing & Conveyors',
+  'Rejection & Packing',
+  'R&D / Quality Control',
 ]
 
 export const productCategoryFilters = ['All', 'Whisky', 'Brandy', 'Rum', 'Vodka']

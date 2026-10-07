@@ -243,16 +243,13 @@ function HomePage() {
 
                 <div className="space-y-0.5 font-sans text-xs sm:space-y-2.5 sm:text-[12.5px] font-medium leading-relaxed text-[#050505]/85">
                   <Reveal as="p" delay={0.35}>
-                    NTS operates from a three-acre unit in Canacona Industrial Estate, Goa, with green surroundings and road access through a state highway connected to NH 66.
+                    NTS operates from a three-acre facility in Canacona Industrial Estate, Goa, with road access through a state highway connected to NH 66.
                   </Reveal>
                   <Reveal as="p" delay={0.45}>
-                    The facility is planned around disciplined throughput: 75,000 cases of monthly production capacity and a bonded warehouse built for 25,000 cases.
-                  </Reveal>
-                  <Reveal as="p" delay={0.55}>
-                    Rotary washers, 8-head vacuum fillers, ROPP and Guala cap systems, inspection units, labelling, printing, conveyors, rejection tanks, packing support, and an R&D lab keep the line practical, traceable, and quality-focused.
+                    The facility is planned for 75,000 cases of monthly production, with bonded warehousing for 25,000 cases.
                   </Reveal>
                   <Reveal as="p" delay={0.65} className="border-l-2 border-[#E9542E] pl-3 text-[#050505] font-semibold text-[11.5px] sm:text-xs">
-                    The next phase raises the ceiling further toward 2,50,000 cases of monthly production capacity.
+                    The next phase raises planned monthly production toward 2,50,000 cases.
                   </Reveal>
                 </div>
 
