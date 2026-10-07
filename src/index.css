@@ -894,6 +894,14 @@ body {
   }
 }
 
+@media (max-width: 639px) {
+  .legacy-facility-card {
+    position: relative;
+    top: clamp(-128px, -15svh, -96px);
+    background: linear-gradient(145deg, rgba(255,255,255,.92), rgba(255,255,255,.88)) !important;
+  }
+}
+
 @keyframes legacy-card-rise {
   from {
     opacity: 0;
