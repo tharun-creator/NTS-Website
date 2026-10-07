@@ -4597,10 +4597,6 @@ a {
 }
 
 @media (max-width: 760px) {
-  .home-proof-section__inner--machinery {
-    padding-top: 24px;
-  }
-
   .home-proof-section__intro h2,
   .content-page__expansion-copy h2,
   .collection-visit-section__copy h2,
