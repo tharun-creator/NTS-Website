@@ -3722,8 +3722,12 @@ a {
   }
 
   .nav-logo-seal {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .site-nav .nav-logo-seal--home img {
+    transform: scale(1.35);
   }
 
   .site-nav .brand-wordmark {
