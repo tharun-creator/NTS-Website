@@ -5,10 +5,11 @@ import { LOADER_PENDING, markLoaderSeen } from './pageReady'
 const MIN_MS = 900
 const CAP_MS = 3500
 
-const heroSrc = () =>
-  window.matchMedia('(max-width: 1100px)').matches
-    ? '/banner/east-coast-bottle-lineup-hero-mobile.webp'
-    : '/banner/east-coast-bottle-lineup-hero-desktop.webp'
+const heroSrc = () => {
+  if (window.matchMedia('(max-width: 820px)').matches) return '/banner/bottlecarousel.png'
+  if (window.matchMedia('(max-width: 1100px)').matches) return '/banner/east-coast-bottle-lineup-hero-mobile.webp'
+  return '/banner/east-coast-bottle-lineup-hero-desktop.webp'
+}
 
 const decodeHero = () => {
   const img = new Image()
