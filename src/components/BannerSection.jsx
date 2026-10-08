@@ -32,18 +32,10 @@ export default function BannerSection() {
       <div className="home-hero-content relative z-10 flex h-full items-center px-4 py-10 sm:px-8 sm:py-14 lg:px-12 lg:py-16">
         <div className="home-hero-copy max-w-[860px]">
           <Reveal
-            as="p"
-            variant="lines"
-            className="home-hero-kicker font-mono text-[10px] font-black uppercase tracking-[0.28em] text-[#E9542E] sm:text-xs"
-          >
-            <span>Goa manufacturing / proprietary</span>
-            <span>IMFL brands</span>
-          </Reveal>
-          <Reveal
             as="h1"
             id="home-hero-title"
             delay={0.1}
-            className="mt-4 max-w-[10.8ch] font-serif text-[clamp(3.4rem,8.2vw,8.9rem)] font-black uppercase leading-[0.86] tracking-normal text-white drop-shadow-[0_14px_34px_rgba(0,0,0,0.42)]"
+            className="max-w-[10.8ch] font-serif text-[clamp(3.4rem,8.2vw,8.9rem)] font-black uppercase leading-[0.86] tracking-normal text-white drop-shadow-[0_14px_34px_rgba(0,0,0,0.42)]"
           >
             <span className="hero-title-line">NTS</span>
             <span className="hero-title-line hero-title-line--blenders">Blenders,</span>

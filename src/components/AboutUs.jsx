@@ -34,7 +34,7 @@ export default function AboutUs() {
             <ClipReveal className="relative group w-full overflow-hidden rounded-[2.5rem]">
               <img
                 data-about-image
-                src="/images/about-nts-bottle-collection.jpeg"
+                src="/banner/east-coast-bottle-lineup-hero-desktop.webp"
                 alt="NTS Blenders and Distillers premium spirits collection"
                 loading="lazy"
                 decoding="async"
