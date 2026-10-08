@@ -3599,6 +3599,23 @@ a {
     background-color: #84b8df;
   }
 
+  [data-od-id="hero-single-image"]::before {
+    background: linear-gradient(
+      180deg,
+      #84b8df 0%,
+      rgba(132, 184, 223, .98) calc(100% - 76vw - 110px),
+      rgba(165, 198, 224, .98) calc(100% - 76vw - 45px),
+      rgba(194, 213, 231, .96) calc(100% - 76vw),
+      rgba(194, 213, 231, .60) calc(100% - 76vw + 20px),
+      rgba(194, 213, 231, .12) calc(100% - 76vw + 46px),
+      rgba(194, 213, 231, 0) calc(100% - 76vw + 70px)
+    );
+  }
+
+  [data-od-id="hero-single-image"] > div[data-parallax-speed] {
+    z-index: 0;
+  }
+
   [data-od-id="hero-single-image"] picture {
     position: relative;
   }
