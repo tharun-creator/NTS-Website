@@ -4665,3 +4665,51 @@ a {
     font-size: clamp(30px, 9.4vw, 46px);
   }
 }
+
+.inner-page-nav__brand span,
+.legal-page-nav__brand span,
+.product-page-nav__brand span {
+  font-size: 24px;
+}
+
+@media (min-width: 640px) and (max-width: 767px) {
+  .inner-page-nav__brand span,
+  .legal-page-nav__brand span,
+  .product-page-nav__brand span {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 639px) {
+  .inner-page-nav__brand span,
+  .legal-page-nav__brand span,
+  .product-page-nav__brand span {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 520px) {
+  .inner-page-nav__brand img,
+  .legal-page-nav__brand img,
+  .product-page-nav__brand img {
+    width: 48px;
+    height: 48px;
+    transform: scale(1.35);
+  }
+
+  .inner-page-nav__brand span,
+  .legal-page-nav__brand span,
+  .product-page-nav__brand span {
+    max-width: calc(100vw - 132px);
+    font-size: clamp(.95rem, 4.7vw, 1.2rem);
+  }
+}
+
+@media (max-width: 380px) {
+  .inner-page-nav__brand span,
+  .legal-page-nav__brand span,
+  .product-page-nav__brand span {
+    max-width: calc(100vw - 116px);
+    font-size: .92rem;
+  }
+}
